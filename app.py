@@ -21,7 +21,7 @@ config = {
 def home():
 	return render_template('index.html')
     
-@app.route('/login', methods = ['POST', 'GET']
+@app.route('/login', methods = ['POST', 'GET'])
 def login():
 	if request.method = 'POST':
 		try:
@@ -38,8 +38,8 @@ def login():
 def add_user():
 	return render_template('addUser.html')
 
-@app.route('/user_creation', methods = ['POST', 'GET'])
-def submit_review():
+@app.route('/register_user', methods = ['POST', 'GET'])
+def register_user():
 	if request.method == 'POST':
 		try:		#get the user data from the form
 			username = request.form['username']

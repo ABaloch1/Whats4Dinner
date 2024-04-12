@@ -21,7 +21,7 @@ config = {
 def home():
 	return render_template('index.html')
     
-@app.route('/login', methods = ['POST', 'GET']
+@app.route('/login', methods = ['POST', 'GET'])
 def login():
 	if request.method = 'POST':
 		try:

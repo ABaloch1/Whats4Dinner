@@ -38,8 +38,8 @@ def login():
 def add_user():
 	return render_template('addUser.html')
 
-@app.route('/user_creation', methods = ['POST', 'GET'])
-def submit_review():
+@app.route('/register_user', methods = ['POST', 'GET'])
+def register_user():
 	if request.method == 'POST':
 		try:		#get the user data from the form
 			username = request.form['username']

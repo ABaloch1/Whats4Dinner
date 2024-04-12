@@ -1,18 +1,21 @@
 #need to run "pip install flask mysql-connector-python"
 import mysql.connector
 
-database = mysql.connector.connect(
-	host = 'localhost',
-	user = 'root',
-	password = 'hi',
-	database = 'Whats4Database'
-)
-print ('Opened database successfully')
-cursor = database.cursor()
+#change to fit your user, password, and database name
+config = {
+	'user': 'rose',
+	'password': 'rose',
+	'host': 'localhost',
+	'database': 'mydatabase',
+}
+
+cnx = mysql.connector.connect(**config)
+cur = cnx.cursor()
+cur.execute("CREATE DATABASE IF NOT EXISTS mydatabase")
 
 #User Table
-cursor.execute( '''
-	CREATE TABLE Users (
+cur.execute( '''
+	CREATE TABLE IF NOT EXISTS Users (
 		Username varchar(50) NOT NULL,
 		Ingredient_Name varchar(50) NOT NULL,
 		Recipe_Name varchar(50) NOT NULL,
@@ -23,8 +26,8 @@ cursor.execute( '''
 ''')
 
 #Recipe Table
-cursor.execute( '''
-	CREATE TABLE Recipes (
+cur.execute( '''
+	CREATE TABLE IF NOT EXISTS Recipes (
 		Recipe_Name varchar(50) NOT NULL,
 		Username varchar(50) NOT NULL,
 		Ingredient_Name varchar(50) NOT NULL,
@@ -34,8 +37,8 @@ cursor.execute( '''
 ''')
 
 #Ingredient Table
-cursor.execute( '''
-	CREATE TABLE Recipes (
+cur.execute( '''
+	CREATE TABLE IF NOT EXISTS Recipes (
 		Ingredient_Name varchar(50) NOT NULL,
 		Recipe_Name varchar(50) NOT NULL,
 		Username varchar(50) NOT NULL,
@@ -45,8 +48,6 @@ cursor.execute( '''
 ''')
 
 print('Created tables')
-
-database.commit()
-cursor.close()
-database.close()
-
+# database.commit() unsure if line is needed, i dont think it is
+cur.close()
+cnx.close()

@@ -5,12 +5,12 @@ app = Flask(__name__)
 
 from flask_mysqldb import MySQL
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'hi'
-app.config['MYSQL_DB'] = 'Whats4Database'
-
-mysql = MySQL(app)
+config = {
+	'user': 'rose',
+	'password': 'rose',
+	'host': 'localhost',
+	'database': 'mydatabase',
+}
 
 @app.route('/')
 def home():

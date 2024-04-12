@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<head>
+    <title>Create Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            width: 300px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-top: 20px;
+        }
+        input[type="text"], input[type="password"], input[type="email"], input[type="checkbox"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        button[type="submit"] {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .allergy-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/submit-account" method="post">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password (8 characters minimum):</label>
+        <input type="password" id="password" name="password" minlength="8" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <div class="allergy-row">
+            <div><input type="checkbox" id="gluten" name="allergies" value="gluten"> <label for="gluten">Gluten</label></div>
+            <div><input type="checkbox" id="dairy" name="allergies" value="dairy"> <label for="dairy">Dairy</label></div>
+            <div><input type="checkbox" id="nuts" name="allergies" value="nuts"> <label for="nuts">Nuts</label></div>
+        </div>
+        <div class="allergy-row">
+            <div><input type="checkbox" id="seafood" name="allergies" value="seafood"> <label for="seafood">Seafood</label></div>
+            <div><input type="checkbox" id="soy" name="allergies" value="soy"> <label for="soy">Soy</label></div>
+            <div><input type="checkbox" id="other" name="allergies" value="other"> <label for="other">Other</label></div>
+        </div>
+
+        <button type="submit">Create Account</button>
+    </form>
+</body>
+</html>

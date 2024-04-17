@@ -17,7 +17,7 @@
             margin-bottom: 20px;
         }
         .redirect form {
-    margin-bottom: 10px;
+            margin-bottom: 10px;
         }
 
         .guest-button {
@@ -31,6 +31,15 @@
 
         .login-button {
             background-color: #4285f4; /* Different color for login button */
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .register-button {
+            background-color: #d11414; /* Different color for register button */
             color: #ffffff;
             padding: 10px 20px;
             border: none;
@@ -55,15 +64,21 @@
 </head>
 <body>
     <div class="welcome-message">
-        Welcome to Recipe Management Application by Group ?
+        Welcome to Recipe Management Application by Group 20
     </div>
     <div class="redirect">
-        <form action="/guestreroute"> 
-            <input type="button" class="guest-button" value="Guest">
-        </form>
-        <form action="/loginroute"> 
-            <input type="button" class="login-button" value="Login">
-        </form>
+        <a href="/guest_page">
+            <button class="guest-button">Guest Page</button>
+        </a>
+
+        <a href="/login_page">
+            <button class="login-button">Login</button>
+        </a>
+        
+        <a href="/register_page">
+            <button class="register-button">Register</button>
+        </a>
+
     </div>
     
     </div>

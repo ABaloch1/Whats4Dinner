@@ -3,8 +3,8 @@ import mysql.connector
 
 #change to fit your user, password, and database name
 config = {
-	'user': 'rose',
-	'password': 'rose',
+	'user': 'group20',
+	'password': 'group20',
 	'host': 'localhost',
 	'database': 'mydatabase',
 }

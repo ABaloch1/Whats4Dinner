@@ -38,7 +38,7 @@
     </style>
 </head>
 <body>
-    <form action="/register_user" method="post">
+    <form action="{{ url_for('register') }}" method="post" autocomplete="off">
         <label for="firstName">First Name:</label>
         <input type="text" id="firstName" name="firstName" required>
 
@@ -65,7 +65,8 @@
             <div><input type="checkbox" id="other" name="allergies" value="other"> <label for="other">Other</label></div>
         </div>
 
-        <button type="submit">Create Account</button>
+        <div class="message">{{ message }}</div>
+        <button type="submit" value="Register">Create Account</button>
     </form>
     <footer>
       <a href="/">Go back to home</a>

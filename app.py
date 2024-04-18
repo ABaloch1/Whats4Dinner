@@ -1,18 +1,22 @@
-import mysql.connector
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, session
 from flask_mysqldb import MySQL
+import mysql.connector
+import hashlib
+
+# import MySQLdb.cursors
+# import MySQLdb.cursors, re, hashlib
 
 app = Flask(__name__)
 
-
+app.secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page' 
 
 # ---
-'''
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'rose'
-app.config['MYSQL_PASSWORD'] = 'rose'
-app.config['MYSQL_DB'] = 'MyDB'
-'''
+
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'group20'
+# app.config['MYSQL_PASSWORD'] = 'group20'
+# app.config['MYSQL_DB'] = 'mydatabase'
+
 #---
 
 config = {
@@ -22,27 +26,19 @@ config = {
 	'database': 'mydatabase',
 }
 
+cnx = mysql.connector.connect(**config)
+
 #---
 
 @app.route('/')
-def home():
+def welcome():
 	return render_template('welcome.html')
 
-# @app.route('/guestroute')
-# def guest_route():
-#     # Your logic here
-#     return redirect(url_for('guest_page'))
-
-# @app.route('/loginroute')
-# def login_route():
-#     # Your logic here
-#     return redirect(url_for('login_page'))
-
-# @app.route('/registerroute')
-# def register_route():
-#     # Your logic here
-#     return redirect(url_for('register_page'))
-
+@app.route('/home')
+def home():
+	if 'loggedin' in session:
+		return render_template('home.html', username=session['username'])
+	return redirect(url_for('login'))
 #---
 
 @app.route('/guest_page')
@@ -51,11 +47,83 @@ def guest_page():
 
 @app.route('/login_page')
 def login_page():
-    return render_template('login.html')
+	message = ''
+	return render_template('login.html', message='')
 
 @app.route('/register_page')
 def register_page():
-    return render_template('register.html')
+	message = ''
+	return render_template('register.html', message='')
+
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
+	msg = ''
+	if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+		username = request.form['username']
+		password = request.form['password']
+
+		hashed_password = password + app.secret_key
+		hashed_password = hashlib.sha256(hashed_password.encode())
+
+		password = hashed_password.hexdigest()
+
+		cur = cnx.cursor(dictionary=True)
+		cur.execute("SELECT * FROM Users WHERE Username = %s AND Password = %s", (username, password,))
+
+		account = cur.fetchone()
+
+		if account:
+			session['loggedin'] = True
+			session['username'] = account['Username']
+			return redirect(url_for('home'))
+		else:
+			msg = 'Incorrect username/password.'
+
+	return render_template('login.html',message=msg)
+
+@app.route('/logout')
+def logout():
+	session.pop('loggedin', None)
+	session.pop('username', None)
+	return redirect(url_for('login'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+	msg=''
+	if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+		username = request.form['username']
+		password = request.form['password']
+
+		cur = cnx.cursor(dictionary=True)
+		cur.execute('SELECT * FROM Users WHERE Username = %s', (username,))
+		account = cur.fetchone()
+
+		if account:
+			msg = 'Username is already taken.'
+		elif not username or not password:
+			msg = 'Please complete the form.'
+		else:
+			hashed_password = password + app.secret_key
+			hashed_password = hashlib.sha256(hashed_password.encode())
+
+			password = hashed_password.hexdigest()
+
+			# try:
+			# 	cur.execute('INSERT INTO Users VALUES (%s,%s)', (username,password,))
+			# 	cnx.commit()
+			# 	msg = 'Success! Account registered!'
+			# except:
+			# 	cnx.rollback()
+			# 	msg = 'Something happenend. Database rolling back.'
+			cur.execute('INSERT INTO Users VALUES (%s,%s)', (username,password))
+			cnx.commit()
+			msg = 'Success! Account registered!'
+			return redirect(url_for('home'))
+
+
+	elif request.method == 'POST':
+		msg = 'Incomplete form'
+	return render_template('register.html', message=msg)
 
 # @app.route('/login_user')
 # def login_user():

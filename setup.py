@@ -22,6 +22,53 @@ cur.execute( '''
 	)
 ''')
 
+#User Pantry Table
+cur.execute( '''
+	CREATE TABLE IF NOT EXISTS User_Pantry (
+		Username varchar(50) NOT NULL,
+		Ingredient varchar(50) NOT NULL,
+		PRIMARY KEY (Username)
+	)
+''')
+
+#User Allergens Table
+cur.execute( '''
+	CREATE TABLE IF NOT EXISTS User_Allergens (
+		Username varchar(50) NOT NULL,
+		Allergy_Category varchar(50) NOT NULL,
+		PRIMARY KEY (Username)
+	)
+''')
+
+#Recipes Table
+cur.execute( '''
+	CREATE TABLE IF NOT EXISTS Recipes (
+		ID INT AUTO_INCREMENT,
+		Name varchar(50) NOT NULL,
+		Category varchar(50) NOT NULL,
+		PRIMARY KEY (ID)
+	)
+''')
+
+#Recipe Ingredient Table
+cur.execute( '''
+	CREATE TABLE IF NOT EXISTS Recipe_Ingredients (
+		ID INT NOT NULL,
+		Ingredient varchar(50) NOT NULL,
+		Amount INT NOT NULL,
+		PRIMARY KEY (ID)
+	)
+''')
+
+#Recipe Allergens Table
+cur.execute( '''
+	CREATE TABLE IF NOT EXISTS Recipe_Allergens (
+		ID INT NOT NULL,
+		Allergy_Category varchar(50) NOT NULL,
+		PRIMARY KEY (ID)
+	)
+''')
+
 # #Recipe Table
 # cur.execute( '''
 # 	CREATE TABLE IF NOT EXISTS Recipes (

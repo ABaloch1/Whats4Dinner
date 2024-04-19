@@ -19,7 +19,7 @@ cur.execute( '''
 		Username varchar(50) NOT NULL,
 		Password varchar(256) NOT NULL,
   		First_Name varchar(50) NOT NULL,
-    		Last_Name varchar(100) NOT NULL,
+		Last_Name varchar(100) NOT NULL,
 		PRIMARY KEY (Username)
 	)
 ''')
@@ -28,8 +28,7 @@ cur.execute( '''
 cur.execute( '''
 	CREATE TABLE IF NOT EXISTS User_Pantry (
 		Username varchar(50) NOT NULL,
-		Ingredient varchar(50) NOT NULL,
-		PRIMARY KEY (Username)
+		Ingredient varchar(50) NOT NULL
 	)
 ''')
 
@@ -37,8 +36,7 @@ cur.execute( '''
 cur.execute( '''
 	CREATE TABLE IF NOT EXISTS User_Allergens (
 		Username varchar(50) NOT NULL,
-		Allergy_Category varchar(50) NOT NULL,
-		PRIMARY KEY (Username)
+		Allergy_Category varchar(50) NOT NULL
 	)
 ''')
 
@@ -61,8 +59,7 @@ cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Recipe_Ingredients (
 		Recipe_ID INT NOT NULL,
 		Ingredient varchar(50) NOT NULL,
-		Amount varchar(15)  NOT NULL,
-		PRIMARY KEY (Recipe_ID)
+		Amount varchar(15)  NOT NULL
 	)
 ''')
 
@@ -70,8 +67,7 @@ cur.execute( '''
 cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Recipe_Allergens (
 		Recipe_ID INT NOT NULL,
-		Allergy_Category varchar(50) NOT NULL,
-		PRIMARY KEY (Recipe_ID)
+		Allergy_Category varchar(50) NOT NULL
 	)
 ''')
 

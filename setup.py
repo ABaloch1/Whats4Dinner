@@ -75,7 +75,7 @@ cur.execute('''
 	CREATE TABLE IF NOT EXISTS Ingredients (
 		Name varchar(50) NOT NULL,
 		Allergy_Category varchar(50) NOT NULL,
-		Category varchar(50) NOT NULL
+		Category varchar(50) NOT NULL,
 		PRIMARY KEY(Name)
 		)
 ''')

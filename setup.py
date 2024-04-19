@@ -43,9 +43,10 @@ cur.execute( '''
 #Recipes Table
 cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Recipes (
-		ID INT AUTO_INCREMENT,
+		Recipe_ID INT AUTO_INCREMENT,
 		Name varchar(50) NOT NULL,
 		Category varchar(50) NOT NULL,
+		Instructions TEXT NOT NULL,
 		PRIMARY KEY (ID)
 	)
 ''')
@@ -53,9 +54,9 @@ cur.execute( '''
 #Recipe Ingredient Table
 cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Recipe_Ingredients (
-		ID INT NOT NULL,
+		Recipe_ID INT NOT NULL,
 		Ingredient varchar(50) NOT NULL,
-		Amount INT NOT NULL,
+		Amount varchar(15)  NOT NULL,
 		PRIMARY KEY (ID)
 	)
 ''')
@@ -63,34 +64,21 @@ cur.execute( '''
 #Recipe Allergens Table
 cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Recipe_Allergens (
-		ID INT NOT NULL,
+		Recipe_ID INT NOT NULL,
 		Allergy_Category varchar(50) NOT NULL,
 		PRIMARY KEY (ID)
 	)
 ''')
 
-# #Recipe Table
-# cur.execute( '''
-# 	CREATE TABLE IF NOT EXISTS Recipes (
-# 		Recipe_Name varchar(50) NOT NULL,
-# 		Username varchar(50) NOT NULL,
-# 		Ingredient_Name varchar(50) NOT NULL,
-# 		Category varchar(50) NOT NULL,
-# 		PRIMARY KEY (Recipe_Name)
-# 	)
-# ''')
-
-# #Ingredient Table
-# cur.execute( '''
-# 	CREATE TABLE IF NOT EXISTS Recipes (
-# 		Ingredient_Name varchar(50) NOT NULL,
-# 		Recipe_Name varchar(50) NOT NULL,
-# 		Username varchar(50) NOT NULL,
-# 		Food_Category varchar(50) NOT NULL,
-# 		PRIMARY KEY (Ingredient_Name)
-# 	)
-# ''')
-
+#Ingredients Table
+cur.execute('''
+	CREATE TABLE IF NOT EXISTS Ingredients (
+		Name varchar(50) NOT NULL,
+		Allergy_Category varchar(50) NOT NULL,
+		Category varchar(50) NOT NULL
+		PRIMARY KEY(Name)
+		)
+''')
 
 print('Created tables')
 # database.commit() unsure if line is needed, i dont think it is

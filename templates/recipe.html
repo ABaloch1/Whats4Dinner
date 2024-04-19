@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Recipe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .time-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .time-container input[type="number"] {
+            width: calc(20% - 5px);
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New Recipe</h1>
+        <form action="/recipe_creation" method="post">
+            <label for="title">Recipe Title:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="description">Brief Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+
+            <div class="time-container">
+                <label for="cook_time">Cook Time (in minutes):</label>
+                <input type="number" id="cook_time" name="cook_time" min="1" required>
+
+                <label for="prep_time">Prep Time (in minutes):</label>
+                <input type="number" id="prep_time" name="prep_time" min="1" required>
+            </div>
+
+            <label for="ingredients">Ingredients:</label>
+            <textarea id="ingredients" name="ingredients" rows="6" required></textarea>
+
+            <label for="instructions">Instructions (use bullet points):</label>
+            <textarea id="instructions" name="instructions" rows="8" required></textarea>
+
+            <input type="submit" value="Add Recipe">
+        </form>
+    </div>
+</body>
+</html>

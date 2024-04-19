@@ -47,7 +47,7 @@ cur.execute( '''
 		Name varchar(50) NOT NULL,
 		Category varchar(50) NOT NULL,
 		Instructions TEXT NOT NULL,
-		PRIMARY KEY (ID)
+		PRIMARY KEY (Recipe_ID)
 	)
 ''')
 
@@ -57,7 +57,7 @@ cur.execute( '''
 		Recipe_ID INT NOT NULL,
 		Ingredient varchar(50) NOT NULL,
 		Amount varchar(15)  NOT NULL,
-		PRIMARY KEY (ID)
+		PRIMARY KEY (Recipe_ID)
 	)
 ''')
 
@@ -66,7 +66,7 @@ cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Recipe_Allergens (
 		Recipe_ID INT NOT NULL,
 		Allergy_Category varchar(50) NOT NULL,
-		PRIMARY KEY (ID)
+		PRIMARY KEY (Recipe_ID)
 	)
 ''')
 

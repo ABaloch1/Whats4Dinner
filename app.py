@@ -19,6 +19,7 @@ app.secret_key = 'this is our top secret super key that definently isnt going to
 
 #---
 
+# --> Update with user credentials for RBAC
 config = {
 	'user': 'group20',
 	'password': 'group20',
@@ -47,16 +48,27 @@ def guest_page():
 
 @app.route('/login_page')
 def login_page():
+
+	# If the user is already logged in, redirect
+	if 'loggedin' in session:
+		return render_template('home.html', username=session['username'])
+	
 	message = ''
 	return render_template('login.html', message='')
 
 @app.route('/register_page')
 def register_page():
+
+	# If the user is already logged in, redirect
+	if 'loggedin' in session:
+		return render_template('home.html', username=session['username'])
+	
 	message = ''
 	return render_template('register.html', message='')
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
+
 	msg = ''
 	if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
 		username = request.form['username']

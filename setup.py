@@ -18,6 +18,8 @@ cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Users (
 		Username varchar(50) NOT NULL,
 		Password varchar(256) NOT NULL,
+  		First_Name varchar(50) NOT NULL,
+    		Last_Name varchar(100) NOT NULL,
 		PRIMARY KEY (Username)
 	)
 ''')
@@ -46,8 +48,11 @@ cur.execute( '''
 		Recipe_ID INT AUTO_INCREMENT,
 		Name varchar(50) NOT NULL,
 		Category varchar(50) NOT NULL,
+  		Description TEXT NULL,
+    		Prep_Time INT NULL,
+      		Cook_Time INT NULL,
 		Instructions TEXT NOT NULL,
-		PRIMARY KEY (ID)
+		PRIMARY KEY (Recipe_ID)
 	)
 ''')
 
@@ -57,7 +62,7 @@ cur.execute( '''
 		Recipe_ID INT NOT NULL,
 		Ingredient varchar(50) NOT NULL,
 		Amount varchar(15)  NOT NULL,
-		PRIMARY KEY (ID)
+		PRIMARY KEY (Recipe_ID)
 	)
 ''')
 
@@ -66,7 +71,7 @@ cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Recipe_Allergens (
 		Recipe_ID INT NOT NULL,
 		Allergy_Category varchar(50) NOT NULL,
-		PRIMARY KEY (ID)
+		PRIMARY KEY (Recipe_ID)
 	)
 ''')
 
@@ -75,7 +80,7 @@ cur.execute('''
 	CREATE TABLE IF NOT EXISTS Ingredients (
 		Name varchar(50) NOT NULL,
 		Allergy_Category varchar(50) NOT NULL,
-		Category varchar(50) NOT NULL
+		Category varchar(50) NOT NULL,
 		PRIMARY KEY(Name)
 		)
 ''')

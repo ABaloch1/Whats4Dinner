@@ -18,6 +18,8 @@ cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Users (
 		Username varchar(50) NOT NULL,
 		Password varchar(256) NOT NULL,
+  		First_Name varchar(50) NOT NULL,
+    		Last_Name varchar(100) NOT NULL,
 		PRIMARY KEY (Username)
 	)
 ''')

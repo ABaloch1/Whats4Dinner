@@ -46,6 +46,9 @@ cur.execute( '''
 		Recipe_ID INT AUTO_INCREMENT,
 		Name varchar(50) NOT NULL,
 		Category varchar(50) NOT NULL,
+  		Description TEXT NULL,
+    		Prep_Time INT NULL,
+      		Cook_Time INT NULL,
 		Instructions TEXT NOT NULL,
 		PRIMARY KEY (Recipe_ID)
 	)

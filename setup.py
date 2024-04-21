@@ -1,21 +1,25 @@
 #need to run "pip install flask mysql-connector-python"
 import mysql.connector
-
+"""
+BEFORE RUNNING:
+Create the owner user: CREATE USER 'owner'@'localhost' IDENTIFIED BY 'owner';
+"""
 #change to fit your user, password, and database name
 config = {
-	'user': 'group20',
-	'password': 'group20',
+	'user': 'owner',
+	'password': 'owner',
 	'host': 'localhost',
 	'database': 'mydatabase',
 }
 
 cnx = mysql.connector.connect(**config)
 cur = cnx.cursor()
-cur.execute("CREATE DATABASE IF NOT EXISTS mydatabase")
+cur.execute("CREATE DATABASE mydatabase")
+cur.execute("GRANT ALL ON mydatabase.* TO 'owner'@'localhost'")
 
 #User Table
 cur.execute( '''
-	CREATE TABLE IF NOT EXISTS Users (
+	CREATE TABLE Users (
 		Username varchar(50) NOT NULL,
 		Password varchar(256) NOT NULL,
   		First_Name varchar(50) NOT NULL,
@@ -26,7 +30,7 @@ cur.execute( '''
 
 #Allergens Table
 cur.execute( '''
-	CREATE TABLE IF NOT EXISTS Allergens (
+	CREATE TABLE Allergens (
 		Name varchar(50) NOT NULL,
 		PRIMARY KEY(Name)
 	)
@@ -34,7 +38,7 @@ cur.execute( '''
 
 #Ingredients Table
 cur.execute('''
-	CREATE TABLE IF NOT EXISTS Ingredients (
+	CREATE TABLE Ingredients (
 		Name varchar(50) NOT NULL,
 		Allergy_Category varchar(50) NOT NULL,
 		Category varchar(50) NOT NULL,
@@ -45,7 +49,7 @@ cur.execute('''
 
 #User Pantry Table
 cur.execute( '''
-	CREATE TABLE IF NOT EXISTS User_Pantry (
+	CREATE TABLE User_Pantry (
 		Username varchar(50) NOT NULL,
 		Ingredient varchar(50) NOT NULL,
 		CONSTRAINT fk_users FOREIGN KEY (Username) REFERENCES Users(Username) ON DELETE CASCADE,
@@ -56,7 +60,7 @@ cur.execute( '''
 
 #User Allergens Table
 cur.execute( '''
-	CREATE TABLE IF NOT EXISTS User_Allergens (
+	CREATE TABLE User_Allergens (
 		Username varchar(50) NOT NULL,
 		Allergy_Category varchar(50) NOT NULL,
 		CONSTRAINT fk_user FOREIGN KEY (Username) REFERENCES Users(Username) ON DELETE CASCADE,
@@ -67,7 +71,7 @@ cur.execute( '''
 
 #Recipes Table
 cur.execute( '''
-	CREATE TABLE IF NOT EXISTS Recipes (
+	CREATE TABLE Recipes (
 		Recipe_ID INT AUTO_INCREMENT,
 		Name varchar(50) NOT NULL,
 		Category varchar(50) NOT NULL,
@@ -81,7 +85,7 @@ cur.execute( '''
 
 #Recipe Ingredient Table
 cur.execute( '''
-	CREATE TABLE IF NOT EXISTS Recipe_Ingredients (
+	CREATE TABLE Recipe_Ingredients (
 		Recipe_ID INT NOT NULL,
 		Ingredient varchar(50) NOT NULL,
 		Amount varchar(15)  NOT NULL,
@@ -93,7 +97,7 @@ cur.execute( '''
 
 #Recipe Allergens Table
 cur.execute( '''
-	CREATE TABLE IF NOT EXISTS Recipe_Allergens (
+	CREATE TABLE Recipe_Allergens (
 		Recipe_ID INT NOT NULL,
 		Allergy_Category varchar(50) NOT NULL,
 		CONSTRAINT fk_RID FOREIGN KEY (Recipe_ID) REFERENCES Recipes(Recipe_ID) ON DELETE CASCADE,
@@ -103,6 +107,23 @@ cur.execute( '''
 ''')
 
 print('Created tables')
+
+#do privileges and guest setup
+cur.execute("CREATE USER 'group20'@'localhost' IDENTIFIED BY 'group20'")
+cur.execute("CREATE ROLE 'Guest'")
+cur.execute("GRANT SELECT ON mydatabase.Recipes TO 'group20'@'localhost'")
+cur.execute("GRANT SELECT ON mydatabase.Recipe_Ingredients TO 'group20'@'localhost'")
+cur.execute("SET DEFAULT ROLE 'Guest' TO 'group20'@'localhost'")
+cur.execute("CREATE ROLE 'admin'")
+cur.execute("GRANT SELECT, UPDATE, DELETE ON mydatabase.Users TO 'admin'@'localhost'")
+cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Allergens TO 'admin'@'localhost'")
+cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Ingredients TO 'admin'@'localhost'")
+cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipes TO 'admin'@'localhost'")
+cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Ingredients TO 'admin'@'localhost'")
+cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Allergens TO 'admin'@'localhost'")
+cur.execute("GRANT ‘admin’@’localhost’ TO ‘owner’@’localhost’ WITH ADMIN OPTION")
+
+
 # database.commit() unsure if line is needed, i dont think it is
 cur.close()
 cnx.close()

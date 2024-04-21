@@ -24,11 +24,33 @@ cur.execute( '''
 	)
 ''')
 
+#Allergens Table
+cur.execute( '''
+	CREATE TABLE IF NOT EXISTS Allergens (
+		Name varchar(50) NOT NULL,
+		PRIMARY KEY(Name)
+	)
+''')
+
+#Ingredients Table
+cur.execute('''
+	CREATE TABLE IF NOT EXISTS Ingredients (
+		Name varchar(50) NOT NULL,
+		Allergy_Category varchar(50) NOT NULL,
+		Category varchar(50) NOT NULL,
+		CONSTRAINT fk_all FOREIGN KEY (Allergy_Category) REFERENCES Allergens(Name) ON DELETE CASCADE,
+		CONSTRAINT PK_Ingredients PRIMARY KEY (Name, Allergy_Category, Category)
+		)
+''')
+
 #User Pantry Table
 cur.execute( '''
 	CREATE TABLE IF NOT EXISTS User_Pantry (
 		Username varchar(50) NOT NULL,
-		Ingredient varchar(50) NOT NULL
+		Ingredient varchar(50) NOT NULL,
+		CONSTRAINT fk_users FOREIGN KEY (Username) REFERENCES Users(Username) ON DELETE CASCADE,
+		CONSTRAINT fk_ing FOREIGN KEY (Ingredient) REFERENCES Ingredients(Name) ON DELETE CASCADE,
+		CONSTRAINT PK_UserIng PRIMARY KEY (Username, Ingredient)
 	)
 ''')
 
@@ -36,7 +58,10 @@ cur.execute( '''
 cur.execute( '''
 	CREATE TABLE IF NOT EXISTS User_Allergens (
 		Username varchar(50) NOT NULL,
-		Allergy_Category varchar(50) NOT NULL
+		Allergy_Category varchar(50) NOT NULL,
+		CONSTRAINT fk_user FOREIGN KEY (Username) REFERENCES Users(Username) ON DELETE CASCADE,
+		CONSTRAINT fk_aller FOREIGN KEY (Allergy_Category) REFERENCES Allergens(Name) ON DELETE CASCADE,
+		CONSTRAINT PK_UserAllergy PRIMARY KEY (Username, Allergy_Category)
 	)
 ''')
 
@@ -47,8 +72,8 @@ cur.execute( '''
 		Name varchar(50) NOT NULL,
 		Category varchar(50) NOT NULL,
   		Description TEXT NULL,
-    		Prep_Time INT NULL,
-      		Cook_Time INT NULL,
+    	Prep_Time INT NULL,
+      	Cook_Time INT NULL,
 		Instructions TEXT NOT NULL,
 		PRIMARY KEY (Recipe_ID)
 	)
@@ -59,7 +84,10 @@ cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Recipe_Ingredients (
 		Recipe_ID INT NOT NULL,
 		Ingredient varchar(50) NOT NULL,
-		Amount varchar(15)  NOT NULL
+		Amount varchar(15)  NOT NULL,
+		CONSTRAINT fk_RIID FOREIGN KEY (Recipe_ID) REFERENCES Recipes(Recipe_ID) ON DELETE CASCADE,
+		CONSTRAINT fk_Ing FOREIGN KEY (Ingredient) REFERENCES Ingredients(Name) ON DELETE CASCADE,
+		CONSTRAINT PK_RecipeIng PRIMARY KEY (Recipe_ID, Ingredient, Amount)
 	)
 ''')
 
@@ -67,18 +95,11 @@ cur.execute( '''
 cur.execute( '''
 	CREATE TABLE IF NOT EXISTS Recipe_Allergens (
 		Recipe_ID INT NOT NULL,
-		Allergy_Category varchar(50) NOT NULL
-	)
-''')
-
-#Ingredients Table
-cur.execute('''
-	CREATE TABLE IF NOT EXISTS Ingredients (
-		Name varchar(50) NOT NULL,
 		Allergy_Category varchar(50) NOT NULL,
-		Category varchar(50) NOT NULL,
-		PRIMARY KEY(Name)
-		)
+		CONSTRAINT fk_RID FOREIGN KEY (Recipe_ID) REFERENCES Recipes(Recipe_ID) ON DELETE CASCADE,
+		CONSTRAINT fk_allergy FOREIGN KEY (Allergy_Category) REFERENCES Allergens(Name) ON DELETE CASCADE,
+		CONSTRAINT PK_RecipeAllergy PRIMARY KEY (Recipe_ID, Allergy_Category)
+	)
 ''')
 
 print('Created tables')

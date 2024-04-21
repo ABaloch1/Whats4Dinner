@@ -146,3 +146,85 @@ def register_page():
 
     message = ''
     return render_template('register.html', message='')
+
+# --- Admin Functionality
+
+@auth.route('/admin_panel/')
+def admin_panel_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/adminpanel.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+@auth.route('/admin_panel/update_user')
+def update_user_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/update_user.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+@auth.route('/admin_panel/delete_user')
+def delete_user_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/delete_user.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+@auth.route('/admin_panel/create_ingredient')
+def create_ingredient_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/create_ingredient.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+@auth.route('/admin_panel/update_ingredient')
+def update_ingredient_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/update_ingredient.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+@auth.route('/admin_panel/delete_ingredients')
+def delete_ingredients_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/delete_ingredient.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+@auth.route('/admin_panel/create_allergen')
+def create_allergens_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/create_allergen.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+@auth.route('/admin_panel/delete_allergen')
+def delete_allergens_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/delete_allergen.html')
+
+    message = ''
+    return render_template('register.html', message='')

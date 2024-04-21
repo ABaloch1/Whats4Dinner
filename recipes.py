@@ -3,7 +3,7 @@ from flask_mysqldb import MySQL
 import mysql.connector
 
 
-app.secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page' 
+secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page' 
 
 
 config = {
@@ -30,14 +30,14 @@ def create_recipe():
 			prep_time = request.form['prep_time']
 			cook_time = request.form['cook_time']
 			
-				#check if the recipe already exists
-				cur.execute("SELECT COUNT(*) FROM Recipes WHERE Recipe_ID = ?", (ID,))
-				exists = cur.fetchone()[0]
-				if not exists:
-					#insert the user data in the correct table
-					cur.execute("INSERT INTO Recipes (Recipe_ID, Name, Category, , Description, Prep_Time, Cook_Time, Instructions) VALUES (?,?,?,?)" (ID, name, category, description, prep_time, cook_time, instructions,) )
-            
-					cnx.commit() #commit changes
+			#check if the recipe already exists
+			cur.execute("SELECT COUNT(*) FROM Recipes WHERE Recipe_ID = ?", (ID,))
+			exists = cur.fetchone()[0]
+			if not exists:
+				#insert the user data in the correct table
+				cur.execute("INSERT INTO Recipes (Recipe_ID, Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES (?,?,?,?,?,?,?)", (ID, name, category, description, prep_time, cook_time, instructions))
+        
+				cnx.commit() #commit changes
 		except:
 			cnx.rollback()
 			return render_template('newRecipe.html')
@@ -79,7 +79,7 @@ def delete_recipe(recipe_id):
 		#deletes the recipe
 		cursor.execute("DELETE FROM Recipes WHERE Recipe_ID = %s", (recipe_id,))
 		cnx.commit()
-		return render_template('recipes.html'))
+		return render_template('recipes.html')
 		
 @recipes.route('/edit_recipe/<int:recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
@@ -101,4 +101,7 @@ def edit_recipe(recipe_id):
 			#updates the recipe in the database
 			cur.execute("UPDATE Recipes SET Name = %s, Category = %s, Description = %s, Prep_Time = %s, Cook_Time = %s, Instructions = %s WHERE Recipe_ID = %s", (name, category, description, prep_time, cook_time, instructions, recipe_id))
 			cnx.commit()
+	except:
+		cnx.rollback()
+		return render_template('recipes.html')
 	return render_template('edit_recipe.html', recipe=recipe)

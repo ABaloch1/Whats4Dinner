@@ -7,10 +7,13 @@ import hashlib
 # import MySQLdb.cursors, re, hashlib
 
 from auth import auth
+from recipes import recipes
+from ingredients import ingredients
 
 app = Flask(__name__)
 app.register_blueprint(auth)
 app.register_blueprint(recipes)
+app.register_blueprint(ingredients)
 
 #---
 

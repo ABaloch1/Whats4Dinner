@@ -23,7 +23,7 @@ def home():
         name = "{} {}, username: {}".format(
             session['firstName'], session['lastName'], session['username'])
         return render_template('home.html', username=name)
-    return redirect(url_for('login'))
+    return render_template('login.html', message="Please log in first") #redirect(url_for('login'))
 
 
 @auth.route('/login_page')
@@ -83,7 +83,7 @@ def logout():
     session.pop('username', None)
     session.pop('firstName', None)
     session.pop('lastName', None)
-    return redirect(url_for('auth.login'))
+    return render_template('login.html') #redirect(url_for('auth.login'))
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -124,14 +124,14 @@ def register():
                 # --
 
                 msg = 'Success! Account registered!'
-                return redirect(url_for('auth.login'))
+                return render_template('login.html', message=msg) #redirect(url_for('auth.login'))
             except:
                 cnx.rollback()
                 msg = 'Something happenend. Database rolling back.'
             # --
 
-            msg = 'Success! Account registered!'
-            return redirect(url_for('auth.home'))
+            # msg = 'Success! Account registered!'
+            # return redirect(url_for('auth.home'))
 
     elif request.method == 'POST':
         msg = 'Incomplete form'

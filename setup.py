@@ -1,4 +1,5 @@
-#need to run "pip install flask mysql-connector-python"
+#Timestamp: 4/21 7:05pm
+
 import mysql.connector
 """
 BEFORE RUNNING:
@@ -111,17 +112,32 @@ print('Created tables')
 #do privileges and guest setup
 cur.execute("CREATE USER 'group20'@'localhost' IDENTIFIED BY 'group20'")
 cur.execute("CREATE ROLE 'Guest'")
-cur.execute("GRANT SELECT ON mydatabase.Recipes TO 'group20'@'localhost'")
-cur.execute("GRANT SELECT ON mydatabase.Recipe_Ingredients TO 'group20'@'localhost'")
+cur.execute("GRANT SELECT ON mydatabase.Recipes TO 'Guest'")
+cur.execute("GRANT SELECT ON mydatabase.Recipe_Ingredients TO 'Guest'")
+cur.execute("GRANT SELECT ON mydatabase.Recipe_Allergens TO 'Guest'")
 cur.execute("SET DEFAULT ROLE 'Guest' TO 'group20'@'localhost'")
+
+cur.execute("CREATE ROLE 'member'")
+cur.execute("GRANT SELECT on mydatabase.Recipes TO 'member'")
+cur.execute("GRANT SELECT ON mydatabase.Recipe_Ingredients TO 'member'")
+cur.execute("GRANT SELECT ON mydatabase.Recipe_Allergens TO 'Guest'")
+cur.execute("GRANT SELECT ON mydatabase.Users TO 'member'")
+cur.execute("GRANT UPDATE(Password, First_Name, Last_Name) ON mydatabase.Users TO 'member'")
+cur.execute("GRANT SELECT(Ingredient) ON mydatabase.User_Pantry TO 'member'")
+cur.execute("GRANT Update(Ingredient) ON mydatabase.User_Pantry TO 'member'")
+cur.execute("GRANT DELETE(Ingredient) ON mydatabase.User_Pantry TO 'member'")
+cur.execute("GRANT SELECT(Allergy_Category) ON mydatabase.User_Allergens TO 'member'")
+cur.execute("GRANT Update(Allergy_Category) ON mydatabase.User_Allergens TO 'member'")
+cur.execute("GRANT DELETE(Allergy_Category) ON mydatabase.User_Pantry TO 'member'")
+
 cur.execute("CREATE ROLE 'admin'")
-cur.execute("GRANT SELECT, UPDATE, DELETE ON mydatabase.Users TO 'admin'@'localhost'")
-cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Allergens TO 'admin'@'localhost'")
-cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Ingredients TO 'admin'@'localhost'")
-cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipes TO 'admin'@'localhost'")
-cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Ingredients TO 'admin'@'localhost'")
-cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Allergens TO 'admin'@'localhost'")
-cur.execute("GRANT ‘admin’@’localhost’ TO ‘owner’@’localhost’ WITH ADMIN OPTION")
+cur.execute("GRANT SELECT, UPDATE, DELETE ON mydatabase.Users TO 'admin'")
+cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Allergens TO 'admin'")
+cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Ingredients TO 'admin'")
+cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipes TO 'admin'")
+cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Ingredients TO 'admin'")
+cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Allergens TO 'admin'")
+cur.execute("GRANT ‘admin’ TO ‘owner’@’localhost’ WITH ADMIN OPTION")
 
 
 # database.commit() unsure if line is needed, i dont think it is

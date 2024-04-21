@@ -10,6 +10,7 @@ from auth import auth
 
 app = Flask(__name__)
 app.register_blueprint(auth)
+app.register_blueprint(recipes)
 
 #---
 

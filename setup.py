@@ -3,12 +3,12 @@
 import mysql.connector
 """
 BEFORE RUNNING:
-Create the owner user: CREATE USER 'owner'@'localhost' IDENTIFIED BY 'owner';
+Create the owner user: CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';
 """
 #change to fit your user, password, and database name
 config = {
-	'user': 'owner',
-	'password': 'owner',
+	'user': 'root',
+	'password': 'root',
 	'host': 'localhost',
 	'database': 'mydatabase',
 }
@@ -16,7 +16,6 @@ config = {
 cnx = mysql.connector.connect(**config)
 cur = cnx.cursor()
 cur.execute("CREATE DATABASE mydatabase")
-cur.execute("GRANT ALL ON mydatabase.* TO 'owner'@'localhost'")
 
 #User Table
 cur.execute( '''
@@ -109,7 +108,8 @@ cur.execute( '''
 
 print('Created tables')
 
-#do privileges and guest setup
+#do privileges setup
+
 cur.execute("CREATE USER 'group20'@'localhost' IDENTIFIED BY 'group20'")
 cur.execute("CREATE ROLE 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Recipes TO 'Guest'")
@@ -137,6 +137,9 @@ cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Ingredients TO '
 cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipes TO 'admin'")
 cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Ingredients TO 'admin'")
 cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Allergens TO 'admin'")
+
+cur.execute("CREATE USER 'owner’@’localhost’ IDENTIFIED BY 'owner'")
+cur.execute("GRANT ALL ON mydatabase.* TO 'owner'@'localhost'")
 cur.execute("GRANT ‘admin’ TO ‘owner’@’localhost’ WITH ADMIN OPTION")
 
 

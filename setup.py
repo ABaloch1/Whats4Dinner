@@ -1,4 +1,4 @@
-#Timestamp: 4/21 6:53pm
+#Timestamp: 4/21 7:05pm
 
 import mysql.connector
 """
@@ -125,8 +125,10 @@ cur.execute("GRANT SELECT ON mydatabase.Users TO 'member'")
 cur.execute("GRANT UPDATE(Password, First_Name, Last_Name) ON mydatabase.Users TO 'member'")
 cur.execute("GRANT SELECT(Ingredient) ON mydatabase.User_Pantry TO 'member'")
 cur.execute("GRANT Update(Ingredient) ON mydatabase.User_Pantry TO 'member'")
+cur.execute("GRANT DELETE(Ingredient) ON mydatabase.User_Pantry TO 'member'")
 cur.execute("GRANT SELECT(Allergy_Category) ON mydatabase.User_Allergens TO 'member'")
 cur.execute("GRANT Update(Allergy_Category) ON mydatabase.User_Allergens TO 'member'")
+cur.execute("GRANT DELETE(Allergy_Category) ON mydatabase.User_Pantry TO 'member'")
 
 cur.execute("CREATE ROLE 'admin'")
 cur.execute("GRANT SELECT, UPDATE, DELETE ON mydatabase.Users TO 'admin'")

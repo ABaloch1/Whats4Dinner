@@ -1,4 +1,4 @@
-#Timestamp: 4/21 6:53pm
+#Timestamp: 4/21 7:11pm
 
 import mysql.connector
 
@@ -13,6 +13,7 @@ config = {
 cnx = mysql.connector.connect(**config)
 cur = cnx.cursor()
 cur.execute("SET foreign_key_checks=0")
+cur.execute("DROP USER 'group20'@'localhost'")
 cur.execute("DROP ROLE 'admin', 'member', 'Guest'")
 
 cur.execute( '''

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<head>
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 50vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .welcome-message {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .redirect form {
+            margin-bottom: 10px;
+        }
+
+        .guest-button {
+            background-color: #d11414;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-button {
+            background-color: #4285f4; /* Different color for login button */
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .register-button {
+            background-color: #d11414; /* Different color for register button */
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: space-around;
+            width: 200px;
+        }
+        .icon-container a {
+            text-decoration: none;
+            color: #333;
+        }
+        .icon-container img {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-message">
+        <h1>
+            Employees Only
+        </h1>
+    </div>
+    <div class="redirect">
+        <a href="/admin_panel/update_user">
+            <button class="guest-button">Update User</button>
+        </a>
+
+        <a href="/admin_panel/delete_user">
+            <button class="guest-button">Delete User</button>
+        </a>
+    </div>
+    <p></p>
+    <div>
+        <a href="/admin_panel/create_ingredient">
+            <button class="guest-button">Create Ingredient</button>
+        </a>
+
+        <a href="/admin_panel/update_ingredient">
+            <button class="guest-button">Update Ingredient</button>
+        </a>
+
+        <a href="/admin_panel/delete_ingredients">
+            <button class="guest-button">Delete Ingredient</button>
+        </a>
+    </div>
+    <p></p>
+    <div>
+        <a href="/admin_panel/create_allergen">
+            <button class="guest-button">Create Allergen</button>
+        </a>
+
+        <a href="/admin_panel/upate_allergens">
+            <button class="guest-button">Delete Allergen</button>
+        </a>
+
+    </div>
+    
+</body>
+</html>

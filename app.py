@@ -81,34 +81,6 @@ def create_ingredient():
 			con.close()  # close connection
 	return render_template("pantry.html")
 
-
-@app.route('/recipe_creation', methods=['POST', 'GET'])
-def create_recipe():
-	if request.method == 'POST':
-		try:  # get the user data from the form
-			name = request.form['recipe_name']
-			ID = request.form['recipe_ID']
-			category = request.form['recipe_category']
-			instructions = request.form['recipe_instructions']
-			with sql.connect("mydatabase.db") as con:
-				cur = con.cursor()
-					# Check if the recipe already exists
-				cur.execute("SELECT COUNT(*) FROM Recipes WHERE Recipe_ID = ?", (ID,))
-				exists = cur.fetchone()[0]
-			if not exists:
-				# insert the user data in the correct table
-				cur.execute("INSERT INTO Recipes (Recipe_ID, Name, Category, Instructions) VALUES (?,?,?,?)" (
-				    ID, name, category, instructions,))
-
-				con.commit()  # commit changes
-		except:
-			con.rollback()
-			return render_template('newRecipe.html')
-		finally:
-			con.close()  # close connection
-	return render_template("recipes.html")
-
-
 @app.route('/add_ingredient_pantry', methods=['POST', 'GET'])
 def add_ingredient_pantry():
 	if request.method == 'POST':
@@ -136,37 +108,6 @@ def add_ingredient_pantry():
 		finally:
 			con.close()	#close connection
 	return render_template("pantry.html")
-	
-@app.route('/add_ingredient_recipe', methods=['POST', 'GET'])
-def add_ingredient_recipe():
-	if request.method == 'POST':
-		try:
-			i_name = request.form['name']
-			r_ID = request.form['recipe_ID']
-
-			cur.execute("SELECT COUNT(*) FROM Ingredients WHERE Name = ?", (name,))
-			i_exists = cur.fetchone()[0]
-			if i_exists:
-				cur.execute("SELECT COUNT(*) FROM Recipes WHERE Recipe_ID = ?", (r_ID,))
-				r_exists = cur.fetchone()[0]
-				if r_exists:
-					cur.execute("SELECT COUNT(*) FROM Recipes WHERE Recipe_ID = %s AND Name = %s", (recipe_name, ingredient_name))
-					in_recipe = cur.fetchone()[0]
-					if not in_recipe:
-						cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient) VALUES (%s, %s)", (recipe_ID, i_name))
-						con.commit()
-					else:
-						print("Ingredient already in recipe.")
-				else:
-					print("Recipe does not exist.")
-			else:
-				print("Ingredient does not exist.")
-		except:
-			con.rollback()
-			return render_template('recipes.html')
-		finally:
-			con.close()	#close connection
-	return render_template("recipes.html")
 
 if __name__ == '__main__':
 	app.run(debug=True)

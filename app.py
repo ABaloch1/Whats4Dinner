@@ -51,64 +51,10 @@ def welcome():
 
 # ---
 
-
 @app.route('/guest_page')
 def guest_page():
     return render_template('guest.html')
 
-
-@app.route('/ingredient_creation', methods=['POST', 'GET'])
-def create_ingredient():
-	if request.method == 'POST':
-		try:
-			name = request.form['name']
-			allergy = request.form['allergy']
-			category = request.form['category']
-			with sql.connect("mydatabase.db") as con:
-				cur = con.cursor()
-					# Check if the user already exists
-				cur.execute("SELECT COUNT(*) FROM Ingredients WHERE Name = ?", (name,))
-				exists = cur.fetchone()[0]
-			if not exists:
-				# insert the user data in the correct table
-				cur.execute("INSERT INTO Ingredients (Name, Allegery_Category, Category) VALUES (?,?,?)" (
-				    name, allergy, category,))
-
-				con.commit()  # commit changes
-		except:
-			con.rollback()
-			return render_template('pantry.html')
-		finally:
-			con.close()  # close connection
-	return render_template("pantry.html")
-
-@app.route('/add_ingredient_pantry', methods=['POST', 'GET'])
-def add_ingredient_pantry():
-	if request.method == 'POST':
-		try:
-			name = request.form['name']
-			username = session['username']
-
-			cur.execute("SELECT COUNT(*) FROM Ingredients WHERE Name = ?", (name,))
-			exists = cur.fetchone()[0]
-			if exists:
-				cur.execute(
-				    "SELECT COUNT(*) FROM Pantry WHERE Username = %s AND Ingredient = %s", (username, name))
-				in_pantry = cur.fetchone()[0]
-				if not in_pantry:
-					cur.execute(
-					    "INSERT INTO Pantry (Username, Ingredient_Name) VALUES (%s, %s)", (username, name))
-					con.commit()
-				else:
-					print("Ingredient is already in pantry.")
-			else:
-				print("Ingredient does not exist.")
-		except:
-			con.rollback()
-			return render_template('pantry.html')
-		finally:
-			con.close()	#close connection
-	return render_template("pantry.html")
 
 if __name__ == '__main__':
 	app.run(debug=True)

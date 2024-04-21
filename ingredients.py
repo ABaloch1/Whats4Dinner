@@ -62,7 +62,7 @@ def toggle_ingredient_pantry():
 				cur.execute("SELECT * FROM Pantry WHERE Username = %s", (username,))
 				user_ingrs = cur.fetchall()
 					
-				return render_template('edit_recipe.html', all_ingrs=all_ingrs, user_ingrs=user_ingrs)
+				return render_template('pantry.html', all_ingrs=all_ingrs, user_ingrs=user_ingrs)
 		elif request.method == 'POST':
 			 	username = session['username']
 			 	selected_ingredients = request.form.getlist('selected_ingredients')
@@ -107,5 +107,5 @@ def edit_recipe(name):
 	except:
 			cnx.rollback()
 			return render_template('edit_ingr.html')
-	return render_template('edit_recipe.html', recipe=recipe)
+	return render_template('admin.html', name=name)
 

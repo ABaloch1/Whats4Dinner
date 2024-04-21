@@ -11,8 +11,7 @@ config = {
 
 cnx = mysql.connector.connect(**config)
 cur = cnx.cursor()
-cur.execute("CREATE DATABASE IF NOT EXISTS mydatabase")
-
+cur.execute("SET foreign_key_checks=0")
 #User Table
 cur.execute( '''
 	DROP TABLE IF EXISTS Users

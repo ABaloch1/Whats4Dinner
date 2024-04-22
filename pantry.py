@@ -24,7 +24,7 @@ def pantry_page():
     if 'loggedin' in session:
         name = session['firstName']
         all_ingredients = ['Flour', 'Sugar', 'Eggs', 'Milk', 'Butter']
-		user_ingredients = ['Flour', 'Eggs']
+        user_ingredients = ['Flour', 'Eggs']
         return render_template('test_pantry.html', name=name, all_ingredients=all_ingredients, user_ingredients=user_ingredients)
 
     message = ''

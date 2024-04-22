@@ -1,7 +1,7 @@
 #Timestamp: 4/22 6pm
 
 import mysql.connector
-from PopIngredients import popingredients 
+#from PopIngredients import popingredients 
 
 """
 BEFORE RUNNING:
@@ -114,7 +114,7 @@ cur.execute( '''
 
 print('Created tables')
 
-popingredients()
+#popingredients()
 
 #do privileges setup
 cur.execute("CREATE USER 'group20'@'localhost' IDENTIFIED BY 'group20'")

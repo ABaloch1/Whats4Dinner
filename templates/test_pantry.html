@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Pantry</title>
+    <style type="text/css">
+        footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px; /* Adjust the height as needed */
+        }
+    </style>
+    
+</head>
+<body>
+    <h2>{{name}}'s' Pantry</h2>
+    <form action="/update_pantry" method="post">
+        {% for ingredient in all_ingredients %}
+            <div>
+                <input type="checkbox" name="ingredients" value="{{ ingredient }}" {% if ingredient in user_ingredients %}checked{% endif %}>
+                <label>{{ ingredient }}</label>
+            </div>
+        {% endfor %}
+        <button type="submit">Update</button>
+    </form>
+    <footer>
+      <a href="/home">Go back to home</a>
+      <p>&copy; Group 20 Recipe Management System</p>
+    </footer>
+</body>
+</html>

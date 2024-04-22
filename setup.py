@@ -151,3 +151,18 @@ cur.execute("GRANT 'admin' TO 'owner'@'localhost' WITH ADMIN OPTION")
 # database.commit() unsure if line is needed, i dont think it is
 cur.close()
 cnx.close()
+
+
+
+
+'''Allergy Table
+gluten
+dairy
+treenuts
+fish
+soy
+sesame
+peanuts
+shellfish
+eggs
+'''

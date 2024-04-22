@@ -51,91 +51,31 @@
 </head>
 <body>
     <div class="container">
-        <h1>Pantry</h1>
+        <h1>{{name}}'s' Pantry</h1>
 
         <!-- Search input -->
         <input type="text" class="search-input form-control" placeholder="Search for ingredients">
 
         <div class="row">
-            <!-- Column 1 -->
+            <!-- Iterate through categories and display ingredients -->
+            {% for category, ingredients in categorized_ingrs.items() %}
             <div class="col-md-6">
-                <!-- Category: Carbs -->
                 <div class="category">
-                    <h2>Carbs</h2>
-                    <ul class="ingredient-list" id="carbs">
-                        <!-- Ingredients will be dynamically added here -->
-                    </ul>
-                </div>
-
-                <!-- Category: Fruits -->
-                <div class="category">
-                    <h2>Fruits</h2>
-                    <ul class="ingredient-list" id="fruits">
-                        <!-- Ingredients will be dynamically added here -->
-                    </ul>
-                </div>
-
-                <!-- Category: Grains -->
-                <div class="category">
-                    <h2>Grains</h2>
-                    <ul class="ingredient-list" id="grains">
-                        <!-- Ingredients will be dynamically added here -->
-                    </ul>
-                </div>
-
-                <!-- Category: Seafood -->
-                <div class="category">
-                    <h2>Seafood</h2>
-                    <ul class="ingredient-list" id="seafood">
-                        <!-- Ingredients will be dynamically added here -->
+                    <h2>{{ category }}</h2>
+                    <ul class="ingredient-list">
+                        {% for ingredient in ingredients %}
+                        <li class="ingredient-item">{{ ingredient.Ingredient_Name }}</li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
-
-            <!-- Column 2 -->
-            <div class="col-md-6">
-                <!-- Category: Vegetables -->
-                <div class="category">
-                    <h2>Vegetables</h2>
-                    <ul class="ingredient-list" id="vegetables">
-                        <!-- Ingredients will be dynamically added here -->
-                    </ul>
-                </div>
-
-                <!-- Category: Meat -->
-                <div class="category">
-                    <h2>Meat</h2>
-                    <ul class="ingredient-list" id="meat">
-                        <!-- Ingredients will be dynamically added here -->
-                    </ul>
-                </div>
-
-                <!-- Category: Dairy & Eggs -->
-                <div class="category">
-                    <h2>Dairy & Eggs</h2>
-                    <ul class="ingredient-list" id="d_e">
-                        <!-- Ingredients will be dynamically added here -->
-                    </ul>
-                </div>
-
-                <!-- Category: Complementary -->
-                <div class="category">
-                    <h2>Complementary</h2>
-                    <ul class="ingredient-list" id="complementary">
-                        <!-- Ingredients will be dynamically added here -->
-                    </ul>
-                </div>
-
-                <!-- Category: Misc -->
-                <div class="category">
-                    <h2>Misc</h2>
-                    <ul class="ingredient-list" id="misc">
-                        <!-- Ingredients will be dynamically added here -->
-                    </ul>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
     </div>
+    <footer>
+        <a href="/home">Go back to home</a>
+        <p>&copy; Group 20 Recipe Management System</p>
+    </footer>
 </body>
 </html>

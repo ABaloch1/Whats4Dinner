@@ -520,7 +520,12 @@ def list_recipes_page():
 
             return render_template("admin_panel/list_recipes.html",rows = rows)
         except:
-            return render_template("admin_panel/list_recipes.html",rows = [])
+            # return render_template("admin_panel/list_recipes.html",rows = [])
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("SELECT * FROM Recipes;")
+            rows = cur.fetchall()
+            return render_template("admin_panel/list_recipes.html",rows = rows)
     return render_template("register.html", message='Not authorized')
 
 
@@ -540,14 +545,16 @@ def create_recipe_page():
 @auth.route('/admin_panel/create_recipe_function', methods=['GET', 'POST'])
 def create_recipe_function():
 
-    msg = ''
     if request.method == 'POST' and 'recipeTitle' in request.form:
+        # print(request)
         recipeTitle = request.form['recipeTitle']
         description = request.form['description']
-        cook_time = request.form['cookTime']
+        cook_time = request.form['cook']
         prep_time = request.form['prepTime']
-        ingredients = request.form['ingredients']
         instructions = request.form['instructions']
+
+        ingredients = request.form.getlist('ingredients[]')
+        measurements = request.form.getlist('measurements[]')
 
         cur = cnx.cursor(dictionary=True)
 
@@ -562,9 +569,19 @@ def create_recipe_function():
 
         return redirect('/admin_panel/list_recipes')
 
+    msg = ''
     return render_template('login.html', message=msg)
 
 
+@auth.route('/admin_panel/update_recipe_auto_function', methods=['GET', 'POST'])
+def update_recipe_auto_function():
+    if request.method == 'POST' and 'recipeTitle' in request.form:
+        recipe_title = request.form['recipeTitle']
+        description = request.form['description']
+        cook_time = request.form['cook']
+        prep_time = request.form['prepTime']
+        instructions = request.form['instructions']
+        return render_template('/admin_panel/update_recipes_auto.html', recipe_title=recipe_title, description=description, cook_time=cook_time, prep_time=prep_time, instructions=instructions)
 # ---
 
 @auth.route('/admin_panel/update_recipe')

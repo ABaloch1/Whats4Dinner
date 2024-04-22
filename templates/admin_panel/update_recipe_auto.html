@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>Add New Recipe</title>
+    <title>Update Recipe</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -75,20 +75,20 @@
 </head>
 <body>
     <div class="container">
-        <h1>Add New Recipe</h1>
-        <form action="{{ url_for('auth.create_recipe_function') }}" method="post">
+        <h1>Update Recipe</h1>
+        <form action="{{ url_for('auth.update_recipe_auto_function') }}" method="post">
             <label for="recipeTitle">Recipe Title:</label>
-            <input type="text" id="recipeTitle" name="recipeTitle" required>
+            <input type="text" id="recipeTitle" name="recipeTitle" value="{{recipe_title}}" required>
 
             <label for="description">Brief Description:</label>
-            <textarea id="description" name="description" rows="4" required></textarea>
+            <textarea id="description" name="description" value="{{description}}" rows="4" required></textarea>
 
             <div class="time-container">
                 <label for="cook">Cook Time (in minutes):</label>
-                <input type="number" id="cook" name="cook" min="1" required>
+                <input type="number" id="cook" name="cook" value="{{cook_time}}" min="1" required>
 
                 <label for="prepTime">Prep Time (in minutes):</label>
-                <input type="number" id="prepTime" name="prepTime" min="1" required>
+                <input type="number" id="prepTime" name="prepTime" value="{{prep_time}}" min="1" required>
             </div>
 
             <div class="ingredient-container">
@@ -103,7 +103,7 @@
             </div>
 
             <label for="instructions">Instructions (use bullet points):</label>
-            <textarea id="instructions" name="instructions" rows="8" required></textarea>
+            <textarea id="instructions" name="instructions" value="{{instructions}}" rows="8" required></textarea>
 
             <input type="submit" value="Add Recipe">
         </form>

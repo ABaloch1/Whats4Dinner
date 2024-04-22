@@ -64,7 +64,16 @@
          
          {% for row in rows %}
             <tr>
-               <td>{{row["Recipe_ID"]}}</td>	
+               <td>
+                  <form id="recipeForm" action="/admin_panel/update_recipe_auto_function" method="post">
+                  <input type="hidden" id="recipeTitle" name="recipeTitle" value="{{row['Name']}}">
+                  <input type="hidden" id="description" name="description" value="{{row['Description']}}">
+                  <input type="hidden" id="cook" name="cook" value="{{row['Cook_Time']}}">
+                  <input type="hidden" id="prepTime" name="prepTime" value="{{row['Prep_Time']}}">
+                  <input type="hidden" id="instructions" name="instructions" value="{{row['Instructions']}}">
+                </form>
+                <a href="#" onclick="document.getElementById('recipeForm').submit(); return false;">{{row["Recipe_ID"]}}</a>
+               </td> 	
                <td>{{row["Name"]}}</td> 
                <td>{{row["Category"]}}</td> 
                <td>{{row["Description"]}}</td> 

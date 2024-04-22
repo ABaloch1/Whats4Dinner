@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Recipe</title>
     <style>
         body {
@@ -41,9 +38,22 @@
             font-size: 16px;
             box-sizing: border-box;
         }
-        textarea {
-            resize: vertical;
-            min-height: 100px;
+        .ingredient-container {
+            margin-bottom: 20px;
+        }
+        .ingredient-container input[type="text"],
+        .ingredient-container input[type="number"] {
+            width: calc(50% - 5px);
+            margin-bottom: 10px;
+        }
+        .ingredient-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
         }
         .time-container {
             display: flex;
@@ -52,17 +62,8 @@
             flex-wrap: wrap;
         }
         .time-container input[type="number"] {
-            width: calc(20% - 5px);
+            width: calc(10% - 2px);
             margin-bottom: 10px;
-        }
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
         }
     </style>
 </head>
@@ -84,8 +85,16 @@
                 <input type="number" id="prep_time" name="prep_time" min="1" required>
             </div>
 
-            <label for="ingredients">Ingredients:</label>
-            <textarea id="ingredients" name="ingredients" rows="6" required></textarea>
+            <div class="ingredient-container">
+                <label>Ingredients:</label>
+                <div id="ingredient-fields">
+                    <div>
+                        <input type="text" name="ingredients[]" placeholder="Ingredient" required>
+                        <input type="text" name="measurements[]" placeholder="Measurement" required>
+                        <button type="button" onclick="addIngredientField()">Add Ingredient</button>
+                    </div>
+                </div>
+            </div>
 
             <label for="instructions">Instructions (use bullet points):</label>
             <textarea id="instructions" name="instructions" rows="8" required></textarea>
@@ -93,5 +102,17 @@
             <input type="submit" value="Add Recipe">
         </form>
     </div>
+
+    <script>
+        function addIngredientField() {
+            const ingredientFields = document.getElementById('ingredient-fields');
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <input type="text" name="ingredients[]" placeholder="Ingredient" required>
+                <input type="text" name="measurements[]" placeholder="Measurement" required>
+            `;
+            ingredientFields.appendChild(div);
+        }
+    </script>
 </body>
 </html>

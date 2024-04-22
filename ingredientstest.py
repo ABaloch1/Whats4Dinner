@@ -37,8 +37,8 @@ def create_ingredient():
                 cnx.commit()  # commit changes
         except:
             cnx.rollback()
-            return render_template('pantry.html')
-    return render_template("pantry.html")
+            return render_template('pantrypage.html')
+    return render_template("pantrypage.html")
 
 
 
@@ -81,7 +81,7 @@ def update_pantry():
                     cnx.commit()
 
         # Render the template with categorized ingredients and user's ingredients
-        return render_template('pantry.html', categorized_ingrs=categorized_ingrs, user_ingrs=user_ingrs)
+        return render_template('pantrypage.html', categorized_ingrs=categorized_ingrs, user_ingrs=user_ingrs)
 
     except Exception as e:
         cnx.rollback()

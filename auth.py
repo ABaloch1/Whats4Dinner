@@ -573,7 +573,7 @@ def create_recipe_function():
     return render_template('login.html', message=msg)
 
 
-@auth.route('/admin_panel/update_recipe_auto_function', methods=['GET', 'POST'])
+@auth.route('/admin_panel/update_recipe_auto_page', methods=['GET', 'POST'])
 def update_recipe_auto_function():
     if request.method == 'POST' and 'recipeTitle' in request.form:
         recipe_title = request.form['recipeTitle']
@@ -581,7 +581,11 @@ def update_recipe_auto_function():
         cook_time = request.form['cook']
         prep_time = request.form['prepTime']
         instructions = request.form['instructions']
-        return render_template('/admin_panel/update_recipes_auto.html', recipe_title=recipe_title, description=description, cook_time=cook_time, prep_time=prep_time, instructions=instructions)
+        return render_template('/admin_panel/update_recipe_auto.html', recipe_title=recipe_title, desc=description, cook_time=cook_time, prep_time=prep_time, instr=instructions)
+    else:
+        # Return a response indicating that the request was not processed as expected
+        return "Something went wrong", 400
+
 # ---
 
 @auth.route('/admin_panel/update_recipe')

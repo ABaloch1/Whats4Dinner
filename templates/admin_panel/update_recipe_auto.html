@@ -71,6 +71,15 @@
             align-items: center;
             height: 100px; /* Adjust the height as needed */
         }
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -81,7 +90,7 @@
             <input type="text" id="recipeTitle" name="recipeTitle" value="{{recipe_title}}" required>
 
             <label for="description">Brief Description:</label>
-            <textarea id="description" name="description" value="{{description}}" rows="4" required></textarea>
+            <textarea id="description" name="description" rows="4" required>{{desc}}</textarea>
 
             <div class="time-container">
                 <label for="cook">Cook Time (in minutes):</label>
@@ -103,9 +112,9 @@
             </div>
 
             <label for="instructions">Instructions (use bullet points):</label>
-            <textarea id="instructions" name="instructions" value="{{instructions}}" rows="8" required></textarea>
+            <textarea id="instructions" name="instructions" rows="8" required>{{instr}}</textarea>
 
-            <input type="submit" value="Add Recipe">
+            <input type="submit" value="Update Recipe">
         </form>
     </div>
 

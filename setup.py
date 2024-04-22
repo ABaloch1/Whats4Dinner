@@ -1,15 +1,17 @@
-#Timestamp: 4/21 8:16pm
+#Timestamp: 4/22 6pm
 
 import mysql.connector
+from PopIngredients import popingredients 
+
 """
 BEFORE RUNNING:
 Create the owner user: CREATE USER 'root'@'localhost' IDENTIFIED BY 'root1';
-Create database: "CREATE DATABASE mydatabase;
+Create database: CREATE DATABASE mydatabase;
 Give all permissions: GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 Grant create user: GRANT CREATE USER ON *.* TO 'root'@'localhost';
 Grant drop role: GRANT DROP ROLE ON *.* TO 'root'@'localhost';
 """
-#change to fit your user, password, and database name
+
 config = {
 	'user': 'root',
 	'password': 'root1',
@@ -44,7 +46,7 @@ cur.execute( '''
 cur.execute('''
 	CREATE TABLE Ingredients (
 		Name varchar(50) NOT NULL,
-		Allergy_Category varchar(50) NOT NULL,
+		Allergy_Category varchar(50) NULL,
 		Category varchar(50) NOT NULL,
 		CONSTRAINT fk_all FOREIGN KEY (Allergy_Category) REFERENCES Allergens(Name) ON DELETE CASCADE,
 		CONSTRAINT PK_Ingredients PRIMARY KEY (Name, Allergy_Category, Category)
@@ -112,13 +114,15 @@ cur.execute( '''
 
 print('Created tables')
 
-#do privileges setup
+popingredients()
 
+#do privileges setup
 cur.execute("CREATE USER 'group20'@'localhost' IDENTIFIED BY 'group20'")
 cur.execute("CREATE ROLE 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Recipes TO 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Recipe_Ingredients TO 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Recipe_Allergens TO 'Guest'")
+cur.execute("GRANT SELECT, INSERT, UPDATE ON mydatabase.Users TO 'Guest'")
 cur.execute("GRANT 'Guest' TO 'group20'@'localhost'")
 cur.execute("SET DEFAULT ROLE 'Guest' TO 'group20'@'localhost'")
 
@@ -147,22 +151,9 @@ cur.execute("CREATE USER 'owner'@'localhost' IDENTIFIED BY 'owner'")
 cur.execute("GRANT ALL ON mydatabase.* TO 'owner'@'localhost'")
 cur.execute("GRANT 'admin' TO 'owner'@'localhost' WITH ADMIN OPTION")
 
-
+cur.execute("FLUSH PRIVILEGES")
+print("created roles, owner, and group20")
+cnx.commit()
 # database.commit() unsure if line is needed, i dont think it is
 cur.close()
 cnx.close()
-
-
-
-
-'''Allergy Table
-gluten
-dairy
-treenuts
-fish
-soy
-sesame
-peanuts
-shellfish
-eggs
-'''

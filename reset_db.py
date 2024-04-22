@@ -1,11 +1,11 @@
-#Timestamp: 4/21 6:53pm
+#Timestamp: 4/21 8:16pm
 
 import mysql.connector
 
 #change to fit your user, password, and database name
 config = {
-	'user': 'owner',
-	'password': 'owner',
+	'user': 'root',
+	'password': 'root1',
 	'host': 'localhost',
 	'database': 'mydatabase',
 }
@@ -13,9 +13,11 @@ config = {
 cnx = mysql.connector.connect(**config)
 cur = cnx.cursor()
 cur.execute("SET foreign_key_checks=0")
-cur.execute("DROP USER 'group20'@'localhost'")
-cur.execute("DROP USER 'owner'@'localhost'")
-cur.execute("DROP ROLE 'admin', 'member', 'Guest'")
+cur.execute("DROP USER IF EXISTS 'group20'@'localhost'")
+cur.execute("DROP USER IF EXISTS 'owner'@'localhost'")
+cur.execute("DROP ROLE IF EXISTS 'admin'")
+cur.execute("DROP ROLE IF EXISTS 'member'")
+cur.execute("DROP ROLE IF EXISTS'Guest'")
 
 cur.execute( '''
 	DROP TABLE IF EXISTS Users
@@ -44,7 +46,9 @@ cur.execute( '''
 cur.execute( '''
 	DROP TABLE IF EXISTS Ingredients
 ''')
-
+cur.execute( '''
+	DROP TABLE IF EXISTS Allergens
+''')
 print('No more tables')
 
 cur.close()

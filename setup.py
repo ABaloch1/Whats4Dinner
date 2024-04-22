@@ -1,21 +1,25 @@
-#Timestamp: 4/21 7:05pm
+#Timestamp: 4/21 8:16pm
 
 import mysql.connector
 """
 BEFORE RUNNING:
-Create the owner user: CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';
+Create the owner user: CREATE USER 'root'@'localhost' IDENTIFIED BY 'root1';
+Create database: "CREATE DATABASE mydatabase;
+Give all permissions: GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+Grant create user: GRANT CREATE USER ON *.* TO 'root'@'localhost';
+Grant drop role: GRANT DROP ROLE ON *.* TO 'root'@'localhost';
 """
 #change to fit your user, password, and database name
 config = {
 	'user': 'root',
-	'password': 'root',
+	'password': 'root1',
 	'host': 'localhost',
 	'database': 'mydatabase',
 }
 
 cnx = mysql.connector.connect(**config)
 cur = cnx.cursor()
-cur.execute("CREATE DATABASE mydatabase")
+#cur.execute("CREATE DATABASE mydatabase")
 
 #User Table
 cur.execute( '''
@@ -53,7 +57,7 @@ cur.execute( '''
 		Username varchar(50) NOT NULL,
 		Ingredient varchar(50) NOT NULL,
 		CONSTRAINT fk_users FOREIGN KEY (Username) REFERENCES Users(Username) ON DELETE CASCADE,
-		CONSTRAINT fk_ing FOREIGN KEY (Ingredient) REFERENCES Ingredients(Name) ON DELETE CASCADE,
+		CONSTRAINT fk_ingr FOREIGN KEY (Ingredient) REFERENCES Ingredients(Name) ON DELETE CASCADE,
 		CONSTRAINT PK_UserIng PRIMARY KEY (Username, Ingredient)
 	)
 ''')
@@ -115,6 +119,7 @@ cur.execute("CREATE ROLE 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Recipes TO 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Recipe_Ingredients TO 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Recipe_Allergens TO 'Guest'")
+cur.execute("GRANT 'Guest' TO 'group20'@'localhost'")
 cur.execute("SET DEFAULT ROLE 'Guest' TO 'group20'@'localhost'")
 
 cur.execute("CREATE ROLE 'member'")
@@ -123,12 +128,12 @@ cur.execute("GRANT SELECT ON mydatabase.Recipe_Ingredients TO 'member'")
 cur.execute("GRANT SELECT ON mydatabase.Recipe_Allergens TO 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Users TO 'member'")
 cur.execute("GRANT UPDATE(Password, First_Name, Last_Name) ON mydatabase.Users TO 'member'")
-cur.execute("GRANT SELECT(Ingredient) ON mydatabase.User_Pantry TO 'member'")
+cur.execute("GRANT SELECT ON mydatabase.User_Pantry TO 'member'")
 cur.execute("GRANT Update(Ingredient) ON mydatabase.User_Pantry TO 'member'")
-cur.execute("GRANT DELETE(Ingredient) ON mydatabase.User_Pantry TO 'member'")
-cur.execute("GRANT SELECT(Allergy_Category) ON mydatabase.User_Allergens TO 'member'")
+cur.execute("GRANT DELETE ON mydatabase.User_Pantry TO 'member'")
+cur.execute("GRANT SELECT ON mydatabase.User_Allergens TO 'member'")
 cur.execute("GRANT Update(Allergy_Category) ON mydatabase.User_Allergens TO 'member'")
-cur.execute("GRANT DELETE(Allergy_Category) ON mydatabase.User_Pantry TO 'member'")
+cur.execute("GRANT DELETE ON mydatabase.User_Pantry TO 'member'")
 
 cur.execute("CREATE ROLE 'admin'")
 cur.execute("GRANT SELECT, UPDATE, DELETE ON mydatabase.Users TO 'admin'")
@@ -138,9 +143,9 @@ cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipes TO 'admi
 cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Ingredients TO 'admin'")
 cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Allergens TO 'admin'")
 
-cur.execute("CREATE USER 'owner’@’localhost’ IDENTIFIED BY 'owner'")
+cur.execute("CREATE USER 'owner'@'localhost' IDENTIFIED BY 'owner'")
 cur.execute("GRANT ALL ON mydatabase.* TO 'owner'@'localhost'")
-cur.execute("GRANT ‘admin’ TO ‘owner’@’localhost’ WITH ADMIN OPTION")
+cur.execute("GRANT 'admin' TO 'owner'@'localhost' WITH ADMIN OPTION")
 
 
 # database.commit() unsure if line is needed, i dont think it is

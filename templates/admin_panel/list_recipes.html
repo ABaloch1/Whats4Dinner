@@ -66,6 +66,7 @@
             <tr>
                <td>
                   <form id="recipeForm{{row['Recipe_ID']}}" action="/admin_panel/update_recipe_auto_page" method="post">
+                  <input type="hidden" id="recipeID" name="recipeID" value="{{row['Recipe_ID']}}">
                   <input type="hidden" id="recipeTitle" name="recipeTitle" value="{{row['Name']}}">
                   <input type="hidden" id="description" name="description" value="{{row['Description']}}">
                   <input type="hidden" id="cook" name="cook" value="{{row['Cook_Time']}}">

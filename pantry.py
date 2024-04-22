@@ -33,6 +33,49 @@ def pantry_page():
 
 @pantry.route('/update_pantry', methods=['POST'])
 def update_pantry():
-    # Get the list of selected ingredients from the form
-    user_ingredients = request.form.getlist('ingredients')
+    try:
+        if request.method == 'GET':
+            # retrieves the ingredients in a list according to category
+            categories = ['Carbs', 'Fruits', 'Vegetables', 'Grains',
+                          'Meat', 'Seafood', 'Dairy & Eggs', 'Complementary', 'Misc']
+            all_ingrs = []
+            user_ingrs = []
+
+            for category in categories:
+                cur.execute(
+                    "SELECT * FROM Ingredients WHERE Category = %s", (category))
+                ingrs = cur.fetchall()
+                all_ingrs += ingrs
+
+            cur.execute(
+                "SELECT * FROM Pantry WHERE Username = %s", (username,))
+            user_ingrs = cur.fetchall()
+
+            return render_template('pantry.html', all_ingrs=all_ingrs, user_ingrs=user_ingrs)
+        elif request.method == 'POST':
+            username = session['username']
+            selected_ingredients = request.form.getlist('selected_ingredients')
+
+            for ingredient in selected_ingredients:
+                cur.execute(
+                    "SELECT COUNT(*) FROM Pantry WHERE Username = %s AND Ingredient = %s", (username, ingredient))
+                in_pantry = cur.fetchone()[0]
+                if not in_pantry:
+                    cur.execute(
+                        "INSERT INTO Pantry (Username, Ingredient_Name) VALUES (%s, %s)", (username, ingredient))
+                    cnx.commit()
+
+            cur.execute(
+                "SELECT * FROM Pantry WHERE Username = %s", (username,))
+            user_ingrs = cur.fetchall()
+
+            for ingr in user_ingrs:
+                if ingr[1] not in selected_ingredients:
+                    cur.execute(
+                        "DELETE FROM Pantry WHERE Username = %s AND Ingredient_Name = %s", (username, ingr[1]))
+                    cnx.commit()
+
+    except:
+        cnx.rollback()
+        return redirect('/pantry')
     return redirect('/pantry')

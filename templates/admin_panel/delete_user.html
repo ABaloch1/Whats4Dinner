@@ -35,7 +35,7 @@
             cursor: pointer;
         }
         button[type="submit"]:hover {
-            background-color: #d11414;
+            background-color: #0056b3;
         }
         .allergy-row {
             display: flex;
@@ -54,7 +54,10 @@
     <h2>
         Recipe Management Admin Panel
     </h2>
-    <form action="{{ url_for('auth.register') }}" method="post" autocomplete="off">
+    <h3>
+        Delete User
+    </h3>
+    <form action="{{ url_for('auth.delete_user_function') }}" method="post" autocomplete="off">
         <label for="username">Delete Which User:</label>
         <input type="text" id="username" name="username" required>
 

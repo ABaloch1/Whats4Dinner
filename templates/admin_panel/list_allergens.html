@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<head>
-    <title>Update Account</title>
+<!doctype html>
+<html>
+   <title>List Allergens</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,33 +49,23 @@
             height: 100px; /* Adjust the height as needed */
         }
     </style>
-</head>
-<body>
-    <h2>
-        Recipe Management Admin Panel
-    </h2>   
-    <h3>
-        Update User
-    </h3>
-    <form action="{{ url_for('auth.update_user_function') }}" method="post" autocomplete="off">
-        <label for="username">Update Which User:</label>
-        <input type="text" id="username" name="username" required>
-
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName">
-
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName">
-
-        <label for="password">Password (8 characters minimum):</label>
-        <input type="password" id="password" name="password" minlength="1">
-
-        <div class="message">{{ message }}</div>
-        <button type="submit" value="Register">Submit</button>
-    </form>
-    <footer>
+   <body>
+      <h2>All Allergens</h2>
+      <table border = 1>
+         <thead>
+            <td>Name</td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+               <td>{{row["Name"]}}</td>	
+            </tr>
+         {% endfor %}
+      </table>
+      
+      <footer>
       <a href="/admin_panel">Back to Admin Panel</a>
       <p>&copy; Group 20 Recipe Management System</p>
     </footer>
-</body>
+   </body>
 </html>

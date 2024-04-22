@@ -54,9 +54,12 @@
     <h2>
         Recipe Management Admin Panel
     </h2>
-    <form action="{{ url_for('auth.register') }}" method="post" autocomplete="off">
+    <h3>
+        Delete Allergen
+    </h3>
+    <form action="{{ url_for('auth.delete_allergens_function') }}" method="post" autocomplete="off">
         <label for="allergenName">Delete Allergen:</label>
-        <input type="text" id="ingredientName" name="ingredientName" required>
+        <input type="text" id="allergenName" name="allergenName" required>
 
         <div class="message">{{ message }}</div>
         <button type="submit" value="Register">Submit</button>

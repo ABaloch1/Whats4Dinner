@@ -147,6 +147,11 @@ def register_page():
     message = ''
     return render_template('register.html', message='')
 
+
+
+
+
+
 # --- Admin Functionality
 
 @auth.route('/admin_panel/')
@@ -159,6 +164,8 @@ def admin_panel_page():
     message = ''
     return render_template('register.html', message='')
 
+# ---
+
 @auth.route('/admin_panel/update_user')
 def update_user_page():
 
@@ -168,6 +175,61 @@ def update_user_page():
 
     message = ''
     return render_template('register.html', message='')
+
+@auth.route('/admin_panel/update_user_function', methods=['GET', 'POST'])
+def update_user_function():
+
+    msg = ''
+    if request.method == 'POST' and 'username' in request.form:
+        username = request.form['username']
+        first_name = request.form['firstName']
+        last_name = request.form['lastName']
+        password = request.form['password']
+
+        cur = cnx.cursor(dictionary=True)
+
+        if password:
+            hashed_password = password + secret_key
+            hashed_password = hashlib.sha256(hashed_password.encode())
+
+            password = hashed_password.hexdigest()
+
+            try:
+                cur.execute("UPDATE Users SET Password = %s WHERE Username = %s;", (password, username,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_user.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+        if first_name:
+            try:
+                cur.execute("UPDATE Users SET First_Name = %s WHERE Username = %s;", (first_name, username,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_user.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+        if last_name:
+            try:
+                cur.execute("UPDATE Users SET Last_Name = %s WHERE Username = %s;", (last_name, username,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_user.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+
+
+        return render_template('admin_panel/update_user.html', message = "Updated {}".format(username))
+
+    return render_template('login.html', message=msg)
+
+# ---
 
 @auth.route('/admin_panel/delete_user')
 def delete_user_page():
@@ -179,6 +241,30 @@ def delete_user_page():
     message = ''
     return render_template('register.html', message='')
 
+
+@auth.route('/admin_panel/delete_user_function', methods=['GET', 'POST'])
+def delete_user_function():
+
+    msg = ''
+    if request.method == 'POST' and 'username' in request.form:
+        username = request.form['username']
+
+        cur = cnx.cursor(dictionary=True)
+
+        try:
+            cur.execute("DELETE FROM Users WHERE Username = %s;", (username,))
+            cnx.commit() 
+        except:
+            cnx.rollback()
+            return render_template('admin_panel/delete_user.html', message = "Error. Had to roll back.")
+
+        return render_template('admin_panel/delete_user.html', message = "Deleted {}".format(username))
+
+    return render_template('login.html', message=msg)
+
+
+# ---
+
 @auth.route('/admin_panel/create_ingredient')
 def create_ingredient_page():
 
@@ -188,6 +274,32 @@ def create_ingredient_page():
 
     message = ''
     return render_template('register.html', message='')
+
+
+@auth.route('/admin_panel/create_ingredient_function', methods=['GET', 'POST'])
+def create_ingredient_function():
+
+    msg = ''
+    if request.method == 'POST' and 'ingredientName' in request.form:
+        ingredient_name = request.form['ingredientName']
+        allergy_category = request.form['allergyCategory']
+        restriction_category = request.form['category']
+
+        cur = cnx.cursor(dictionary=True)
+
+        try:
+            cur.execute("INSERT INTO Ingredients (Name, Allergy_Category, Category) VALUES (%s, %s, %s);", (ingredient_name, allergy_category, restriction_category))
+            cnx.commit()        
+        except:
+            cnx.rollback()
+            return render_template('admin_panel/create_ingredient.html', message = "Duplicate entry.")
+
+        return render_template('/admin_panel/create_ingredient.html', message = "Added {}".format(ingredient_name))
+
+    return render_template('login.html', message=msg)
+
+
+# ---
 
 @auth.route('/admin_panel/update_ingredient')
 def update_ingredient_page():
@@ -199,6 +311,47 @@ def update_ingredient_page():
     message = ''
     return render_template('register.html', message='')
 
+
+@auth.route('/admin_panel/update_ingredient_function', methods=['GET', 'POST'])
+def update_ingredient_function():
+
+    msg = ''
+    if request.method == 'POST' and 'ingredientName' in request.form:
+        ingredient_name = request.form['ingredientName']
+        allergy_category = request.form['allergyCategory']
+        restriction_category = request.form['category']
+
+        cur = cnx.cursor(dictionary=True)
+
+        if allergy_category:
+            try:
+                cur.execute("UPDATE Ingredients SET Allergy_Category = %s WHERE Name = %s;", (allergy_category, ingredient_name,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_ingredient.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+        if restriction_category:
+            try:
+                cur.execute("UPDATE Ingredients SET Category = %s WHERE Name = %s;", (restriction_category, ingredient_name,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_ingredient.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+
+
+        return render_template('admin_panel/update_ingredient.html', message = "Updated {}".format(ingredient_name))
+
+    return render_template('login.html', message=msg)
+
+# ---
+
+
 @auth.route('/admin_panel/delete_ingredients')
 def delete_ingredients_page():
 
@@ -208,6 +361,28 @@ def delete_ingredients_page():
 
     message = ''
     return render_template('register.html', message='')
+
+@auth.route('/admin_panel/delete_ingredient_function', methods=['GET', 'POST'])
+def delete_ingredient_function():
+
+    msg = ''
+    if request.method == 'POST' and 'ingredientName' in request.form:
+        ingredient_name = request.form['ingredientName']
+
+        cur = cnx.cursor(dictionary=True)
+
+        try:
+            cur.execute("DELETE FROM Ingredients WHERE Name = %s;", (ingredient_name,))
+            cnx.commit() 
+        except:
+            cnx.rollback()
+            return render_template('admin_panel/delete_ingredient.html', message = "Error. Had to roll back.")
+
+        return render_template('admin_panel/delete_ingredient.html', message = "Deleted {}".format(ingredient_name))
+
+    return render_template('login.html', message=msg)
+
+# ---
 
 @auth.route('/admin_panel/create_allergen')
 def create_allergens_page():
@@ -219,6 +394,30 @@ def create_allergens_page():
     message = ''
     return render_template('register.html', message='')
 
+
+@auth.route('/admin_panel/create_allergen_function', methods=['GET', 'POST'])
+def create_allergen_function():
+
+    msg = ''
+    if request.method == 'POST' and 'allergenName' in request.form:
+        allergen_name = request.form['allergenName']
+
+        cur = cnx.cursor(dictionary=True)
+
+        try:
+            cur.execute("INSERT INTO Allergens (Name) VALUES (%s);", (allergen_name,))
+            cnx.commit()        
+        except:
+            cnx.rollback()
+            return render_template('admin_panel/create_allergen.html', message = "Error. Had to roll back.")
+
+
+        return render_template('/admin_panel/create_allergen.html', message = "Craeted {}".format(allergenName))
+
+    return render_template('login.html', message=msg)
+
+# ---
+
 @auth.route('/admin_panel/delete_allergen')
 def delete_allergens_page():
 
@@ -228,3 +427,98 @@ def delete_allergens_page():
 
     message = ''
     return render_template('register.html', message='')
+
+
+@auth.route('/admin_panel/delete_allergen_function', methods=['GET', 'POST'])
+def delete_allergens_function():
+
+    msg = ''
+    if request.method == 'POST' and 'allergenName' in request.form:
+        allergen_name = request.form['allergenName']
+
+        cur = cnx.cursor(dictionary=True)
+
+        try:
+            cur.execute("DELETE FROM Allergens WHERE Name = %s;", (allergen_name,))
+            cnx.commit() 
+        except:
+            cnx.rollback()
+            return render_template('admin_panel/delete_allergen.html', message = "Error. Had to roll back.")
+
+        return render_template('admin_panel/delete_allergen.html', message = "Deleted {}".format(allergen_name))
+
+    return render_template('login.html', message=msg)
+
+# ---
+
+@auth.route('/admin_panel/list_user',methods = ['POST', 'GET'])
+def list_user_page():
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        try:
+
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("SELECT * FROM Users;")
+            rows = cur.fetchall()
+
+            return render_template("admin_panel/list_users.html",rows = rows)
+        except:
+            return render_template("admin_panel/list_users.html",rows = [])
+    return render_template("register.html", message='Not authorized')
+
+
+
+@auth.route('/admin_panel/list_allergens',methods = ['POST', 'GET'])
+def list_allergens_page():
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        try:
+
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("SELECT * FROM Allergens;")
+            rows = cur.fetchall()
+
+            return render_template("admin_panel/list_allergens.html",rows = rows)
+        except:
+            return render_template("admin_panel/list_allergens.html",rows = [])
+    return render_template("register.html", message='Not authorized')
+
+
+
+
+@auth.route('/admin_panel/list_ingredients',methods = ['POST', 'GET'])
+def list_ingredients_page():
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        try:
+
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("SELECT * FROM Ingredients;")
+            rows = cur.fetchall()
+
+            return render_template("admin_panel/list_ingredients.html",rows = rows)
+        except:
+            return render_template("admin_panel/list_ingredients.html",rows = [])
+    return render_template("register.html", message='Not authorized')
+
+
+
+
+@auth.route('/admin_panel/list_recipes',methods = ['POST', 'GET'])
+def list_recipes_page():
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        try:
+
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("SELECT * FROM Recipes;")
+            rows = cur.fetchall()
+
+            return render_template("admin_panel/list_recipes.html",rows = rows)
+        except:
+            return render_template("admin_panel/list_recipes.html",rows = [])
+    return render_template("register.html", message='Not authorized')

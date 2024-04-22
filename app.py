@@ -17,7 +17,7 @@ app.register_blueprint(recipes)
 app.register_blueprint(ingredients)
 app.register_blueprint(pantry)
 
-#---
+# ---
 
 app.secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page'
 
@@ -42,16 +42,16 @@ cnx = mysql.connector.connect(**config)
 
 # ---
 
+
 @app.route('/')
 def welcome():
 
-	try: 
-		print(session['username'])
-	except:
-		print("no session")
+    try:
+        print(session['username'])
+    except:
+        print("no session")
 
-	return render_template('welcome.html')
-
+    return render_template('welcome.html')
 
 
 # ---
@@ -62,4 +62,4 @@ def guest_page():
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+    app.run(debug=True)

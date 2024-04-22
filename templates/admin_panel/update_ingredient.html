@@ -54,7 +54,10 @@
     <h2>
         Recipe Management Admin Panel
     </h2>
-    <form action="{{ url_for('auth.register') }}" method="post" autocomplete="off">
+    <h3>
+        Update Ingredient
+    </h3>
+    <form action="{{ url_for('auth.update_ingredient_function') }}" method="post" autocomplete="off">
         <label for="ingredientName">Update Which Ingredient:</label>
         <input type="text" id="ingredientName" name="ingredientName" required>
 

@@ -522,3 +522,130 @@ def list_recipes_page():
         except:
             return render_template("admin_panel/list_recipes.html",rows = [])
     return render_template("register.html", message='Not authorized')
+
+
+# ---
+
+@auth.route('/admin_panel/create_recipe')
+def create_recipe_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('recipe.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+
+@auth.route('/admin_panel/create_recipe_function', methods=['GET', 'POST'])
+def create_recipe_function():
+
+    msg = ''
+    if request.method == 'POST' and 'recipeTitle' in request.form:
+        recipeTitle = request.form['recipeTitle']
+        description = request.form['description']
+        cook_time = request.form['cookTime']
+        prep_time = request.form['prepTime']
+        ingredients = request.form['ingredients']
+        instructions = request.form['instructions']
+
+        cur = cnx.cursor(dictionary=True)
+
+        try:
+            cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions VALUES (%s, %s, %s, %s, %s, %s);", (recipeTitle, "Temp", description, prep_time, cook_time, instructions))
+            cnx.commit()        
+        except:
+            # cnx.rollback()
+            # return redirect('/admin_panel/create_recipe')
+            cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES (%s, %s, %s, %s, %s, %s);", (recipeTitle, "Temp", description, prep_time, cook_time, instructions))
+            cnx.commit()  
+
+        return redirect('/admin_panel/list_recipes')
+
+    return render_template('login.html', message=msg)
+
+
+# ---
+
+@auth.route('/admin_panel/update_recipe')
+def update_recipe_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/update_ingredient.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+
+@auth.route('/admin_panel/update_recipe_function', methods=['GET', 'POST'])
+def update_recipe_function():
+
+    msg = ''
+    if request.method == 'POST' and 'ingredientName' in request.form:
+        ingredient_name = request.form['ingredientName']
+        allergy_category = request.form['allergyCategory']
+        restriction_category = request.form['category']
+
+        cur = cnx.cursor(dictionary=True)
+
+        if allergy_category:
+            try:
+                cur.execute("UPDATE Ingredients SET Allergy_Category = %s WHERE Name = %s;", (allergy_category, ingredient_name,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_ingredient.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+        if restriction_category:
+            try:
+                cur.execute("UPDATE Ingredients SET Category = %s WHERE Name = %s;", (restriction_category, ingredient_name,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_ingredient.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+
+
+        return render_template('admin_panel/update_ingredient.html', message = "Updated {}".format(ingredient_name))
+
+    return render_template('login.html', message=msg)
+
+# ---
+
+
+@auth.route('/admin_panel/delete_recipe')
+def delete_recipe_page():
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/delete_ingredient.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+@auth.route('/admin_panel/delete_recipe_function', methods=['GET', 'POST'])
+def delete_recipe_function():
+
+    msg = ''
+    if request.method == 'POST' and 'ingredientName' in request.form:
+        ingredient_name = request.form['ingredientName']
+
+        cur = cnx.cursor(dictionary=True)
+
+        try:
+            cur.execute("DELETE FROM Ingredients WHERE Name = %s;", (ingredient_name,))
+            cnx.commit() 
+        except:
+            cnx.rollback()
+            return render_template('admin_panel/delete_ingredient.html', message = "Error. Had to roll back.")
+
+        return render_template('admin_panel/delete_ingredient.html', message = "Deleted {}".format(ingredient_name))
+
+    return render_template('login.html', message=msg)
+
+# ---

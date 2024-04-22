@@ -8,7 +8,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 90vh;
+            height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
         }
@@ -60,6 +60,12 @@
             width: 50px;
             height: 50px;
         }
+        footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px; /* Adjust the height as needed */
+        }
     </style>
 </head>
 <body>
@@ -68,7 +74,6 @@
             Employees Only
         </h1>
     </div>
-    <p></p>
     <hr style="width:50%">
     <p></p>
     <div class="redirect">
@@ -113,6 +118,22 @@
     <hr style="width:50%">
     <p></p>
     <div>
+        <a href="/admin_panel/create_recipe">
+            <button class="guest-button">Create Recipe</button>
+        </a>
+
+        <a href="/admin_panel/update_recipe">
+            <button class="guest-button">Update Recipe</button>
+        </a>
+
+        <a href="/admin_panel/delete_recipe">
+            <button class="guest-button">Delete Recipe</button>
+        </a>
+    </div>
+    <p></p>
+    <hr style="width:50%">
+    <p></p>
+    <div>
         <a href="/admin_panel/list_user">
             <button class="guest-button">List Users</button>
         </a>
@@ -133,6 +154,10 @@
     <p></p>
     <hr style="width:50%">
     <p></p>
+    <footer>
+      <a href="/home">Back to Home</a>
+      <p>&copy; Group 20 Recipe Management System</p>
+    </footer>
     
 </body>
 </html>

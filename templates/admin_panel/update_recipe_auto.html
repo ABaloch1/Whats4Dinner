@@ -13,7 +13,7 @@
             margin: 0 auto;
             padding-top: 50px;
         }
-        h1 {
+        h1, h4 {
             color: #333;
             text-align: center;
             margin-bottom: 30px;
@@ -85,7 +85,11 @@
 <body>
     <div class="container">
         <h1>Update Recipe</h1>
+        <h4>ID: {{recipe_id}}</h4>
         <form action="{{ url_for('auth.update_recipe_auto_function') }}" method="post">
+
+            <input type="hidden" id="recipeID" name="recipeID" value="{{recipe_id}}">
+
             <label for="recipeTitle">Recipe Title:</label>
             <input type="text" id="recipeTitle" name="recipeTitle" value="{{recipe_title}}" required>
 

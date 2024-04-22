@@ -574,6 +574,22 @@ def create_recipe_function():
 
 
 @auth.route('/admin_panel/update_recipe_auto_page', methods=['GET', 'POST'])
+def update_recipe_auto_page():
+    if request.method == 'POST' and 'recipeTitle' in request.form:
+        recipe_title = request.form['recipeTitle']
+        description = request.form['description']
+        cook_time = request.form['cook']
+        prep_time = request.form['prepTime']
+        instructions = request.form['instructions']
+
+        recipe_id = request.form['recipeID']
+
+        return render_template('/admin_panel/update_recipe_auto.html', recipe_title=recipe_title, desc=description, cook_time=cook_time, prep_time=prep_time, instr=instructions, recipe_id=recipe_id)
+    else:
+        # Return a response indicating that the request was not processed as expected
+        return "Something went wrong", 400
+
+@auth.route('/admin_panel/update_recipe_auto_function', methods=['GET', 'POST'])
 def update_recipe_auto_function():
     if request.method == 'POST' and 'recipeTitle' in request.form:
         recipe_title = request.form['recipeTitle']
@@ -581,10 +597,29 @@ def update_recipe_auto_function():
         cook_time = request.form['cook']
         prep_time = request.form['prepTime']
         instructions = request.form['instructions']
+
+        recipe_id = request.form['recipeID']
+
+        cur = cnx.cursor(dictionary=True)
+
+        if description and cook_time and prep_time and instructions:
+            try:
+                cur.execute("UPDATE Recipes SET Name = %s, Description = %s, Cook_Time = %s, Prep_Time = %s, Instructions = %s WHERE Recipe_ID = %s;", (recipe_title, description, cook_time, prep_time, instructions, recipe_id))
+                cnx.commit()
+                return redirect('/admin_panel/list_recipes')
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_ingredient.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+
         return render_template('/admin_panel/update_recipe_auto.html', recipe_title=recipe_title, desc=description, cook_time=cook_time, prep_time=prep_time, instr=instructions)
     else:
         # Return a response indicating that the request was not processed as expected
         return "Something went wrong", 400
+
+
 
 # ---
 

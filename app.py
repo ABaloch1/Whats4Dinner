@@ -16,6 +16,7 @@ app.register_blueprint(auth)
 app.register_blueprint(recipes)
 app.register_blueprint(ingredients)
 app.register_blueprint(pantry)
+app.register_blueprint(user)
 
 # ---
 

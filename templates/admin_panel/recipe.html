@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>Update Recipe</title>
+    <title>Add New Recipe</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
             margin: 0 auto;
             padding-top: 50px;
         }
-        h1, h4 {
+        h1 {
             color: #333;
             text-align: center;
             margin-bottom: 30px;
@@ -55,6 +55,15 @@
             cursor: pointer;
             font-size: 16px;
         }
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
         .time-container {
             display: flex;
             justify-content: space-between;
@@ -71,56 +80,41 @@
             align-items: center;
             height: 100px; /* Adjust the height as needed */
         }
-        input[type="submit"] {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Update Recipe</h1>
-        <h4>ID: {{recipe_id}}</h4>
-        <form action="{{ url_for('auth.update_recipe_auto_function') }}" method="post">
-
-            <input type="hidden" id="recipeID" name="recipeID" value="{{recipe_id}}">
-
+        <h1>Add New Recipe</h1>
+        <form action="{{ url_for('auth.create_recipe_function') }}" method="post">
             <label for="recipeTitle">Recipe Title:</label>
-            <input type="text" id="recipeTitle" name="recipeTitle" value="{{recipe_title}}" required>
+            <input type="text" id="recipeTitle" name="recipeTitle" required>
 
             <label for="description">Brief Description:</label>
-            <textarea id="description" name="description" rows="4" required>{{desc}}</textarea>
+            <textarea id="description" name="description" rows="4" required></textarea>
 
             <div class="time-container">
                 <label for="cook">Cook Time (in minutes):</label>
-                <input type="number" id="cook" name="cook" value="{{cook_time}}" min="1" required>
+                <input type="number" id="cook" name="cook" min="1" required>
 
                 <label for="prepTime">Prep Time (in minutes):</label>
-                <input type="number" id="prepTime" name="prepTime" value="{{prep_time}}" min="1" required>
+                <input type="number" id="prepTime" name="prepTime" min="1" required>
             </div>
 
             <div class="ingredient-container">
                 <label>Ingredients:</label>
                 <div id="ingredient-fields">
                     <div>
-                        {% for ingr in ingredients %}
-                        <input type="text" name="ingredients[]" value="{{ingr['Ingredient']}}" required>
-                        <input type="text" name="measurements[]" value="{{ingr['Amount']}}" required>
-                        {% endfor %}
+                        <input type="text" name="ingredients[]" placeholder="Ingredient" required>
+                        <input type="text" name="measurements[]" placeholder="Measurement" required>
                     </div>
                 </div>
                 <button type="button" onclick="addIngredientField()">Add Ingredient</button>
             </div>
 
             <label for="instructions">Instructions (use bullet points):</label>
-            <textarea id="instructions" name="instructions" rows="8" required>{{instr}}</textarea>
+            <textarea id="instructions" name="instructions" rows="8" required></textarea>
 
-            <input type="submit" value="Update Recipe">
+            <input type="submit" value="Add Recipe">
         </form>
     </div>
 

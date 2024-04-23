@@ -148,7 +148,8 @@ cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipes TO 'admi
 cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Ingredients TO 'admin'")
 cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Allergens TO 'admin'")
 
-cur.execute("CREATE USER 'owner'@'localhost' IDENTIFIED BY 'owner'")
+cur.execute("CREATE USER 'mrkrabs'@'localhost' IDENTIFIED BY 'mrkrabs'")
+cur.execute("INSERT INTO Users (Username, Password, First_Name, Last_Name) VALUES ('mrkrabs', '35df8167b065b3a7e929a9712fe5164b42282f5edc215fce95baea8ae80fc9df', 'Eugene', 'Krabs'")
 cur.execute("GRANT ALL ON mydatabase.* TO 'owner'@'localhost'")
 cur.execute("GRANT 'admin' TO 'owner'@'localhost' WITH ADMIN OPTION")
 

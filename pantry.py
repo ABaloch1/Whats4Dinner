@@ -22,13 +22,10 @@ def pantry_page():
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
-        name = session['firstName']
-        all_ingredients = ['Flour', 'Sugar', 'Eggs', 'Milk', 'Butter']
-        user_ingredients = ['Flour', 'Eggs']
-        return render_template('test_pantry.html', name=name, all_ingredients=all_ingredients, user_ingredients=user_ingredients)
-
-    message = ''
-    return render_template('register.html', message='Please sign in.')
+        update_pantry()
+    else:
+        message = ''
+        return render_template('register.html', message='Please sign in.')
 
 
 @pantry.route('/update_pantry', methods=['GET', 'POST'])

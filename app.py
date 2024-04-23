@@ -56,9 +56,9 @@ def welcome():
 
 # ---
 
-@app.route('/guest_page')
+@app.route('/show_recipes')
 def guest_page():
-    return render_template('guest.html')
+    return render_template('recipespage.html')
 
 
 if __name__ == '__main__':

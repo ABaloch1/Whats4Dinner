@@ -37,7 +37,7 @@ def recipesinfo_page(recipe_id):
 				#steps = [step.strip() for step in steps if step.strip()]
 
                 # Create a numbered list of steps
-				num_inst = [f"{i+1}. {instruction}" for i, instruction in enumerate(instruction)]
+				num_inst = [f"{instruction}" for i, instruction in enumerate(instruction)]
 
 				recipe["Instructions"] = num_inst
 

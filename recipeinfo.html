@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<head>
+    <title>Recipe Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .recipe-details {
+            margin-bottom: 30px;
+        }
+        .recipe-details h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        .ingredients-list {
+            margin-bottom: 20px;
+        }
+        .ingredient-item {
+            margin-bottom: 5px;
+        }
+        .time-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .steps {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ recipeTitle }}</h1>
+        <div class="recipe-details">
+            <p><strong>Description:</strong> {{ description }}</p>
+            <div class="time-container">
+                <p><strong>Cook Time:</strong> {{ cook_time }} minutes</p>
+                <p><strong>Prep Time:</strong> {{ prep_time }} minutes</p>
+            </div>
+            <div class="ingredients-list">
+                <h2>Ingredients:</h2>
+                <ul>
+                    <!-- {% for ingredient, measurement in ingredients %}
+                    <li class="ingredient-item">{{ ingredient }} - {{ measurement }}</li>
+                    {% endfor %} -->
+                    {% for row in ingredients %}
+                    <li class="ingredient-item">{{ row["Ingredient"] }} - {{ row["Amount"] }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="steps">
+                <h2>Instructions:</h2>
+                <ol>
+                    {% for step in instructions %}
+                    <li>{{ step }}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

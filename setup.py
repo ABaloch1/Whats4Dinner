@@ -158,10 +158,16 @@ print("created roles, owner, and group20")
 cnx.commit()
 
 
+cur.execute("INSERT INTO Allergens(Name) VALUES('eggs');")
+cnx.commit()
 
-cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions),VALUES ('Scrambled Eggs', 'Breakfast', 'Simple and delicious scrambled eggs.', 5, 5, '1. Crack eggs into a bowl. 2. Beat eggs until well mixed. 3. Heat a skillet over medium heat. 4. Pour beaten eggs into the skillet. 5. Cook, stirring occasionally, until eggs are set.');")
+cur.execute("INSERT INTO Ingredients(Name,Allergy_Category,Category) VALUES('egg','eggs','Dairy & Eggs');")
+cnx.commit()
 
-cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (1, 'Eggs', '3')")
+cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Scrambled Eggs', 'Breakfast', 'Simple and delicious scrambled eggs.', 5, 5, 'Crack eggs into a bowl. \n Beat eggs until well mixed. \nHeat a skillet over medium heat. \nPour beaten eggs into the skillet. \nCook, stirring occasionally, until eggs are set.');")
+cnx.commit()
+
+cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (1, 'Egg', '3');")
 cnx.commit()
 # database.commit() unsure if line is needed, i dont think it is
 cur.close()

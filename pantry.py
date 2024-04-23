@@ -61,14 +61,6 @@ def update_pantry():
             if missing_ingredients:
                 missing_ingredients_per_recipe.append((recipe_id, missing_ingredients))
 
-
-    #show the possible_recipes
-    """
-    Final SQL string should look similar to this:
-    SELECT R.Recipe_ID FROM Recipes R INNER JOIN Recipe_Ingredients RI ON R.Recipe_ID=RI.Recipe_ID WHERE RI.Ingredient = 'milk' OR RI.Ingredient = 'egg' OR RI.Ingredient = 'bread';
-    """
-
-
         categories = ['Carbs', 'Fruits', 'Vegetables', 'Grains',
                       'Meat', 'Seafood', 'Dairy & Eggs', 'Complementary', 'Misc']
 

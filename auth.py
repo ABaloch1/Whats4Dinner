@@ -4,14 +4,15 @@ import hashlib
 
 
 secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page'
-
+#global config
 config = {
     'user': 'group20',
     'password': 'group20',
     'host': 'localhost',
     'database': 'mydatabase',
 }
-
+#add when we have time to fix bugs 
+#cnx = mysql.connector.connect(**config) 
 auth = Blueprint('auth', __name__, template_folder='templates')
 
 @auth.route('/home')
@@ -59,7 +60,7 @@ def login():
         if account:
             session['loggedin'] = True
             session['username'] = account['Username']
-
+            session['password'] = password
             # update connection to use user credentials
             cnx = mysql.connector.connect(**config)
             cur = cnx.cursor(dictionary=True)
@@ -109,6 +110,8 @@ def logout():
     session.pop('username', None)
     session.pop('firstName', None)
     session.pop('lastName', None)
+    session.pop('password', None)
+    session.pop('role', None)
     global config
     config = {
         'user': 'group20',
@@ -264,6 +267,7 @@ def update_user_function():
         password = request.form['password']
 
         # added after safe rbac branch
+        global config
         cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
@@ -273,12 +277,37 @@ def update_user_function():
 
             password = hashed_password.hexdigest()
 
-            try:
-                cur.execute("UPDATE Users SET Password = %s WHERE Username = %s;", (password, username,))
-                cnx.commit() 
-            except:
-                cnx.rollback()
-                return render_template('admin_panel/update_user.html', message = "Error. Had to roll back.")
+            #try:
+            #cur.close()
+            #cnx.close()
+            
+            config = {
+                'user': 'root',
+                'password': 'root1',
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("ALTER USER %s@'localhost' IDENTIFIED WITH mysql_native_password BY %s", (username, password))
+            cnx.commit() #might not be necessary
+            cur.close()
+            cnx.close()
+
+            config = {
+                'user': session['username'],
+                'password': session['password'],
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }      
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)      
+            cur.execute("UPDATE Users SET Password = %s WHERE Username = %s;", (password, username,))
+            cnx.commit() 
+            # except:
+            #     cnx.rollback()
+            #     return render_template('admin_panel/update_user.html', message = "Error. Had to roll back.")
         else:
             pass
 

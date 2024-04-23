@@ -31,15 +31,25 @@ def pantry_page():
 @pantry.route('/update_pantry', methods=['GET', 'POST'])
 def update_pantry():
     try:
+
+        config = {
+            'user': session['username'],
+            'password': session['password'],
+            'host': 'localhost',
+            'database': 'mydatabase',
+        }
+        cnx = mysql.connector.connect(**config)
+        cur = cnx.cursor(dictionary=True)
+
         user_ingredients = []
-        cur.execute("SELECT Ingredient FROM User_Pantry WHERE Username = ?", (session[username],))
+        cur.execute("SELECT Ingredient FROM User_Pantry WHERE Username = %s", (session['username'],))
         user_ingredients = cur.fetchall()
         user_ingredients = [ingredient[0] for ingredient in user_ingredients]
 
         params = "RI.Ingredient = '" #string
-        for i in ingredient_list:
-            params += ingredient_list[i] + "'"
-            if i < len(ingredient_list) - 1: #add except for when it's the last ingredient
+        for i in user_ingredients:
+            params += user_ingredients[i] + "'"
+            if i < len(user_ingredients) - 1: #add except for when it's the last ingredient
                 params += "OR RI.Ingredient = "
 
         cur.execute("SELECT R.Recipe_ID FROM Recipes R INNER JOIN Recipe_Ingredients RI ON R.Recipe_ID=RI.Recipe_ID WHERE %s", (params,))
@@ -48,7 +58,7 @@ def update_pantry():
         
         for recipe_id in possible_recipes:
             recipe_ingredients = []
-            cur.execute("SELECT Ingredient FROM Recipe_Ingredients WHERE Recipe_ID = ?", (recipe_ID,))
+            cur.execute("SELECT Ingredient FROM Recipe_Ingredients WHERE Recipe_ID = %s", (recipe_ID,))
             recipe_ingredients = cur.fetchall()
             recipe_ingredients = [ingredient[0] for ingredient in recipe_ingredients]
             missing_ingredients = []
@@ -77,20 +87,21 @@ def update_pantry():
             # Add selected ingredients to user's pantry
             for ingredient in selected_ingredients:
                 cur.execute(
-                    "INSERT INTO Pantry (Username, Ingredient_Name) VALUES (%s, %s)", (username, ingredient))
+                    "INSERT INTO User_Pantry (Username, Ingredient_Name) VALUES (%s, %s)", (username, ingredient))
                 cnx.commit()
 
             # Remove ingredients not selected
             for ingredient in user_ingredients:
                 if ingr[1] not in selected_ingredients:
                     cur.execute(
-                        "DELETE FROM Pantry WHERE Username = %s AND Ingredient_Name = %s", (username, ingr[1]))
+                        "DELETE FROM User_Pantry WHERE Username = %s AND Ingredient_Name = %s", (username, ingr[1]))
                     cnx.commit()
 
         # Render the template with categorized ingredients and user's ingredients
-        return render_template('pantrypage.html', categorized_ingrs=categorized_ingrs, user_ingredients=user_ingredients, possible_recipes=possible_recipes, missing_ingredients_per_recipe=missing_ingredients_per_recipe)
+        return render_template('pantrypage.html', name=session['firstName'], categorized_ingrs=categorized_ingredients, user_ingredients=user_ingredients, possible_recipes=possible_recipes, missing_ingredients_per_recipe=missing_ingredients_per_recipe)
 
     except Exception as e:
         cnx.rollback()
-        print(f"Error: {e}")
-        return redirect('/pantry')
+        # print(f"Error: {e}")
+        # return redirect('/pantry')
+        return f"Error: {e}"

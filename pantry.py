@@ -34,22 +34,22 @@ def pantry_page():
 @pantry.route('/update_pantry', methods=['GET', 'POST'])
 def update_pantry():
     try:
-    	user_ingredients = []
-    	cur.execute("SELECT Ingredient FROM User_Pantry WHERE Username = ?", (session[username],))
-    	user_ingredients = cur.fetchall()
-    	user_ingredients = [ingredient[0] for ingredient in user_ingredients]
-    	
-    	params = "RI.Ingredient = '" #string
-    	for i in ingredient_list:
-    	    params += ingredient_list[i] + "'"
-	    if i < len(ingredient_list) - 1: #add except for when it's the last ingredient
+        user_ingredients = []
+        cur.execute("SELECT Ingredient FROM User_Pantry WHERE Username = ?", (session[username],))
+        user_ingredients = cur.fetchall()
+        user_ingredients = [ingredient[0] for ingredient in user_ingredients]
+
+        params = "RI.Ingredient = '" #string
+        for i in ingredient_list:
+            params += ingredient_list[i] + "'"
+            if i < len(ingredient_list) - 1: #add except for when it's the last ingredient
                 params += "OR RI.Ingredient = "
 
-	cur.execute("SELECT R.Recipe_ID FROM Recipes R INNER JOIN Recipe_Ingredients RI ON R.Recipe_ID=RI.Recipe_ID WHERE %s", (params) #idk if we need recipe_id
-	possible_recipes = cur.fetchall()
-	missing_ingredients_per_recipe = []
-	
-        for recipe_id in possible_recipes:
+    cur.execute("SELECT R.Recipe_ID FROM Recipes R INNER JOIN Recipe_Ingredients RI ON R.Recipe_ID=RI.Recipe_ID WHERE %s", (params) #idk if we need recipe_id    
+    possible_recipes = cur.fetchall()    
+    missing_ingredients_per_recipe = []
+    
+            for recipe_id in possible_recipes:
             recipe_ingredients = []
             cur.execute("SELECT Ingredient FROM Recipe_Ingredients WHERE Recipe_ID = ?", (recipe_ID,))
             recipe_ingredients = cur.fetchall()
@@ -60,13 +60,13 @@ def update_pantry():
                     missing_ingredients.append(ingredient)
             if missing_ingredients:
                 missing_ingredients_per_recipe.append((recipe_id, missing_ingredients))
-		
 
-	#show the possible_recipes
-	"""
-	Final SQL string should look similar to this:
-	SELECT R.Recipe_ID FROM Recipes R INNER JOIN Recipe_Ingredients RI ON R.Recipe_ID=RI.Recipe_ID WHERE RI.Ingredient = 'milk' OR RI.Ingredient = 'egg' OR RI.Ingredient = 'bread';
-	"""
+
+    #show the possible_recipes
+    """
+    Final SQL string should look similar to this:
+    SELECT R.Recipe_ID FROM Recipes R INNER JOIN Recipe_Ingredients RI ON R.Recipe_ID=RI.Recipe_ID WHERE RI.Ingredient = 'milk' OR RI.Ingredient = 'egg' OR RI.Ingredient = 'bread';
+    """
 
 
         categories = ['Carbs', 'Fruits', 'Vegetables', 'Grains',

@@ -156,6 +156,13 @@ cur.execute("GRANT 'admin' TO 'mrkrabs'@'localhost' WITH ADMIN OPTION")
 cur.execute("FLUSH PRIVILEGES")
 print("created roles, owner, and group20")
 cnx.commit()
+
+
+
+cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions),VALUES ('Scrambled Eggs', 'Breakfast', 'Simple and delicious scrambled eggs.', 5, 5, '1. Crack eggs into a bowl. 2. Beat eggs until well mixed. 3. Heat a skillet over medium heat. 4. Pour beaten eggs into the skillet. 5. Cook, stirring occasionally, until eggs are set.');")
+
+cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (1, 'Eggs', '3')")
+cnx.commit()
 # database.commit() unsure if line is needed, i dont think it is
 cur.close()
 cnx.close()

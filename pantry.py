@@ -32,7 +32,7 @@ def pantry_page():
 def update_pantry():
     try:
         user_ingredients = []
-        cur.execute("SELECT Ingredient FROM User_Pantry WHERE Username = ?", (session[username],))
+        cur.execute("SELECT Ingredient FROM User_Pantry WHERE Username = %s", (session['username'],))
         user_ingredients = cur.fetchall()
         user_ingredients = [ingredient[0] for ingredient in user_ingredients]
 
@@ -48,7 +48,7 @@ def update_pantry():
         
         for recipe_id in possible_recipes:
             recipe_ingredients = []
-            cur.execute("SELECT Ingredient FROM Recipe_Ingredients WHERE Recipe_ID = ?", (recipe_ID,))
+            cur.execute("SELECT Ingredient FROM Recipe_Ingredients WHERE Recipe_ID = %s", (recipe_ID,))
             recipe_ingredients = cur.fetchall()
             recipe_ingredients = [ingredient[0] for ingredient in recipe_ingredients]
             missing_ingredients = []
@@ -77,14 +77,14 @@ def update_pantry():
             # Add selected ingredients to user's pantry
             for ingredient in selected_ingredients:
                 cur.execute(
-                    "INSERT INTO Pantry (Username, Ingredient_Name) VALUES (%s, %s)", (username, ingredient))
+                    "INSERT INTO User_Pantry (Username, Ingredient_Name) VALUES (%s, %s)", (username, ingredient))
                 cnx.commit()
 
             # Remove ingredients not selected
             for ingredient in user_ingredients:
                 if ingr[1] not in selected_ingredients:
                     cur.execute(
-                        "DELETE FROM Pantry WHERE Username = %s AND Ingredient_Name = %s", (username, ingr[1]))
+                        "DELETE FROM User_Pantryx WHERE Username = %s AND Ingredient_Name = %s", (username, ingr[1]))
                     cnx.commit()
 
         # Render the template with categorized ingredients and user's ingredients
@@ -92,5 +92,6 @@ def update_pantry():
 
     except Exception as e:
         cnx.rollback()
-        print(f"Error: {e}")
-        return redirect('/pantry')
+        # print(f"Error: {e}")
+        # return redirect('/pantry')
+        return f"Error: {e}"

@@ -158,7 +158,7 @@ print("created roles, owner, and group20")
 cnx.commit()
 
 
-cur.execute("INSERT INTO Allergens(Name) VALUES('eggs'), ('shellfish'), ('peanuts'), ('sesame'), ('soy'), ('fish'), ('treenuts'), ('dairy'), ('gluten');")
+cur.execute("INSERT INTO Allergens(Name) VALUES('eggs'), ('shellfish'), ('peanuts'), ('sesame'), ('soy'), ('fish'), ('treenuts'), ('dairy'), ('gluten'), ('none');")
 cnx.commit()
 
 cur.execute("INSERT INTO Ingredients(Name,Allergy_Category,Category) VALUES('egg','eggs','Dairy & Eggs'), ('milk', 'dairy', 'Dairy & Eggs'), ('rice', NULL, 'Grains'), \

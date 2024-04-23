@@ -87,9 +87,13 @@ def login():
             cur.close()
             cnx.close()
 
+            # this is probably not safe, but adding for pantry functionality
+            # maybe should change
+            session['password'] = password
+
             config = {
                 'user': session['username'],
-                'password': password,
+                'password': session['password'],
                 'host': 'localhost',
                 'database': 'mydatabase',
             }

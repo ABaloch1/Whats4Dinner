@@ -38,7 +38,7 @@ cur.execute( '''
 cur.execute( '''
 	CREATE TABLE Allergens (
 		Name varchar(50) NOT NULL,
-		PRIMARY KEY(Name)
+		Primary KEY(Name)
 	)
 ''')
 
@@ -49,7 +49,7 @@ cur.execute('''
 		Allergy_Category varchar(50) NULL,
 		Category varchar(50) NOT NULL,
 		CONSTRAINT fk_all FOREIGN KEY (Allergy_Category) REFERENCES Allergens(Name) ON DELETE CASCADE,
-		CONSTRAINT PK_Ingredients PRIMARY KEY (Name, Allergy_Category, Category)
+		CONSTRAINT UK_Ingredients UNIQUE KEY (Name, Allergy_Category, Category)
 		)
 ''')
 
@@ -71,7 +71,7 @@ cur.execute( '''
 		Allergy_Category varchar(50) NOT NULL,
 		CONSTRAINT fk_user FOREIGN KEY (Username) REFERENCES Users(Username) ON DELETE CASCADE,
 		CONSTRAINT fk_aller FOREIGN KEY (Allergy_Category) REFERENCES Allergens(Name) ON DELETE CASCADE,
-		CONSTRAINT PK_UserAllergy PRIMARY KEY (Username, Allergy_Category)
+		CONSTRAINT UK_UserAllergy UNIQUE KEY (Username, Allergy_Category)
 	)
 ''')
 
@@ -108,7 +108,7 @@ cur.execute( '''
 		Allergy_Category varchar(50) NOT NULL,
 		CONSTRAINT fk_RID FOREIGN KEY (Recipe_ID) REFERENCES Recipes(Recipe_ID) ON DELETE CASCADE,
 		CONSTRAINT fk_allergy FOREIGN KEY (Allergy_Category) REFERENCES Allergens(Name) ON DELETE CASCADE,
-		CONSTRAINT PK_RecipeAllergy PRIMARY KEY (Recipe_ID, Allergy_Category)
+		CONSTRAINT UK_RecipeAllergy UNIQUE KEY (Recipe_ID, Allergy_Category)
 	)
 ''')
 
@@ -148,10 +148,10 @@ cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipes TO 'admi
 cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Ingredients TO 'admin'")
 cur.execute("GRANT SELECT, UPDATE, INSERT, DELETE ON mydatabase.Recipe_Allergens TO 'admin'")
 
-cur.execute("CREATE USER 'mrkrabs'@'localhost' IDENTIFIED BY 'mrkrabs'")
-cur.execute("INSERT INTO Users (Username, Password, First_Name, Last_Name) VALUES ('mrkrabs', '35df8167b065b3a7e929a9712fe5164b42282f5edc215fce95baea8ae80fc9df', 'Eugene', 'Krabs'")
-cur.execute("GRANT ALL ON mydatabase.* TO 'owner'@'localhost'")
-cur.execute("GRANT 'admin' TO 'owner'@'localhost' WITH ADMIN OPTION")
+cur.execute("CREATE USER 'mrkrabs'@'localhost' IDENTIFIED BY '35df8167b065b3a7e929a9712fe5164b42282f5edc215fce95baea8ae80fc9df'")
+cur.execute("INSERT INTO Users (Username, Password, First_Name, Last_Name) VALUES ('mrkrabs', '35df8167b065b3a7e929a9712fe5164b42282f5edc215fce95baea8ae80fc9df', 'Eugene', 'Krabs')")
+cur.execute("GRANT ALL ON mydatabase.* TO 'mrkrabs'@'localhost'")
+cur.execute("GRANT 'admin' TO 'mrkrabs'@'localhost' WITH ADMIN OPTION")
 
 cur.execute("FLUSH PRIVILEGES")
 print("created roles, owner, and group20")

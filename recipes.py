@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session, Blueprint
-from flask_mysqldb import MySQL
+#from flask_mysqldb import MySQL
 import mysql.connector
 
 
@@ -41,7 +41,7 @@ def create_recipe():
 		except:
 			cnx.rollback()
 			return render_template('newRecipe.html')
-	return render_template("recipe.html")
+	return render_template("recipes.html")
    	
 @recipes.route('/list_recipes')
 def list_recipes():
@@ -70,8 +70,8 @@ def add_ingredient_recipe():
 					cnx.commit()
 		except:
 			cnx.rollback()
-			return render_template('recipe.html')
-	return render_template("recipe.html")
+			return render_template('recipes.html')
+	return render_template("recipes.html")
     
 @recipes.route('/delete_recipe/<int:recipe_id>', methods=['POST'])
 def delete_recipe(recipe_id):

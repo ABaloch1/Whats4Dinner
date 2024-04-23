@@ -45,9 +45,9 @@ def update_pantry():
             if i < len(ingredient_list) - 1: #add except for when it's the last ingredient
                 params += "OR RI.Ingredient = "
 
-    cur.execute("SELECT R.Recipe_ID FROM Recipes R INNER JOIN Recipe_Ingredients RI ON R.Recipe_ID=RI.Recipe_ID WHERE %s", (params,))
-    possible_recipes = cur.fetchall()    
-    missing_ingredients_per_recipe = []
+        cur.execute("SELECT R.Recipe_ID FROM Recipes R INNER JOIN Recipe_Ingredients RI ON R.Recipe_ID=RI.Recipe_ID WHERE %s", (params,))
+        possible_recipes = cur.fetchall()    
+        missing_ingredients_per_recipe = []
     
             for recipe_id in possible_recipes:
             recipe_ingredients = []

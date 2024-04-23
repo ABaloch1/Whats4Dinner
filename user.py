@@ -20,15 +20,23 @@ user = Blueprint('user', __name__, template_folder='templates')
 def user_profile():
     try:
         if request.method == 'GET':
-            username = session.get('username')
+            username = session.get('Username')
             cur.execute("SELECT * FROM Users WHERE Username = ?", (session[username],))
             user_data = cur.fetchone()
+            if user_data:
+                #return render_template('userinfo.html', First_Name=user_data[2], Last_name=user_data[3], Password=user_data[1], Username=user_data[0])
+                #return render_template('userinfo.html', user_data=user_data)
 
-            return render_template('userinfo.html', First_Name=user_data['First_Name'], Last_name = user_data['Last_name'], Password = user_data['Password'], Username = user_data['Username'] )
+                return render_template('userinfo.html', First_Name=user_data['First_Name'], Last_name = user_data['Last_name'], Password = user_data['Password'], Username = user_data['Username'] )
+
+            else:
+                return "Not found"
+
+                #return render_template('userinfo.html', First_Name=user_data['First_Name'], Last_name = user_data['Last_name'], Password = user_data['Password'], Username = user_data['Username'] )
         elif request.method == 'POST':
-            first_name = request.form['first_name'],
-            last_name = request.form['last_name']
-            password = request.form['password']
+            first_name = request.form['First_Name']
+            last_name = request.form['Last_Name']
+            password = request.form['Password']
             if password:
                 hashed_password = password + secret_key
                 hashed_password = hashlib.sha256(hashed_password.encode())
@@ -36,7 +44,8 @@ def user_profile():
 
             cur.execute("UPDATE Users SET First_Name = %s, Last_Name = %s, password = %s",(first_name, last_name, password))
             cnx.commit()
+            return redirect(url_for('user.user_profile'))
     except:
         cnx.rollback()
         return render_template('userinfo.html')
-    return redirect(url_for('user_profile'))
+    return redirect(url_for('user.user_profile'))

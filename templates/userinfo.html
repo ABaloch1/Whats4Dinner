@@ -49,18 +49,19 @@
 <body>
     <div class="container">
         <h1>User Profile</h1>
-        <form action="/user_profile" method="POST">
+        <form action="{{ url_for('user.user_profile') }}" method="post">
             <label for="first_name">First Name:</label>
             <input type="text" id="first_name" name="first_name" value="{{ First_Name }}" >
 
             <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" value="{{ Last_Name }}">
+            <input type="text" id="last_name" name="last_name" value="{{ Last_name }}">
 
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="{{ username }}" readonly>
+            <input type="text" id="username" name="username" value="{{ Username }}" readonly>
 
             <label for="password">New Password:</label>
-            <input type="password" id="password" name="password" placeholder="Leave blank to keep current password" value="{{ Password }}">
+            <input type="password" id="password" name="password" placeholder="Leave blank to keep current password" 
+                    value="{{ Password }}">
 
             <button type="submit">Update Profile</button>
         </form>

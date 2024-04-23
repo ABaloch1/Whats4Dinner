@@ -180,7 +180,7 @@ cur.execute("INSERT INTO Ingredients(Name,Allergy_Category,Category) VALUES('egg
 																			('walnuts', 'treenuts', 'Complementary'), ('hazelnuts', 'treenuts', 'Complementary'), ('edamame', 'soy', 'Complementary'), \
 																			('tofu', 'soy', 'Complementary'), ('tempeh', 'soy', 'Complementary'), ('sunflower seeds', NULL, 'Complementary'), \
 																			('honey', NULL, 'Misc'), ('maple syrup', NULL, 'Misc'), ('balsamic vinegar', NULL, 'Misc'), \
-																			('cinnamon', NULL, 'Misc'), ('cumin', NULL, 'Misc');")
+																			('cinnamon', NULL, 'Misc'), ('cumin', NULL, 'Misc'), ('cucumber', NULL, 'Vegetables'), ('lemon', NULL, 'Fruits');")
 cnx.commit()
 
 cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Scrambled Eggs', 'Breakfast', 'Simple and delicious scrambled eggs.', 5, 5, 'Crack eggs into a bowl. \n Beat eggs until well mixed. \nHeat a skillet over medium heat. \nPour beaten eggs into the skillet. \nCook, stirring occasionally, until eggs are set.');")
@@ -188,6 +188,21 @@ cnx.commit()
 
 cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (1, 'Egg', '3');")
 cnx.commit()
+
+
+cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Vegetable Stir Fry', 'Dinner', 'An easy at home veggie stir fry.', 15, 10, 'Heat a skillet over medium heat. \n Add olive oil, then add bell pepper, onion, and garlic. Sauté until vegetables are softened. \nAdd sweet potato and stir-fry until tender. \nAdd rice and stir-fry until rice is cooked through. \nStir in soy sauce, sesame oil, and olive oil. \nSeason with salt and pepper to taste.');")
+cnx.commit()
+
+cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (2, 'olive oil', '1'), (2, 'bell pepper', '2'), (2, 'onion', '1'), (2, 'garlic', '3'), (2, 'sweet potato', '1'), (2, 'rice', '2'), (2, 'soy sauce', '1');")
+cnx.commit()
+
+
+cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Chicken Salad', 'Lunch', 'A simple healthy salad with protein.', 5, 1, 'Cook chicken until cooked. \n Cool and shred chicken. \nIn a large bowl, mix shredded chicken with lettuce, tomato, and cucumber. \nDrizzle with olive oil and lemon juice. \nSeason with salt to taste.');")
+cnx.commit()
+
+cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (3, 'chicken', '1'), (3, 'lettuce', '1'), (3, 'tomato', '1'), (3, 'cucumber', '2'), (3, 'olive oil', '1'), (3, 'lemon', '1');")
+cnx.commit()
+
 # database.commit() unsure if line is needed, i dont think it is
 cur.close()
 cnx.close()

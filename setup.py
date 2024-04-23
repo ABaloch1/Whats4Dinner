@@ -158,10 +158,29 @@ print("created roles, owner, and group20")
 cnx.commit()
 
 
-cur.execute("INSERT INTO Allergens(Name) VALUES('eggs');")
+cur.execute("INSERT INTO Allergens(Name) VALUES('eggs'), ('shellfish'), ('peanuts'), ('sesame'), ('soy'), ('fish'), ('treenuts'), ('dairy'), ('gluten');")
 cnx.commit()
 
-cur.execute("INSERT INTO Ingredients(Name,Allergy_Category,Category) VALUES('egg','eggs','Dairy & Eggs');")
+cur.execute("INSERT INTO Ingredients(Name,Allergy_Category,Category) VALUES('egg','eggs','Dairy & Eggs'), ('milk', 'dairy', 'Dairy & Eggs'), ('rice', NULL, 'Grains'), \
+																			('bread', 'gluten', 'Carbs'),  ('potato', NULL, 'Vegetables'), ('tomato', NULL, 'Vegetables'), \
+																			('lettuce', NULL, 'Vegetables'), ('banana', NULL, 'Fruits'), ('apple', NULL, 'Fruits'), \
+																			('chicken', NULL, 'Meat'), ('beef', NULL, 'Meat'), ('salmon', 'fish', 'Seafood'), \
+																			('shrimp', 'shellfish', 'Seafood'), \
+																			('cheese', 'dairy', 'Dairy & Eggs'), ('almonds', 'treenuts', 'Complementary'), ('soy sauce', 'soy', 'Complementary'), \
+																			('peanut butter', 'peanuts', 'Complementary'), ('sesame oil', 'sesame', 'Complementary'), ('olive oil', NULL, 'Complementary'), \
+																			('sugar', NULL, 'Misc'), ('salt', NULL, 'Misc'), ('spaghetti', 'gluten', 'Carbs'), \
+																			('quinoa', NULL, 'Grains'), ('couscous', NULL, 'Grains'), ('brown rice', NULL, 'Grains'), \
+																			('white rice', NULL, 'Grains'), ('sweet potato', NULL, 'Vegetables'), ('onion', NULL, 'Vegetables'), \
+																			('garlic', NULL, 'Vegetables'), ('bell pepper', NULL, 'Vegetables'), ('strawberries', NULL, 'Fruits'), \
+																			('blueberries', NULL, 'Fruits'), ('peaches', NULL, 'Fruits'), ('kiwi', NULL, 'Fruits'), \
+																			('pork', NULL, 'Meat'), ('turkey', NULL, 'Meat'), ('bacon', NULL, 'Meat'), \
+																			('lobster', 'shellfish', 'Seafood'), ('crab', 'shellfish', 'Seafood'), ('clams', 'shellfish', 'Seafood'), \
+																			('oysters', 'shellfish', 'Seafood'), ('butter', 'dairy', 'Dairy & Eggs'), ('yogurt', 'dairy', 'Dairy & Eggs'), \
+																			('cream', 'dairy', 'Dairy & Eggs'), ('eggnog', 'dairy', 'Dairy & Eggs'), ('cashews', 'treenuts', 'Complementary'), \
+																			('walnuts', 'treenuts', 'Complementary'), ('hazelnuts', 'treenuts', 'Complementary'), ('edamame', 'soy', 'Complementary'), \
+																			('tofu', 'soy', 'Complementary'), ('tempeh', 'soy', 'Complementary'), ('sunflower seeds', NULL, 'Complementary'), \
+																			('honey', NULL, 'Misc'), ('maple syrup', NULL, 'Misc'), ('balsamic vinegar', NULL, 'Misc'), \
+																			('cinnamon', NULL, 'Misc'), ('cumin', NULL, 'Misc');")
 cnx.commit()
 
 cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Scrambled Eggs', 'Breakfast', 'Simple and delicious scrambled eggs.', 5, 5, 'Crack eggs into a bowl. \n Beat eggs until well mixed. \nHeat a skillet over medium heat. \nPour beaten eggs into the skillet. \nCook, stirring occasionally, until eggs are set.');")

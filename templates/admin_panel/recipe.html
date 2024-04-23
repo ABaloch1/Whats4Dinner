@@ -104,7 +104,13 @@
                 <label>Ingredients:</label>
                 <div id="ingredient-fields">
                     <div>
-                        <input type="text" name="ingredients[]" placeholder="Ingredient" required>
+                        <!-- <input type="text" name="ingredients[]" placeholder="Ingredient" required> -->
+                        <label for="dropdown">Select an option:</label>
+                        <select id="dropdown" name="ingredients[]" placeholder="Ingredient">
+                            {% for item in ingredients %}
+                                <option>{{ item['Name'] }}</option>
+                            {% endfor %}
+                        </select>
                         <input type="text" name="measurements[]" placeholder="Measurement" required>
                     </div>
                 </div>
@@ -123,7 +129,12 @@
             const ingredientFields = document.getElementById('ingredient-fields');
             const div = document.createElement('div');
             div.innerHTML = `
-                <input type="text" name="ingredients[]" placeholder="Ingredient" required>
+                <label for="dropdown">Select an option:</label>
+                <select id="dropdown" name="ingredients[]">
+                    {% for item in ingredients %}
+                        <option>{{ item['Name'] }}</option>
+                    {% endfor %}
+                </select>                
                 <input type="text" name="measurements[]" placeholder="Measurement" required>
             `;
             ingredientFields.appendChild(div);

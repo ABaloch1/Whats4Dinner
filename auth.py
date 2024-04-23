@@ -83,9 +83,10 @@ def login():
             cur.execute("SELECT FROM_USER FROM mysql.role_edges WHERE TO_USER = %s", (session['username'],))
             role = cur.fetchone()
             session['role'] = role['FROM_USER']
-            #print(session['role'])
+            print(session['role'])
             cur.close()
             cnx.close()
+
             config = {
                 'user': session['username'],
                 'password': password,
@@ -108,7 +109,7 @@ def logout():
     session.pop('username', None)
     session.pop('firstName', None)
     session.pop('lastName', None)
-    
+    global config
     config = {
         'user': 'group20',
         'password': 'group20',
@@ -180,7 +181,7 @@ def register():
 
             cur.close()
             cnx.close()
-            
+
             config = {
                 'user': 'group20',
                 'password': 'group20',
@@ -225,7 +226,9 @@ def register_page():
 @auth.route('/admin_panel/')
 def admin_panel_page():
 
-    # If the user is already logged in, redirect
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     if 'loggedin' in session:
         return render_template('admin_panel/adminpanel.html')
 
@@ -237,6 +240,9 @@ def admin_panel_page():
 @auth.route('/admin_panel/update_user')
 def update_user_page():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     # If the user is already logged in, redirect
     if 'loggedin' in session:
         return render_template('admin_panel/update_user.html')
@@ -247,12 +253,17 @@ def update_user_page():
 @auth.route('/admin_panel/update_user_function', methods=['GET', 'POST'])
 def update_user_function():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     msg = ''
     if request.method == 'POST' and 'username' in request.form:
         username = request.form['username']
         first_name = request.form['firstName']
         last_name = request.form['lastName']
         password = request.form['password']
+
+        # added after safe rbac branch
         cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
@@ -302,6 +313,9 @@ def update_user_function():
 @auth.route('/admin_panel/delete_user')
 def delete_user_page():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     # If the user is already logged in, redirect
     if 'loggedin' in session:
         return render_template('admin_panel/delete_user.html')
@@ -313,10 +327,15 @@ def delete_user_page():
 @auth.route('/admin_panel/delete_user_function', methods=['GET', 'POST'])
 def delete_user_function():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     msg = ''
     if request.method == 'POST' and 'username' in request.form:
         username = request.form['username']
 
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
         try:
@@ -336,6 +355,9 @@ def delete_user_function():
 @auth.route('/admin_panel/create_ingredient')
 def create_ingredient_page():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     # If the user is already logged in, redirect
     if 'loggedin' in session:
         return render_template('admin_panel/create_ingredient.html')
@@ -347,20 +369,25 @@ def create_ingredient_page():
 @auth.route('/admin_panel/create_ingredient_function', methods=['GET', 'POST'])
 def create_ingredient_function():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     msg = ''
     if request.method == 'POST' and 'ingredientName' in request.form:
         ingredient_name = request.form['ingredientName']
         allergy_category = request.form['allergyCategory']
         restriction_category = request.form['category']
 
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
-        try:
-            cur.execute("INSERT INTO Ingredients (Name, Allergy_Category, Category) VALUES (%s, %s, %s);", (ingredient_name, allergy_category, restriction_category))
-            cnx.commit()        
-        except:
-            cnx.rollback()
-            return render_template('admin_panel/create_ingredient.html', message = "Duplicate entry.")
+        # try:
+        cur.execute("INSERT INTO Ingredients (Name, Allergy_Category, Category) VALUES (%s, %s, %s);", (ingredient_name, allergy_category, restriction_category))
+        cnx.commit()        
+        # except:
+        #     cnx.rollback()
+        #     return render_template('admin_panel/create_ingredient.html', message = "Duplicate entry.")
 
         return render_template('/admin_panel/create_ingredient.html', message = "Added {}".format(ingredient_name))
 
@@ -371,6 +398,9 @@ def create_ingredient_function():
 
 @auth.route('/admin_panel/update_ingredient')
 def update_ingredient_page():
+
+    if session['role'] != 'admin':
+        return render_template('home.html')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -383,12 +413,17 @@ def update_ingredient_page():
 @auth.route('/admin_panel/update_ingredient_function', methods=['GET', 'POST'])
 def update_ingredient_function():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     msg = ''
     if request.method == 'POST' and 'ingredientName' in request.form:
         ingredient_name = request.form['ingredientName']
         allergy_category = request.form['allergyCategory']
         restriction_category = request.form['category']
 
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
         if allergy_category:
@@ -423,6 +458,9 @@ def update_ingredient_function():
 @auth.route('/admin_panel/delete_ingredients')
 def delete_ingredients_page():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     # If the user is already logged in, redirect
     if 'loggedin' in session:
         return render_template('admin_panel/delete_ingredient.html')
@@ -433,10 +471,15 @@ def delete_ingredients_page():
 @auth.route('/admin_panel/delete_ingredient_function', methods=['GET', 'POST'])
 def delete_ingredient_function():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     msg = ''
     if request.method == 'POST' and 'ingredientName' in request.form:
         ingredient_name = request.form['ingredientName']
 
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
         try:
@@ -455,6 +498,9 @@ def delete_ingredient_function():
 @auth.route('/admin_panel/create_allergen')
 def create_allergens_page():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     # If the user is already logged in, redirect
     if 'loggedin' in session:
         return render_template('admin_panel/create_allergen.html')
@@ -466,10 +512,15 @@ def create_allergens_page():
 @auth.route('/admin_panel/create_allergen_function', methods=['GET', 'POST'])
 def create_allergen_function():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     msg = ''
     if request.method == 'POST' and 'allergenName' in request.form:
         allergen_name = request.form['allergenName']
 
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
         try:
@@ -477,10 +528,10 @@ def create_allergen_function():
             cnx.commit()        
         except:
             cnx.rollback()
-            return render_template('admin_panel/create_allergen.html', message = "Error. Had to roll back.")
+            return render_template('admin_panel/create_allergen.html', message = "Duplicate entry.")
 
 
-        return render_template('/admin_panel/create_allergen.html', message = "Craeted {}".format(allergenName))
+        return render_template('/admin_panel/create_allergen.html', message = "Created {}".format(allergen_name))
 
     return render_template('login.html', message=msg)
 
@@ -488,6 +539,9 @@ def create_allergen_function():
 
 @auth.route('/admin_panel/delete_allergen')
 def delete_allergens_page():
+
+    if session['role'] != 'admin':
+        return render_template('home.html')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -500,10 +554,15 @@ def delete_allergens_page():
 @auth.route('/admin_panel/delete_allergen_function', methods=['GET', 'POST'])
 def delete_allergens_function():
 
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     msg = ''
     if request.method == 'POST' and 'allergenName' in request.form:
         allergen_name = request.form['allergenName']
 
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
         try:
@@ -521,10 +580,15 @@ def delete_allergens_function():
 
 @auth.route('/admin_panel/list_user',methods = ['POST', 'GET'])
 def list_user_page():
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     # If the user is already logged in, redirect
     if 'loggedin' in session:
         try:
 
+            # added after safe rbac branch
+            cnx = mysql.connector.connect(**config)
             cur = cnx.cursor(dictionary=True)
 
             cur.execute("SELECT * FROM Users;")
@@ -539,10 +603,15 @@ def list_user_page():
 
 @auth.route('/admin_panel/list_allergens',methods = ['POST', 'GET'])
 def list_allergens_page():
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     # If the user is already logged in, redirect
     if 'loggedin' in session:
         try:
 
+            # added after safe rbac branch
+            cnx = mysql.connector.connect(**config)
             cur = cnx.cursor(dictionary=True)
 
             cur.execute("SELECT * FROM Allergens;")
@@ -558,18 +627,23 @@ def list_allergens_page():
 
 @auth.route('/admin_panel/list_ingredients',methods = ['POST', 'GET'])
 def list_ingredients_page():
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     # If the user is already logged in, redirect
     if 'loggedin' in session:
-        try:
+        # try:
 
-            cur = cnx.cursor(dictionary=True)
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
+        cur = cnx.cursor(dictionary=True)
 
-            cur.execute("SELECT * FROM Ingredients;")
-            rows = cur.fetchall()
+        cur.execute("SELECT * FROM Ingredients;")
+        rows = cur.fetchall()
 
-            return render_template("admin_panel/list_ingredients.html",rows = rows)
-        except:
-            return render_template("admin_panel/list_ingredients.html",rows = [])
+        return render_template("admin_panel/list_ingredients.html",rows = rows)
+        # except:
+        #     return render_template("admin_panel/list_ingredients.html",rows = [])
     return render_template("register.html", message='Not authorized')
 
 
@@ -577,24 +651,30 @@ def list_ingredients_page():
 
 @auth.route('/admin_panel/list_recipes',methods = ['POST', 'GET'])
 def list_recipes_page():
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     # If the user is already logged in, redirect
     if 'loggedin' in session:
-        try:
-            cur = cnx.cursor(dictionary=True)
+        # try:
 
-            cur.execute("SELECT * FROM Recipes;")
-            rows = cur.fetchall()
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
+        cur = cnx.cursor(dictionary=True)
 
-            ingredients = []
-            for row in rows:
-                cur.execute("SELECT * FROM Recipe_Ingredients WHERE Recipe_ID = %s;", (row["Recipe_ID"],))
-                vals = cur.fetchall()
-                ingredients.append(vals)
+        cur.execute("SELECT * FROM Recipes;")
+        rows = cur.fetchall()
+
+        ingredients = []
+        for row in rows:
+            cur.execute("SELECT * FROM Recipe_Ingredients WHERE Recipe_ID = %s;", (row["Recipe_ID"],))
+            vals = cur.fetchall()
+            ingredients.append(vals)
 
 
-            return render_template("admin_panel/list_recipes.html",rows = rows, ingredients=ingredients)
-        except:
-            return render_template("admin_panel/list_recipes.html",rows = [])
+        return render_template("admin_panel/list_recipes.html",rows = rows, ingredients=ingredients)
+        # except:
+        #     return render_template("admin_panel/list_recipes.html",rows = [])
 
     return render_template("register.html", message='Not authorized')
 
@@ -603,10 +683,19 @@ def list_recipes_page():
 
 @auth.route('/admin_panel/create_recipe')
 def create_recipe_page():
+    if session['role'] != 'admin':
+        return render_template('home.html')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
-        return render_template('admin_panel/recipe.html')
+
+        cnx = mysql.connector.connect(**config)
+        cur = cnx.cursor(dictionary=True)
+
+        cur.execute("SELECT Name FROM Ingredients")
+        ingredients = cur.fetchall()
+
+        return render_template('admin_panel/recipe.html', ingredients=ingredients)
 
     message = ''
     return render_template('register.html', message='')
@@ -614,6 +703,8 @@ def create_recipe_page():
 
 @auth.route('/admin_panel/create_recipe_function', methods=['GET', 'POST'])
 def create_recipe_function():
+    if session['role'] != 'admin':
+        return render_template('home.html')
 
     if request.method == 'POST' and 'recipeTitle' in request.form:
         # print(request)
@@ -626,6 +717,8 @@ def create_recipe_function():
         ingredients = request.form.getlist('ingredients[]')
         measurements = request.form.getlist('measurements[]')
 
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
         try:
@@ -665,6 +758,9 @@ def create_recipe_function():
 
 @auth.route('/admin_panel/update_recipe_auto_page', methods=['GET', 'POST'])
 def update_recipe_auto_page():
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     if request.method == 'POST' and 'recipeTitle' in request.form:
         recipe_title = request.form['recipeTitle']
         description = request.form['description']
@@ -674,21 +770,28 @@ def update_recipe_auto_page():
 
         recipe_id = request.form['recipeID']
 
-
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
         cur.execute("SELECT * FROM Recipe_Ingredients WHERE Recipe_ID = %s;", (recipe_id,))
         ingredients = cur.fetchall()
 
+        cur.execute("SELECT Name FROM Ingredients")
+        all_ingredients = cur.fetchall()
 
 
 
-        return render_template('/admin_panel/update_recipe_auto.html', recipe_title=recipe_title, desc=description, cook_time=cook_time, prep_time=prep_time, instr=instructions, recipe_id=recipe_id, ingredients=ingredients)
+
+        return render_template('/admin_panel/update_recipe_auto.html', recipe_title=recipe_title, desc=description, cook_time=cook_time, prep_time=prep_time, instr=instructions, recipe_id=recipe_id, ingredients=ingredients, all_ingredients=all_ingredients)
     else:
         # Return a response indicating that the request was not processed as expected
         return "Something went wrong", 400
 
 @auth.route('/admin_panel/update_recipe_auto_function', methods=['GET', 'POST'])
 def update_recipe_auto_function():
+    if session['role'] != 'admin':
+        return render_template('home.html')
+
     if request.method == 'POST' and 'recipeTitle' in request.form:
         recipe_title = request.form['recipeTitle']
         description = request.form['description']
@@ -701,6 +804,8 @@ def update_recipe_auto_function():
         ingredients = request.form.getlist('ingredients[]')
         measurements = request.form.getlist('measurements[]')
 
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
         if description and cook_time and prep_time and instructions:
@@ -747,6 +852,8 @@ def update_recipe_auto_function():
 
 @auth.route('/admin_panel/update_recipe')
 def update_recipe_page():
+    if session['role'] != 'admin':
+        return render_template('home.html')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -798,10 +905,14 @@ def update_recipe_page():
 
 @auth.route('/admin_panel/delete_recipe')
 def delete_recipe_page():
+    if session['role'] != 'admin':
+        return render_template('home.html')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
         try:
+            # added after safe rbac branch
+            cnx = mysql.connector.connect(**config)
             cur = cnx.cursor(dictionary=True)
 
             cur.execute("SELECT * FROM Recipes;")
@@ -822,12 +933,16 @@ def delete_recipe_page():
 
 @auth.route('/admin_panel/delete_recipe_function', methods=['GET', 'POST'])
 def delete_recipe_function():
+    if session['role'] != 'admin':
+        return render_template('home.html')
 
     msg = ''
     if request.method == 'POST' and 'recipeID' in request.form:
         recipe_id = request.form['recipeID']
 
         try:
+            # added after safe rbac branch
+            cnx = mysql.connector.connect(**config)
             cur = cnx.cursor(dictionary=True)
 
             cur.execute("DELETE FROM Recipes WHERE Recipe_ID = %s;", (recipe_id,))

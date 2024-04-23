@@ -18,7 +18,35 @@ cur = cnx.cursor()
 
 recipesinfo = Blueprint('recipesinfo', __name__, template_folder='templates')
 
-@recipesinfo.route('/recipesinfo', methods=['GET', 'POST'])
-def recipesinfo_page():
-    if request.method == "POST":
-        
+@recipesinfo.route('/recipesinfo/<int:recipe_id>', methods=['GET', 'POST'])
+def recipesinfo_page(recipe_id):
+	try:
+		cur = cnx.cursor(dictionary=True)
+		if request.method == 'GET':
+			#retrieves the recipe details
+			cur.execute("SELECT * FROM Recipes WHERE Recipe_ID = %s", (recipe_id,))
+			recipe = cur.fetchone()
+			if recipe:
+
+                # Fetch ingredients for the recipe
+				cur.execute("SELECT ingredient, measurement FROM Ingredients WHERE Recipe_ID = %s", (recipe_id,))
+				ingredients = cur.fetchall()
+
+				instruction = recipe["Instructions"].split('\n')
+
+				#steps = [step.strip() for step in steps if step.strip()]
+
+                # Create a numbered list of steps
+				num_inst = [f"{i+1}. {instruction}" for i, instruction in enumerate(instruction)]
+
+				recipe["Instructions"] = num_inst
+
+
+
+			return render_template('recipe_info.html',ingredients=ingredients , recipes=recipe)
+	except:
+		cnx.rollback()
+		return render_template('recipes.html')
+
+
+		

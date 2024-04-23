@@ -1,6 +1,6 @@
-<!doctype html>
-<html>
-   <title>List Recipes</title>
+<!DOCTYPE html>
+<head>
+    <title>Delete Ingredient</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -8,7 +8,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 60vh;
+            height: 50vh;
             margin: 0;
             background-color: #f0f0f0;
         }
@@ -49,9 +49,15 @@
             height: 100px; /* Adjust the height as needed */
         }
     </style>
-   <body>
-      <h2>All Recipes</h2>
-      <table border = 1>
+</head>
+<body>
+    <h2>
+        Recipe Management Admin Panel
+    </h2>
+    <h3>
+        Delete Ingredient
+    </h3>
+    <table border = 1>
          <thead>
             <td>ID</td>
             <td>Name</td>
@@ -74,7 +80,7 @@
                   <input type="hidden" id="instructions" name="instructions" value="{{row['Instructions']}}">
                 </form>
                 <a href="#" onclick="document.getElementById('recipeForm{{row['Recipe_ID']}}').submit(); return false;">{{row["Recipe_ID"]}}</a>
-               </td> 	
+               </td>    
                <td>{{row["Name"]}}</td> 
                <td>{{row["Category"]}}</td> 
                <td>{{row["Description"]}}</td> 
@@ -91,10 +97,16 @@
             </tr>
          {% endfor %}
       </table>
-      
-      <footer>
+    <form action="{{ url_for('auth.delete_recipe_function') }}" method="post" autocomplete="off">
+        <label for="recipeID">Delete Recipe with ID:</label>
+        <input type="text" id="recipeID" name="recipeID" required>
+
+        <div class="message">{{ message }}</div>
+        <button type="submit" value="Register">Submit</button>
+    </form>
+    <footer>
       <a href="/admin_panel">Back to Admin Panel</a>
       <p>&copy; Group 20 Recipe Management System</p>
     </footer>
-   </body>
+</body>
 </html>

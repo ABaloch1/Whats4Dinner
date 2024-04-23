@@ -186,7 +186,7 @@ cnx.commit()
 cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Scrambled Eggs', 'Breakfast', 'Simple and delicious scrambled eggs.', 5, 5, 'Crack eggs into a bowl. \n Beat eggs until well mixed. \nHeat a skillet over medium heat. \nPour beaten eggs into the skillet. \nCook, stirring occasionally, until eggs are set.');")
 cnx.commit()
 
-cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (1, 'Egg', '3');")
+cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (1, 'egg', '3');")
 cnx.commit()
 
 

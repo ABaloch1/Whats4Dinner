@@ -22,7 +22,7 @@ def pantry_page():
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
-        update_pantry()
+        return redirect( '/update_pantry' )
     else:
         message = ''
         return render_template('register.html', message='Please sign in.')

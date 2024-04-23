@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session, Blueprint
-from flask_mysqldb import MySQL
+#from flask_mysqldb import MySQL
 import mysql.connector
 
 secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page'

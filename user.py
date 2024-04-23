@@ -32,7 +32,7 @@ def user_profile(name):
             hashed_password = hashlib.sha256(hashed_password.encode())
             password = hashed_password.hexdigest()
 
-            cur.execute("UPDATE Users SET First_Name = %s, Last_Name = %s, password = %s"),(first_name, last_name, password))
+            cur.execute("UPDATE Users SET First_Name = %s, Last_Name = %s, password = %s",(first_name, last_name, password))
             cnx.commit()
     except:
         cnx.rollback()

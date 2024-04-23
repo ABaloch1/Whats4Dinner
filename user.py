@@ -37,4 +37,4 @@ def user_profile(name):
     except:
         cnx.rollback()
         return render_template('profile.html')
-     return redirect(url_for('user_profile'))
+    return redirect(url_for('user_profile'))

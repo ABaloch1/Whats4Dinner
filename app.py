@@ -10,6 +10,7 @@ from auth import auth
 from recipes import recipes
 from ingredients import ingredients
 from pantry import pantry
+from user import user
 
 app = Flask(__name__)
 app.register_blueprint(auth)

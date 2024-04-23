@@ -46,25 +46,25 @@
 </head>
 <body>
     <div class="container">
-        <h1>{{recipes.name}}</h1>
+        <h1>{{recipes["Name"]}}</h1>
         <div class="recipe-details">
-            <p><strong>Description:</strong> {{ recipes.description }}</p>
+            <p><strong>Description:</strong> {{ recipes["Description"] }}</p>
             <div class="time-container">
-                <p><strong>Cook Time:</strong> {{ recipes.cook_time }} minutes</p>
-                <p><strong>Prep Time:</strong> {{ recipes.prep_time }} minutes</p>
+                <p><strong>Cook Time:</strong> {{ recipes["Cook_Time"] }} minutes</p>
+                <p><strong>Prep Time:</strong> {{ recipes[Prep_Time" }} minutes</p>
             </div>
             <div class="ingredients-list">
                 <h2>Ingredients:</h2>
                 <ul>
-                    {% for ingredient, amount in recipe.ingredients %}
-                    <li class="ingredient-item">{{ ingredient }} - {{ amount }}</li>
+                    {% for ingredient, measurement in recipe["Ingredients"] %}
+                    <li class="ingredient-item">{{ ingredient }} - {{ measurement }}</li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="steps">
                 <h2>Instructions:</h2>
                 <ol>
-                    {% for step in recipe.instructions %}
+                    {% for step in recipe["Instructions"] %}
                     <li>{{ step }}</li>
                     {% endfor %}
                 </ol>

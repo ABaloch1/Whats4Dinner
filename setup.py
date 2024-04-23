@@ -119,6 +119,7 @@ print('Created tables')
 #do privileges setup
 cur.execute("CREATE USER 'group20'@'localhost' IDENTIFIED BY 'group20'")
 cur.execute("CREATE ROLE 'Guest'")
+cur.execut("GRANT SELECT ON mydatabase.Users TO 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Recipes TO 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Recipe_Ingredients TO 'Guest'")
 cur.execute("GRANT SELECT ON mydatabase.Recipe_Allergens TO 'Guest'")

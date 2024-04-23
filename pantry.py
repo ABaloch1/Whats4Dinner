@@ -48,8 +48,8 @@ def update_pantry():
         cur.execute("SELECT R.Recipe_ID FROM Recipes R INNER JOIN Recipe_Ingredients RI ON R.Recipe_ID=RI.Recipe_ID WHERE %s", (params,))
         possible_recipes = cur.fetchall()    
         missing_ingredients_per_recipe = []
-    
-            for recipe_id in possible_recipes:
+        
+        for recipe_id in possible_recipes:
             recipe_ingredients = []
             cur.execute("SELECT Ingredient FROM Recipe_Ingredients WHERE Recipe_ID = ?", (recipe_ID,))
             recipe_ingredients = cur.fetchall()

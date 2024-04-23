@@ -12,9 +12,6 @@ config = {
     'database': 'mydatabase',
 }
 
-cnx = mysql.connector.connect(**config)
-
-
 auth = Blueprint('auth', __name__, template_folder='templates')
 
 @auth.route('/home')
@@ -50,6 +47,9 @@ def login():
 
         password = hashed_password.hexdigest()
 
+        # this uses global guest permissions
+        global config
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
         cur.execute(
             "SELECT * FROM Users WHERE Username = %s AND Password = %s", (username, password,))
@@ -60,15 +60,40 @@ def login():
             session['loggedin'] = True
             session['username'] = account['Username']
 
-            try:
-                cur.execute(
-                    "SELECT First_Name, Last_Name FROM Users WHERE Username = %s", (session['username'],))
-                row = cur.fetchone()
-                session['firstName'] = row['First_Name']
-                session['lastName'] = row['Last_Name']
-            except:
-                session['firstName'] = 'ERROR'
-                session['lastName'] = 'ERROR'
+            # update connection to use user credentials
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)
+            cur.execute(
+                "SELECT First_Name, Last_Name FROM Users WHERE Username = %s", (session['username'],))
+            row = cur.fetchone()
+            session['firstName'] = row['First_Name']
+            session['lastName'] = row['Last_Name']
+            cur.close()
+            cnx.close()
+
+            config = {
+                'user': 'root',
+                'password': 'root1',
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("SELECT FROM_USER FROM mysql.role_edges WHERE TO_USER = %s", (session['username'],))
+            role = cur.fetchone()
+            session['role'] = role['FROM_USER']
+            #print(session['role'])
+            cur.close()
+            cnx.close()
+            config = {
+                'user': session['username'],
+                'password': password,
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)
 
             return redirect(url_for('auth.home'))
         else:
@@ -83,6 +108,15 @@ def logout():
     session.pop('username', None)
     session.pop('firstName', None)
     session.pop('lastName', None)
+    
+    config = {
+        'user': 'group20',
+        'password': 'group20',
+        'host': 'localhost',
+        'database': 'mydatabase',
+    }
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor(dictionary=True)
     return render_template('login.html') #redirect(url_for('auth.login'))
 
 
@@ -92,7 +126,8 @@ def register():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         username = request.form['username']
         password = request.form['password']
-
+        global config
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
         cur.execute('SELECT * FROM Users WHERE Username = %s', (username,))
         account = cur.fetchone()
@@ -107,27 +142,60 @@ def register():
 
             password = hashed_password.hexdigest()
 
-            try:
-                first_name = request.form['firstName']
-                last_name = request.form['lastName']
+            #try:
+            first_name = request.form['firstName']
+            last_name = request.form['lastName']
 
-                cur.execute('INSERT INTO Users VALUES (%s,%s,%s,%s)',
-                            (username, password, first_name, last_name))
+            cur.execute('INSERT INTO Users VALUES (%s,%s,%s,%s)',
+                        (username, password, first_name, last_name))
+            cnx.commit()
+
+            # --
+            checked_allergies = request.form.getlist('allergies')
+            for allergy in checked_allergies:
+                cur.execute(
+                    'INSERT INTO User_Allergens VALUES (%s,%s)', (username, allergy))
                 cnx.commit()
+            # --
 
-                # --
-                checked_allergies = request.form.getlist('allergies')
-                for allergy in checked_allergies:
-                    cur.execute(
-                        'INSERT INTO User_Allergens VALUES (%s,%s)', (username, allergy))
-                    cnx.commit()
-                # --
+            cur.close()
+            cnx.close()
 
-                msg = 'Success! Account registered!'
-                return render_template('login.html', message=msg) #redirect(url_for('auth.login'))
-            except:
-                cnx.rollback()
-                msg = 'Something happenend. Database rolling back.'
+            #global config
+            config = {
+                'user': 'root',
+                'password': 'root1',
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)
+            cur.execute("CREATE USER %s@'localhost' IDENTIFIED WITH mysql_native_password BY %s", (username, password))
+            #cur.execute("GRANT CONNECT ON mydatabase.* TO %s@'localhost'", (username,))
+            cnx.commit()
+            cur.execute("GRANT 'member' TO %s@'localhost'", (username,))
+            cur.execute("SET DEFAULT ROLE 'member' TO %s@'localhost'", (username,))
+            cur.execute("flush privileges")
+            cnx.commit()
+
+            cur.close()
+            cnx.close()
+            
+            config = {
+                'user': 'group20',
+                'password': 'group20',
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)
+
+            msg = 'Success! Account registered!'
+            return render_template('login.html', message=msg) #redirect(url_for('auth.login'))
+            # except:
+            #     cnx.rollback()
+            #     msg = 'Something happenend. Database rolling back.'
+            
             # --
 
             # msg = 'Success! Account registered!'
@@ -185,7 +253,7 @@ def update_user_function():
         first_name = request.form['firstName']
         last_name = request.form['lastName']
         password = request.form['password']
-
+        cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
         if password:
@@ -640,7 +708,7 @@ def update_recipe_auto_function():
                 cur.execute("UPDATE Recipes SET Name = %s, Description = %s, Cook_Time = %s, Prep_Time = %s, Instructions = %s WHERE Recipe_ID = %s;", (recipe_title, description, cook_time, prep_time, instructions, recipe_id))
                 cnx.commit()
 
-                cur.execute("DELETE FROM Recipe_Ingredients WHERE Recipe_ID = %s;" (recipe_id,))
+                cur.execute("DELETE FROM Recipe_Ingredients WHERE Recipe_ID = %s;", (recipe_id,))
                 cnx.commit()
 
                 for i in range( len(ingredients) ):

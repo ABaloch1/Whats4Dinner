@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <<title>Login page</title>
+    <title>Login page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,6 +52,15 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .card-title {
+            color: #333; /* Default color */
+            cursor: pointer; /* Change cursor to pointer */
+            transition: color 0.3s ease; /* Smooth transition for color change */
+        }
+
+        .card-title:hover {
+            color: #4CAF50; /* Change color on hover */
+        }
         footer {
             display: flex;
             justify-content: center;
@@ -72,7 +81,20 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ recipe['Name'] }}</h5>
+
+                        <form id="recipeForm{{recipe['Recipe_ID']}}" action="/info_recipe" method="post">
+                        <input type="hidden" id="recipeID" name="recipeID" value="{{recipe['Recipe_ID']}}">
+                        <input type="hidden" id="recipeTitle" name="recipeTitle" value="{{recipe['Name']}}">
+                        <input type="hidden" id="description" name="description" value="{{recipe['Description']}}">
+                        <input type="hidden" id="cook" name="cook" value="{{recipe['Cook_Time']}}">
+                        <input type="hidden" id="prepTime" name="prepTime" value="{{recipe['Prep_Time']}}">
+                        <input type="hidden" id="instructions" name="instructions" value="{{recipe['Instructions']}}">
+                        <!-- <input type="hidden" id="wholerow" name="wholerow" value="{{recipe}}"> -->
+                        </form>
+                        <!-- <a href="#" onclick="document.getElementById('recipeForm{{recipe['Recipe_ID']}}').submit(); return false;">{{recipe["Name"]}}</a> -->
+
+
+                        <h5 class="card-title" href="#" onclick="document.getElementById('recipeForm{{recipe['Recipe_ID']}}').submit(); return false;">{{ recipe['Name'] }}</h5>
                         <!-- possibly put picture-->
                     </div>
                 </div>

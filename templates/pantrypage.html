@@ -58,13 +58,13 @@
 
         <div class="row">
             <!-- Iterate through categories and display ingredients -->
-            {% for category, ingredients in categorized_ingrs.items() %}
+            {% for category, ingredients in categorized_ingredients.items() %}
             <div class="col-md-6">
                 <div class="category">
                     <h2>{{ category }}</h2>
                     <ul class="ingredient-list">
                         {% for ingredient in ingredients %}
-                        <li class="ingredient-item">{{ ingredient.Ingredient_Name }}</li>
+                        <li class="ingredient-item">{{ ingredient }}</li>
                         {% endfor %}
                     </ul>
                 </div>

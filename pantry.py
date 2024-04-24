@@ -63,11 +63,11 @@ def update_pantry():
                 recipe_ingredients = [ingredient[0] for ingredient in recipe_ingredients]
                 missing_ingredients = []
             
-            for ingredient in recipe_ingredients:
-                if ingredient not in user_ingredients:
-                    missing_ingredients.append(ingredient)
-            if missing_ingredients:
-                missing_ingredients_per_recipe.append((recipe_id, missing_ingredients))
+                for ingredient in recipe_ingredients:
+                    if ingredient not in user_ingredients:
+                        missing_ingredients.append(ingredient)
+                if missing_ingredients:
+                    missing_ingredients_per_recipe.append((recipe_id, missing_ingredients))
                 
             categories = ['Carbs', 'Fruits', 'Vegetables', 'Grains', 'Meat', 'Seafood', 'Dairy & Eggs', 'Complementary', 'Misc']
         

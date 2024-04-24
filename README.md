@@ -4,7 +4,7 @@
 ### This project is a web application for managing recipes and utilizing a user pantry to filter possible recipes based on available ingredients. Users can browse, search, and save recipes, as well as manage their pantry inventory. The system also considers allergies and dietary restrictions when providing recipe recommendations.
 
 ## Problem Statement:
-###Cooking enthusiasts often struggle to find recipes based on the ingredients they have on hand, while also considering allergies and dietary restrictions. A recipe management system with a user pantry feature addresses this challenge by providing personalized recipe recommendations that take into account available ingredients, allergies, and dietary preferences.
+### Cooking enthusiasts often struggle to find recipes based on the ingredients they have on hand, while also considering allergies and dietary restrictions. A recipe management system with a user pantry feature addresses this challenge by providing personalized recipe recommendations that take into account available ingredients, allergies, and dietary preferences.
 
 ## User Interface Instructions:
     - Login: Users must authenticate themselves by logging in with their credentials.

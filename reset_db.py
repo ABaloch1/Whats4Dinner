@@ -11,13 +11,18 @@ config = {
 }
 
 cnx = mysql.connector.connect(**config)
-cur = cnx.cursor()
+cur = cnx.cursor(dictionary=True)
 cur.execute("SET foreign_key_checks=0")
 cur.execute("DROP USER IF EXISTS 'group20'@'localhost'")
 cur.execute("DROP USER IF EXISTS 'mrkrabs'@'localhost'")
 cur.execute("DROP ROLE IF EXISTS 'admin'")
 cur.execute("DROP ROLE IF EXISTS 'member'")
 cur.execute("DROP ROLE IF EXISTS'Guest'")
+cur.execute("SELECT Username FROM Users")
+users = cur.fetchall()
+for user in users:
+	cur.execute("DROP USER IF EXISTS %s@'localhost'", (user['Username'],))
+
 
 cur.execute( '''
 	DROP TABLE IF EXISTS Users

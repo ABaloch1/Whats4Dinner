@@ -5,8 +5,8 @@ import mysql.connector
 secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page'
 
 config = {
-    'user': session['username'],
-    'password': session['password'],
+    'user': 'group20',
+    'password': 'group20',
     'host': 'localhost',
     'database': 'mydatabase',
 }
@@ -16,10 +16,20 @@ cur = cnx.cursor()
 
 pantry = Blueprint('pantry', __name__, template_folder='templates')
 
+def update_config():
+    global config
+    config = {
+        'user': session['username'],
+        'password': session['password'],
+        'host': 'localhost',
+        'database': 'mydatabase',
+    }
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
 
 @pantry.route('/pantry')
 def pantry_page():
-
+    update_config()
     # If the user is already logged in, redirect
     if 'loggedin' in session:
         return redirect( '/update_pantry' )
@@ -30,6 +40,7 @@ def pantry_page():
 
 @pantry.route('/update_pantry', methods=['GET', 'POST'])
 def update_pantry():
+    update_config()
     try:
         config = {
             'user': session['username'],

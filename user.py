@@ -5,8 +5,8 @@ import hashlib
 secret_key = 'this is our top secret super key that definitely isn\'t going to be uploaded to our GitHub page'
 
 config = {
-    'user': 'group20',
-    'password': 'group20',
+    'user': session['username'],
+    'password': session['password'],
     'host': 'localhost',
     'database': 'mydatabase',
 }

@@ -16,7 +16,7 @@
     Ryan Fontaine - User authentication and admin control flask implementations and html testing/debugging 
     Aamir Baloch - All other html, recipe info flask implementation and program testing/debugging
     Kathryn Trescott - Database setup, roll-based access setup and program testing/debugging
-    Joshua Krug - Pantry flask implementation, ingredient, and user flask functions, testing/debugging
+    Joshua Krug - Pantry flask implementation, ingredient and user flask functions, testing/debugging
     
 ## User Roles:
     Owner: The owner has the highest level of access and can grant admin privileges to other users.
@@ -44,7 +44,4 @@
     allergies, and dietary restrictions. Ensure MySQL server is running and properly configured.
 
 ## Extra Features Implemented:
-    Pantry Integration: Users can manage their pantry inventory and filter recipes based on available ingredients, 
-                            allergies, and dietary restrictions.
-    Error Handling: Comprehensive error handling to manage exceptions and provide meaningful error messages to users.
     Session Management: User sessions are managed to authenticate users and restrict access to profile pages.

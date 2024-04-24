@@ -44,7 +44,7 @@ def update_pantry():
             user_ingredients = []
             cur.execute("SELECT Ingredient FROM User_Pantry WHERE Username = %s", (session['username'],))
             user_ingredients = cur.fetchall()
-            user_ingredients = [ingredient[0] for ingredient in user_ingredients]
+            user_ingredients = [ingredient['Name'] for ingredient in user_ingredients]
             
             params = "RI.Ingredient = '" #string
             for i, ingredient in enumerate(user_ingredients):
@@ -60,7 +60,7 @@ def update_pantry():
                 recipe_ingredients = []
                 cur.execute("SELECT Ingredient FROM Recipe_Ingredients WHERE Recipe_ID = %s", (recipe_id,))
                 recipe_ingredients = cur.fetchall()
-                recipe_ingredients = [ingredient[0] for ingredient in recipe_ingredients]
+                recipe_ingredients = [ingredient['Name'] for ingredient in recipe_ingredients]
                 missing_ingredients = []
             
                 for ingredient in recipe_ingredients:
@@ -78,7 +78,7 @@ def update_pantry():
             for category in categories:
                 cur.execute(
                     "SELECT * FROM Ingredients WHERE Category = %s", (category,))
-                ingredients = [ingredient[0] for ingredient in cur.fetchall()]
+                ingredients = [ingredient['Name'] for ingredient in cur.fetchall()]
                 categorized_ingredients[category] = ingredients
                 print(ingredients)
 

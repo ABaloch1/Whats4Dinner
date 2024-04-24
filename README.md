@@ -6,6 +6,12 @@
 ## Problem Statement:
 ### Cooking enthusiasts often struggle to find recipes based on the ingredients they have on hand, while also considering allergies and dietary restrictions. A recipe management system with a user pantry feature addresses this challenge by providing personalized recipe recommendations that take into account available ingredients, allergies, and dietary preferences.
 
+## User Roles:
+    - Owner: The owner has the highest level of access and can grant admin privileges to other users.
+    - Admin: Admin users have administrative privileges and can manage users, recipes, and ingredients.
+    - User: Regular users can browse, search, and filter recipes, manage their pantry inventory, and set allergies and dietary restrictions.
+    - Guest: Guests have limited access and can only view recipes.
+    
 ## User Interface Instructions:
     - Login: Users must authenticate themselves by logging in with their credentials.
     - User Profile: After logging in, users can manage their profile settings, view their pantry inventory, and set their allergies and dietary restrictions.

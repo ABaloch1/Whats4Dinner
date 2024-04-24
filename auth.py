@@ -119,6 +119,8 @@ def logout():
         'host': 'localhost',
         'database': 'mydatabase',
     }
+    session['username'] = "group20"
+    session['password'] = "group20"
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor(dictionary=True)
     return render_template('login.html') #redirect(url_for('auth.login'))
@@ -220,10 +222,6 @@ def register_page():
     return render_template('register.html', message='')
 
 
-
-
-
-
 # --- Admin Functionality
 
 @auth.route('/admin_panel/')
@@ -276,10 +274,6 @@ def update_user_function():
             hashed_password = hashlib.sha256(hashed_password.encode())
 
             password = hashed_password.hexdigest()
-
-            #try:
-            #cur.close()
-            #cnx.close()
             
             config = {
                 'user': 'root',
@@ -364,10 +358,33 @@ def delete_user_function():
         username = request.form['username']
 
         # added after safe rbac branch
+        global config
         cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
         try:
+            config = {
+                'user': 'root',
+                'password': 'root1',
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("DROP USER %s@'localhost'", (username,))
+            cnx.commit() #might not be necessary
+            cur.close()
+            cnx.close()
+
+            config = {
+                'user': session['username'],
+                'password': session['password'],
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }      
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)  
             cur.execute("DELETE FROM Users WHERE Username = %s;", (username,))
             cnx.commit() 
         except:
@@ -890,46 +907,6 @@ def update_recipe_page():
 
     message = ''
     return render_template('register.html', message='')
-
-
-# @auth.route('/admin_panel/update_recipe_function', methods=['GET', 'POST'])
-# def update_recipe_function():
-
-#     msg = ''
-#     if request.method == 'POST' and 'ingredientName' in request.form:
-#         ingredient_name = request.form['ingredientName']
-#         allergy_category = request.form['allergyCategory']
-#         restriction_category = request.form['category']
-
-#         cur = cnx.cursor(dictionary=True)
-
-#         if allergy_category:
-#             try:
-#                 cur.execute("UPDATE Ingredients SET Allergy_Category = %s WHERE Name = %s;", (allergy_category, ingredient_name,))
-#                 cnx.commit() 
-#             except:
-#                 cnx.rollback()
-#                 return render_template('admin_panel/update_ingredient.html', message = "Error. Had to roll back.")
-#         else:
-#             pass
-
-#         if restriction_category:
-#             try:
-#                 cur.execute("UPDATE Ingredients SET Category = %s WHERE Name = %s;", (restriction_category, ingredient_name,))
-#                 cnx.commit() 
-#             except:
-#                 cnx.rollback()
-#                 return render_template('admin_panel/update_ingredient.html', message = "Error. Had to roll back.")
-#         else:
-#             pass
-
-
-
-#         return render_template('admin_panel/update_ingredient.html', message = "Updated {}".format(ingredient_name))
-
-#     return render_template('login.html', message=msg)
-
-# ---
 
 
 @auth.route('/admin_panel/delete_recipe')

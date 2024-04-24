@@ -80,8 +80,6 @@ def update_pantry():
                 "SELECT * FROM Ingredients WHERE Category = %s", (category,))
             ingrs = cur.fetchall()
             categorized_ingredients[category] = ingrs
-            print(categorized_ingredients[category])
-        print(categorized_ingredients)
 
         if request.method == 'POST':
             selected_ingredients = request.form.getlist('selected_ingredients')

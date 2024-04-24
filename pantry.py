@@ -40,7 +40,7 @@ def update_pantry():
         cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
-        if request.method == 'POST':
+        if request.method == 'GET':
             user_ingredients = []
             cur.execute("SELECT Ingredient FROM User_Pantry WHERE Username = %s", (session['username'],))
             user_ingredients = cur.fetchall()

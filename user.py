@@ -32,8 +32,8 @@ def user_profile():
             else:
                 return "User not found"
         elif request.method == 'POST':
-            first_name = request.form['first_Name']
-            last_name = request.form['last_Name']
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
             password = request.form['password']
             if password:  # Only hash password if provided
                 hashed_password = hashlib.sha256((password + secret_key).encode()).hexdigest()

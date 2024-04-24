@@ -5,8 +5,8 @@ import hashlib
 secret_key = 'this is our top secret super key that definitely isn\'t going to be uploaded to our GitHub page'
 
 config = {
-    'user': session['username'],
-    'password': session['password'],
+    'user': 'group20',
+    'password': 'group20',
     'host': 'localhost',
     'database': 'mydatabase',
 }
@@ -16,8 +16,20 @@ cur = cnx.cursor()
 
 user = Blueprint('user', __name__, template_folder='templates')
 
+def update_config():
+    global config
+    config = {
+        'user': session['username'],
+        'password': session['password'],
+        'host': 'localhost',
+        'database': 'mydatabase',
+    }
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
+
 @user.route('/user_profile', methods=['GET', 'POST'])
 def user_profile():
+    update_config()
     try:
         if 'username' not in session:
             return redirect(url_for('login'))  # Redirect to login if user not authenticated

@@ -5,8 +5,8 @@ import mysql.connector
 secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page'
 
 config = {
-    'user': session['username'],
-    'password': session['password'],
+    'user': 'group20',
+    'password': 'group20',
     'host': 'localhost',
     'database': 'mydatabase',
 }
@@ -16,9 +16,20 @@ cur = cnx.cursor()
 
 ingredients = Blueprint('ingredients', __name__, template_folder='templates')
 
+def update_config():
+    global config
+    config = {
+        'user': session['username'],
+        'password': session['password'],
+        'host': 'localhost',
+        'database': 'mydatabase',
+    }
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor()
 
 @ingredients.route('/ingredient_creation', methods=['POST', 'GET'])
 def create_ingredient():
+    update_config()
     if request.method == 'POST':
         try:  # get the ingr data from the form
             name = request.form['name']
@@ -43,6 +54,7 @@ def create_ingredient():
 
 @ingredients.route('/delete_ingr/<string:name>', methods=['POST', 'GET'])
 def delete_ingredient(name):
+    update_config()
     if request.method == 'POST':
         # deletes the ingr
         cursor.execute("DELETE FROM Ingredients WHERE Name = %s", (name,))
@@ -51,6 +63,7 @@ def delete_ingredient(name):
 
 @ingredients.route('/edit_ingr/<string:name>', methods=['GET', 'POST'])
 def edit_recipe(name):
+    update_config()
     try:
         if request.method == 'GET':
             # retrieves the ingr details

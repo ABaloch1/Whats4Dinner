@@ -7,8 +7,8 @@ secret_key = 'this is our top secret super key that definently isnt going to als
 
 
 config = {
-	'user': session['username'],
-	'password': session['password'],
+	'user': 'group20',
+	'password': 'group20',
 	'host': 'localhost',
 	'database': 'mydatabase',
 }
@@ -18,8 +18,20 @@ cur = cnx.cursor()
 
 recipes = Blueprint('recipes', __name__, template_folder='templates')
 
+def update_config():
+	global config
+	config = {
+		'user': session['username'],
+		'password': session['password'],
+		'host': 'localhost',
+		'database': 'mydatabase',
+	}
+	cnx = mysql.connector.connect(**config)
+	cur = cnx.cursor()
+
 @recipes.route('/recipe_creation', methods=['POST', 'GET'])
 def create_recipe():
+	update_config()
 	if request.method == 'POST':
 		try:	#get the user data from the form
 			name = request.form['recipe_name']
@@ -45,12 +57,14 @@ def create_recipe():
    	
 @recipes.route('/list_recipes')
 def list_recipes():
+	update_config()
 	cur.execute("SELECT * FROM Recipes")
 	recipes = cur.fetchall()[0]
 	return render_template('recipes.html', recipes=recipes)
 
 @recipes.route('/add_ingredient_recipe', methods=['POST', 'GET'])
 def add_ingredient_recipe():
+	update_config()
 	if request.method == 'POST':
 		try:
 			i_name = request.form['name']
@@ -75,6 +89,7 @@ def add_ingredient_recipe():
     
 @recipes.route('/delete_recipe/<int:recipe_id>', methods=['POST'])
 def delete_recipe(recipe_id):
+	update_config()
 	if request.method == 'POST':
 		#deletes the recipe
 		cursor.execute("DELETE FROM Recipes WHERE Recipe_ID = %s", (recipe_id,))
@@ -83,6 +98,7 @@ def delete_recipe(recipe_id):
 		
 @recipes.route('/edit_recipe/<int:recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
+	update_config()
 	try:
 		if request.method == 'GET':
 			#retrieves the recipe details

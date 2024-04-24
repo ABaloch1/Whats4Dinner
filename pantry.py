@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session, Blueprint
+dfrom flask import Flask, render_template, redirect, url_for, request, session, Blueprint
 #from flask_mysqldb import MySQL
 import mysql.connector
 
@@ -47,8 +47,8 @@ def update_pantry():
         user_ingredients = [ingredient[0] for ingredient in user_ingredients]
 
         params = "RI.Ingredient = '" #string
-        for i in user_ingredients:
-            params += user_ingredients[i] + "'"
+        for i, ingredient in enumerate(user_ingredients):
+            params += ingredient + "'"
             if i < len(user_ingredients) - 1: #add except for when it's the last ingredient
                 params += "OR RI.Ingredient = "
 
@@ -58,7 +58,7 @@ def update_pantry():
         
         for recipe_id in possible_recipes:
             recipe_ingredients = []
-            cur.execute("SELECT Ingredient FROM Recipe_Ingredients WHERE Recipe_ID = %s", (recipe_ID,))
+            cur.execute("SELECT Ingredient FROM Recipe_Ingredients WHERE Recipe_ID = %s", (recipe_id,))
             recipe_ingredients = cur.fetchall()
             recipe_ingredients = [ingredient[0] for ingredient in recipe_ingredients]
             missing_ingredients = []
@@ -78,8 +78,9 @@ def update_pantry():
         for category in categories:
             cur.execute(
                 "SELECT * FROM Ingredients WHERE Category = %s", (category,))
-            ingredients = [row[0] for row in cur.fetchall()]
+            ingredients = [ingredient[0] for ingredient in cur.fetchall()]
             categorized_ingredients[category] = ingredients
+            print(ingredients)
 
         if request.method == 'POST':
             selected_ingredients = request.form.getlist('selected_ingredients')
@@ -92,7 +93,7 @@ def update_pantry():
 
             # Remove ingredients not selected
             for ingredient in user_ingredients:
-                if ingr[0] not in selected_ingredients:
+                if ingredient[0] not in selected_ingredients:
                     cur.execute(
                         "DELETE FROM User_Pantry WHERE Username = %s AND Ingredient_Name = %s", (username, ingr[0]))
                     cnx.commit()

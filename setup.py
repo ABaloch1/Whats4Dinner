@@ -203,6 +203,13 @@ cnx.commit()
 cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (3, 'chicken', '1'), (3, 'lettuce', '1'), (3, 'tomato', '1'), (3, 'cucumber', '2'), (3, 'olive oil', '1'), (3, 'lemon', '1');")
 cnx.commit()
 
+cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Chicken Salad test', 'Lunch', 'A simple healthy salad with blood of your enemies.', 5, 1, 'Cook chicken until cooked. \n Cool and shred chicken. \nIn a large bowl, mix shredded chicken with lettuce, tomato, and cucumber. \nDrizzle with olive oil and lemon juice. \nSeason with salt to taste.');")
+cnx.commit()
+
+cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (4, 'chicken', '1'), (4, 'cucumber', '1'), (4, 'tomato', '1'), (4, 'cucumber', '2'), (4, 'olive oil', '1'), (4, 'cumin', '1');")
+cnx.commit()
+
+
 # database.commit() unsure if line is needed, i dont think it is
 cur.close()
 cnx.close()

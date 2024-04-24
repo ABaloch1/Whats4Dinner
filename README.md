@@ -2,7 +2,7 @@
 
 ## Description:
     This project is a web application for managing recipes and utilizing a user pantry to filter possible 
-    recipes based on available ingredients. Users can browse, search, and save recipes, as well as manage 
+    recipes based on available ingredients. Users can browse, search, and manage 
     their pantry inventory. The system also considers allergies and dietary restrictions when providing
     recipe recommendations.
 
@@ -14,7 +14,7 @@
 
 ## Division of Labor:
     Ryan Fontaine - User authentication and admin control flask implementations and html testing/debugging 
-    Aamir Baloch - All other html, recipe info flask implementation and program testing/debugging
+    Aamir Baloch - Templates for html, recipe info flask implementation and program testing/debugging
     Kathryn Trescott - Database setup, role-based access setup and program testing/debugging
     Joshua Krug - Pantry flask implementation, ingredient and user flask functions, testing/debugging
     

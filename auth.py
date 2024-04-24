@@ -230,7 +230,7 @@ def register_page():
 def admin_panel_page():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     if 'loggedin' in session:
         return render_template('admin_panel/adminpanel.html')
@@ -244,7 +244,7 @@ def admin_panel_page():
 def update_user_page():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -257,7 +257,7 @@ def update_user_page():
 def update_user_function():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
     if request.method == 'POST' and 'username' in request.form:
@@ -343,7 +343,7 @@ def update_user_function():
 def delete_user_page():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -357,7 +357,7 @@ def delete_user_page():
 def delete_user_function():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
     if request.method == 'POST' and 'username' in request.form:
@@ -385,7 +385,7 @@ def delete_user_function():
 def create_ingredient_page():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -399,7 +399,7 @@ def create_ingredient_page():
 def create_ingredient_function():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
     if request.method == 'POST' and 'ingredientName' in request.form:
@@ -429,7 +429,7 @@ def create_ingredient_function():
 def update_ingredient_page():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -443,7 +443,7 @@ def update_ingredient_page():
 def update_ingredient_function():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
     if request.method == 'POST' and 'ingredientName' in request.form:
@@ -488,7 +488,7 @@ def update_ingredient_function():
 def delete_ingredients_page():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -501,7 +501,7 @@ def delete_ingredients_page():
 def delete_ingredient_function():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
     if request.method == 'POST' and 'ingredientName' in request.form:
@@ -528,7 +528,7 @@ def delete_ingredient_function():
 def create_allergens_page():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -542,7 +542,7 @@ def create_allergens_page():
 def create_allergen_function():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
     if request.method == 'POST' and 'allergenName' in request.form:
@@ -570,7 +570,7 @@ def create_allergen_function():
 def delete_allergens_page():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -584,7 +584,7 @@ def delete_allergens_page():
 def delete_allergens_function():
 
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
     if request.method == 'POST' and 'allergenName' in request.form:
@@ -610,7 +610,7 @@ def delete_allergens_function():
 @auth.route('/admin_panel/list_user',methods = ['POST', 'GET'])
 def list_user_page():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -633,7 +633,7 @@ def list_user_page():
 @auth.route('/admin_panel/list_allergens',methods = ['POST', 'GET'])
 def list_allergens_page():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -657,7 +657,7 @@ def list_allergens_page():
 @auth.route('/admin_panel/list_ingredients',methods = ['POST', 'GET'])
 def list_ingredients_page():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -681,7 +681,7 @@ def list_ingredients_page():
 @auth.route('/admin_panel/list_recipes',methods = ['POST', 'GET'])
 def list_recipes_page():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -713,7 +713,7 @@ def list_recipes_page():
 @auth.route('/admin_panel/create_recipe')
 def create_recipe_page():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -733,7 +733,7 @@ def create_recipe_page():
 @auth.route('/admin_panel/create_recipe_function', methods=['GET', 'POST'])
 def create_recipe_function():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     if request.method == 'POST' and 'recipeTitle' in request.form:
         # print(request)
@@ -788,7 +788,7 @@ def create_recipe_function():
 @auth.route('/admin_panel/update_recipe_auto_page', methods=['GET', 'POST'])
 def update_recipe_auto_page():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     if request.method == 'POST' and 'recipeTitle' in request.form:
         recipe_title = request.form['recipeTitle']
@@ -819,7 +819,7 @@ def update_recipe_auto_page():
 @auth.route('/admin_panel/update_recipe_auto_function', methods=['GET', 'POST'])
 def update_recipe_auto_function():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     if request.method == 'POST' and 'recipeTitle' in request.form:
         recipe_title = request.form['recipeTitle']
@@ -882,7 +882,7 @@ def update_recipe_auto_function():
 @auth.route('/admin_panel/update_recipe')
 def update_recipe_page():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -935,7 +935,7 @@ def update_recipe_page():
 @auth.route('/admin_panel/delete_recipe')
 def delete_recipe_page():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
     if 'loggedin' in session:
@@ -963,7 +963,7 @@ def delete_recipe_page():
 @auth.route('/admin_panel/delete_recipe_function', methods=['GET', 'POST'])
 def delete_recipe_function():
     if session['role'] != 'admin':
-        return render_template('home.html')
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
     if request.method == 'POST' and 'recipeID' in request.form:

@@ -31,9 +31,9 @@ def user_profile():
             else:
                 return "User not found"
         elif request.method == 'POST':
-            first_name = request.form['First_Name']
-            last_name = request.form['Last_Name']
-            password = request.form['Password']
+            first_name = request.form['first_Name']
+            last_name = request.form['last_Name']
+            password = request.form['password']
             if password:  # Only hash password if provided
                 hashed_password = hashlib.sha256((password + secret_key).encode()).hexdigest()
                 cur.execute("UPDATE Users SET First_Name = %s, Last_Name = %s, Password = %s WHERE Username = %s", (first_name, last_name, hashed_password, session['username']))

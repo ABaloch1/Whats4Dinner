@@ -1,4 +1,4 @@
-dfrom flask import Flask, render_template, redirect, url_for, request, session, Blueprint
+from flask import Flask, render_template, redirect, url_for, request, session, Blueprint
 #from flask_mysqldb import MySQL
 import mysql.connector
 

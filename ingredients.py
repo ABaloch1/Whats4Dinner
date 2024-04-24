@@ -5,8 +5,8 @@ import mysql.connector
 secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page'
 
 config = {
-    'user': 'group20',
-    'password': 'group20',
+    'user': session['username'],
+    'password': session['password'],
     'host': 'localhost',
     'database': 'mydatabase',
 }

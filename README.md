@@ -44,4 +44,5 @@
     allergies, and dietary restrictions. Ensure MySQL server is running and properly configured.
 
 ## Extra Features Implemented:
-    Session Management: User sessions are managed to authenticate users and restrict access to profile pages.
+    Session Management: User sessions are managed to authenticate users and restrict access to certain pages,
+    such as the admin page or the profiles page.

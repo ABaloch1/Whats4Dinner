@@ -20,8 +20,8 @@ user = Blueprint('user', __name__, template_folder='templates')
 def user_profile():
     try:
         if request.method == 'GET':
-            username = session.get('Username')
-            cur.execute("SELECT * FROM Users WHERE Username = ?", (session[username],))
+            username = session['username']
+            cur.execute("SELECT * FROM Users WHERE Username = ?", (username,))
             user_data = cur.fetchone()
             if user_data:
                 #return render_template('userinfo.html', First_Name=user_data[2], Last_name=user_data[3], Password=user_data[1], Username=user_data[0])

@@ -27,6 +27,7 @@ def user_profile():
             cur.execute("SELECT * FROM Users WHERE Username = %s", (username,))
             user_data = cur.fetchone()
             if user_data:
+                print(user_data)
                 return render_template('userinfo.html', First_Name=user_data[2], Last_Name=user_data[3], Password=user_data[1], Username=user_data[0])
             else:
                 return "User not found"

@@ -227,7 +227,7 @@ def register_page():
 @auth.route('/admin_panel/')
 def admin_panel_page():
 
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     if 'loggedin' in session:

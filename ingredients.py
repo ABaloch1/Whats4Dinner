@@ -12,7 +12,7 @@ config = {
 }
 
 cnx = mysql.connector.connect(**config)
-cur = cnx.cursor(dictionary=True)
+cur = cnx.cursor()
 
 ingredients = Blueprint('ingredients', __name__, template_folder='templates')
 
@@ -32,7 +32,7 @@ def update_config():
 @ingredients.route('/admin_panel/create_ingredient')
 def create_ingredient_page():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -47,7 +47,7 @@ def create_ingredient_page():
 @ingredients.route('/admin_panel/create_ingredient_function', methods=['GET', 'POST'])
 def create_ingredient_function():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
@@ -76,7 +76,7 @@ def create_ingredient_function():
 @ingredients.route('/admin_panel/update_ingredient')
 def update_ingredient_page():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -91,7 +91,7 @@ def update_ingredient_page():
 @ingredients.route('/admin_panel/update_ingredient_function', methods=['GET', 'POST'])
 def update_ingredient_function():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
@@ -135,7 +135,7 @@ def update_ingredient_function():
 @ingredients.route('/admin_panel/list_ingredients',methods = ['POST', 'GET'])
 def list_ingredients_page():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -159,7 +159,7 @@ def list_ingredients_page():
 @ingredients.route('/admin_panel/delete_ingredients')
 def delete_ingredients_page():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -174,7 +174,7 @@ def delete_ingredients_page():
 @ingredients.route('/admin_panel/delete_ingredient_function', methods=['GET', 'POST'])
 def delete_ingredient_function():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''

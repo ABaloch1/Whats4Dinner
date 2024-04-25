@@ -157,7 +157,7 @@ cur.execute("CREATE ROLE 'owner'")
 cur.execute("GRANT ALL ON *.* TO 'owner'")
 cur.execute("GRANT ALL ON *.* TO 'mrkrabs'@'localhost'")
 cur.execute("GRANT 'owner' TO 'mrkrabs'@'localhost'")
-cur.execute("GRANT 'admin' TO 'mrkrabs'@'localhost' WITH ADMIN OPTION")
+#cur.execute("GRANT 'admin' TO 'mrkrabs'@'localhost' WITH ADMIN OPTION")
 
 cur.execute("FLUSH PRIVILEGES")
 print("created roles, owner, and group20")
@@ -217,7 +217,7 @@ cnx.commit()
 cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (4, 'chicken', '1'), (4, 'cucumber', '1'), (4, 'tomato', '1'), (4, 'cucumber', '2'), (4, 'olive oil', '1'), (4, 'cumin', '1');")
 cnx.commit()
 
-cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Krabby Patty', 'Lunch', 'The famous Krabby Patty from Bikini Bottom.', 20, 15, 'Prepare the Krabby Patty Patty by mixing the secret ingredients. \nForm the mixture into patties and cook on a grill or skillet until cooked through. \nToast the Krabby Patty Bun. \nAssemble the Krabby Patty by placing the cooked patty on the bun. \nAdd lettuce, tomato, onion, pickles, and cheese on top of the patty. \nSpread ketchup, mustard, mayonnaise, and burger sauce on the top bun. \nCover the patty with the top bun and serve hot.');")
+cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Krabby Patty', 'Lunch', 'The famous Krabby Patty from Bikini Bottom.', 20, 15, '1. Prepare the Krabby Patty Patty by mixing the secret ingredients. \n2. Form the mixture into patties and cook on a grill or skillet until cooked through. \n3. Toast the Krabby Patty Bun. \n4. Assemble the Krabby Patty by placing the cooked patty on the bun. \n5. Add lettuce, tomato, onion, pickles, and cheese on top of the patty. \n6. Spread ketchup, mustard, mayonnaise, and burger sauce on the top bun. \n7. Cover the patty with the top bun and serve hot.');")
 cnx.commit()
 
 cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (5, 'Krabby Patty', '1'), (5, 'buns', '1'), (5, 'lettuce', '1'), (5, 'tomato', '1'), (5, 'onion', '1'), (5, 'pickles', '2'), (5, 'ketchup', '1'), (5, 'mustard', '1'), (5, 'mayonnaise', '1'), (5, 'cheese', '1'), (5, 'Burger Sauce', '1');")

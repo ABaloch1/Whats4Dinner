@@ -29,7 +29,7 @@ def update_config():
     global cur
     global cnx
     cnx = mysql.connector.connect(**config)
-    cur = cnx.cursor(dictionary=True)
+    cur = cnx.cursor()
 
 # ---
 
@@ -99,7 +99,7 @@ def user_profile():
 @user.route('/admin_panel/update_user')
 def update_user_page():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -114,7 +114,7 @@ def update_user_page():
 @user.route('/admin_panel/update_user_function', methods=['GET', 'POST'])
 def update_user_function():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
@@ -196,7 +196,7 @@ def update_user_function():
 @user.route('/admin_panel/list_user',methods = ['POST', 'GET'])
 def list_user_page():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -218,7 +218,7 @@ def list_user_page():
 @user.route('/admin_panel/delete_user')
 def delete_user_page():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -233,7 +233,7 @@ def delete_user_page():
 @user.route('/admin_panel/delete_user_function', methods=['GET', 'POST'])
 def delete_user_function():
     update_config()
-    if session['role'] != 'admin':
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''

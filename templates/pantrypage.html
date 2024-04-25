@@ -68,7 +68,7 @@
                     <ul class="ingredient-list">
                         {% for ingredient in ingredients %}
                             <li class="ingredient-item">
-                                <label><input type="checkbox" name="selected_ingredients" value="{{ ingredient }}" {% if ingredient in user_ingredients %} checked {% endif %}> {{ ingredient }}</label>
+                                <label><input type="checkbox" name="selected_ingredients" value="{{ ingredient }}" {% if ingredient in  user_ingredients %} checked {% endif %}> {{ ingredient }}</label>
                             </li>
                         {% endfor %}
                     </ul>
@@ -77,8 +77,10 @@
             {% endfor %}
         </div>
         
-        <button method="POST" action="/update_pantry" type="submit" class="btn btn-primary">Update Pantry</button>
-        
+        <form method="POST" action="/update_pantry">
+            <button type="submit" class="btn btn-primary">Update Pantry</button>
+        </form>
+                
         <h2>Recipes</h2>
         <ul>
             {% for recipe in recipes %}

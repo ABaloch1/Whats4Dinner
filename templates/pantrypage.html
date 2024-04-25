@@ -54,26 +54,29 @@
         <h1>{{name}}'s Pantry</h1>
 
         <!-- Search input -->
-        <input type="text" class="search-input form-control" placeholder="Search for ingredients">
+        <form method="POST" action="/update_pantry">
+            <!-- <input type="text" class="search-input form-control" placeholder="Search for ingredients" name="search_query"> -->
 
-        <div class="row">
-            <!-- Iterate through categories and display ingredients -->
-            {% for category, ingredients in categorized_ingredients.items() %}
-            <div class="col-md-6">
-                <div class="category">
-                    <h2>{{ category }}</h2>
-                    <ul class="ingredient-list">
-                        {% for ingredient in ingredients %}
-                        <!-- <li class="ingredient-item">{{ ingredient }}</li> -->
-                        <li class="ingredient-item">
-                            <label><input type="checkbox" name="selected_ingredients" value="{{ ingredient }}"> {{ ingredient }}</label>
-                        </li>
-                        {% endfor %}
-                    </ul>
+            <div class="row">
+                <!-- Iterate through categories and display ingredients -->
+                {% for category, ingredients in categorized_ingredients.items() %}
+                <div class="col-md-6">
+                    <div class="category">
+                        <h2>{{ category }}</h2>
+                        <ul class="ingredient-list">
+                            {% for ingredient in ingredients %}
+                            <li class="ingredient-item">
+                                <label><input type="checkbox" name="selected_ingredients" value="{{ ingredient }}" {% if ingredient in user_ingredients %} checked {% endif %}> {{ ingredient }}</label>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
+
+            <button type="submit" class="btn btn-primary">Update Pantry</button>
+        </form>
 
     </div>
     <footer>

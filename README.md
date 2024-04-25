@@ -58,6 +58,11 @@
     Pantry Management: Users can add or remove items in their pantry inventory.
     Filter Recipes by Pantry: Users can filter recipes based on the ingredients available in their pantry, 
      while also considering allergies and dietary restrictions.
+
+### Known Bugs:
+    1. Button to submit pantry is not working, it doesn't save the user's pantry, 
+        leading to no recipes being suggested.
+    2. Selecting Tree Nuts allergy may break something
      
 ### Extra Features Implemented:
     Session Management: User sessions are managed to authenticate users and restrict access to certain pages,

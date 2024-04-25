@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<head>
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .welcome-message {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .redirect form {
+            margin-bottom: 10px;
+        }
+
+        .guest-button {
+            background-color: #d11414;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-button {
+            background-color: #4285f4; /* Different color for login button */
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .register-button {
+            background-color: #d11414; /* Different color for register button */
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: space-around;
+            width: 200px;
+        }
+        .icon-container a {
+            text-decoration: none;
+            color: #333;
+        }
+        .icon-container img {
+            width: 50px;
+            height: 50px;
+        }
+        footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px; /* Adjust the height as needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-message">
+        <h1>
+            Employees Only
+        </h1>
+    </div>
+    <hr style="width:50%">
+    <p></p>
+    <div class="redirect">
+        <a href="/admin_panel/update_user">
+            <button class="guest-button">Update User</button>
+        </a>
+
+        <a href="/admin_panel/delete_user">
+            <button class="guest-button">Delete User</button>
+        </a>
+
+        {% if owner %}
+        <a href="/owner/update_admin_page">
+            <button class="guest-button">Update Admins</button>
+        </a>
+        {% endif %}
+    </div>
+    <p></p>
+    <hr style="width:50%">
+    <p></p>
+    <div>
+        <a href="/admin_panel/create_ingredient">
+            <button class="guest-button">Create Ingredient</button>
+        </a>
+
+        <a href="/admin_panel/update_ingredient">
+            <button class="guest-button">Update Ingredient</button>
+        </a>
+
+        <a href="/admin_panel/delete_ingredients">
+            <button class="guest-button">Delete Ingredient</button>
+        </a>
+    </div>
+    <p></p>
+    <hr style="width:50%">
+    <p></p>
+    <div>
+        <a href="/admin_panel/create_allergen">
+            <button class="guest-button">Create Allergen</button>
+        </a>
+
+        <a href="/admin_panel/delete_allergen">
+            <button class="guest-button">Delete Allergen</button>
+        </a>
+
+    </div>
+    <p></p>
+    <hr style="width:50%">
+    <p></p>
+    <div>
+        <a href="/admin_panel/create_recipe">
+            <button class="guest-button">Create Recipe</button>
+        </a>
+
+        <a href="/admin_panel/update_recipe">
+            <button class="guest-button">Update Recipe</button>
+        </a>
+
+        <a href="/admin_panel/delete_recipe">
+            <button class="guest-button">Delete Recipe</button>
+        </a>
+    </div>
+    <p></p>
+    <hr style="width:50%">
+    <p></p>
+    <div>
+        <a href="/admin_panel/list_user">
+            <button class="guest-button">List Users</button>
+        </a>
+
+        <a href="/admin_panel/list_allergens">
+            <button class="guest-button">List Allergens</button>
+        </a>
+
+        <a href="/admin_panel/list_ingredients">
+            <button class="guest-button">List Ingredients</button>
+        </a>
+
+        <a href="/admin_panel/list_recipes">
+            <button class="guest-button">List Recipes</button>
+        </a>
+
+    </div>
+    <p></p>
+    <hr style="width:50%">
+    <p></p>
+    <footer>
+      <a href="/home">Back to Home</a>
+      <p>&copy; Group 20 Recipe Management System</p>
+    </footer>
+    
+</body>
+</html>

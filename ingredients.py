@@ -12,7 +12,7 @@ config = {
 }
 
 cnx = mysql.connector.connect(**config)
-cur = cnx.cursor()
+cur = cnx.cursor(dictionary=True)
 
 ingredients = Blueprint('ingredients', __name__, template_folder='templates')
 
@@ -25,7 +25,7 @@ def update_config():
         'database': 'mydatabase',
     }
     cnx = mysql.connector.connect(**config)
-    cur = cnx.cursor()
+    cur = cnx.cursor(dictionary=True)
 
 # ---
 

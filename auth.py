@@ -422,14 +422,14 @@ def create_ingredient_function():
     if request.method == 'POST' and 'ingredientName' in request.form:
         ingredient_name = request.form['ingredientName']
         allergy_category = request.form['allergyCategory']
-        restriction_category = request.form['category']
+        category = request.form['category']
 
         # added after safe rbac branch
         cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 
         # try:
-        cur.execute("INSERT INTO Ingredients (Name, Allergy_Category, Category) VALUES (%s, %s, %s);", (ingredient_name, allergy_category, restriction_category))
+        cur.execute("INSERT INTO Ingredients (Name, Allergy_Category, Category) VALUES (%s, %s, %s);", (ingredient_name, allergy_category, category))
         cnx.commit()        
         # except:
         #     cnx.rollback()

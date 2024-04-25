@@ -14,7 +14,7 @@ config = {
 }
 
 cnx = mysql.connector.connect(**config)
-cur = cnx.cursor()
+cur = cnx.cursor(dictionary=True)
 
 recipes = Blueprint('recipes', __name__, template_folder='templates')
 
@@ -27,7 +27,7 @@ def update_config():
 		'database': 'mydatabase',
 	}
 	cnx = mysql.connector.connect(**config)
-	cur = cnx.cursor()
+	cur = cnx.cursor(dictionary=True)
 
 @recipes.route('/admin_panel/list_recipes',methods = ['POST', 'GET'])
 def list_recipes_page():

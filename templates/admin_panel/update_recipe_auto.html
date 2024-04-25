@@ -115,7 +115,7 @@
                         <select name="ingredients[]" required>
                             {% for option in all_ingredients %}
                                 {% set option_name = option['Name'] %}
-                                <option value="{{ option }}" {% if option_name = ingredient_name %}selected{% endif %}>{{ option['Name'] }}</option>
+                                <option value="{{ option }}" {% if option_name == ingredient_name %}selected{% endif %}>{{ option['Name'] }}</option>
                             {% endfor %}
                         </select>
                         <input type="text" name="measurements[]" value="{{ingredient_amount}}" required>

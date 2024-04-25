@@ -13,8 +13,8 @@
     ingredients, allergies, and dietary preferences.
 
 ## Division of Labor:
-    Ryan Fontaine - User authentication and admin control flask implementations and html testing/debugging 
-    Aamir Baloch - Templates for html, recipe info flask implementation and program testing/debugging
+    Ryan Fontaine - User authentication and admin control flask implemtations testing/debugging 
+    Aamir Baloch - All html, recipe info pantry integration flask implementation and program testing/debugging
     Kathryn Trescott - Database setup, role-based access setup and program testing/debugging
     Joshua Krug - Pantry flask implementation, ingredient and user flask functions, testing/debugging
     
@@ -61,3 +61,6 @@
 ## Extra Features Implemented:
     Session Management: User sessions are managed to authenticate users and restrict access to certain pages,
     such as the admin page or the profiles page.
+    
+## Setup.py and Reset_db.py
+    We have some hardcoded users and values written into the tables in the setup.py in order to make testing our website easier. We have an owner-'mrkrabs', and a guest-'group20'. Reset_db.py is created for the       convenience of clearing out the users, tables, and roles that were created in the setup.py or in the website.

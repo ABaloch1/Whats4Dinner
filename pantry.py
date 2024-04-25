@@ -83,7 +83,7 @@ def update_pantry():
                 if missing_ingredients:
                     missing_ingredients_per_recipe.append((recipe_id, missing_ingredients))
                 
-            categories = ['Carbs', 'Fruits', 'Vegetables', 'Grains', 'Meat', 'Seafood', 'Dairy & Eggs', 'Complementary', 'Misc']
+            categories = ['Carbs','Instrument' ,'Fruits', 'Vegetables', 'Grains', 'Meat', 'Seafood', 'Dairy & Eggs', 'Complementary', 'Misc']
         
             # Initialize dictionary to hold ingredients for each category
             categorized_ingredients = {category: [] for category in categories}
@@ -107,9 +107,9 @@ def update_pantry():
 
             # Remove ingredients not selected
             for ingredient in user_ingredients:
-                if ingredient[0] not in selected_ingredients:
+                if ingredient['Name'] not in selected_ingredients:
                     cur.execute(
-                        "DELETE FROM User_Pantry WHERE Username = %s AND Ingredient_Name = %s", (username, ingr[0]))
+                        "DELETE FROM User_Pantry WHERE Username = %s AND Ingredient_Name = %s", (username, ingr['Name']))
                     cnx.commit()
 
         # Render the template with categorized ingredients and user's ingredients

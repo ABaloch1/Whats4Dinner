@@ -305,31 +305,31 @@ def delete_recipe_function():
 @recipes.route('/recipesinfo/<int:recipe_id>', methods=['GET', 'POST'])
 def recipesinfo_page(recipe_id):
     update_config()
-	try:
-		cur = cnx.cursor(dictionary=True)
-		if request.method == 'GET':
-			#retrieves the recipe details
-			cur.execute("SELECT * FROM Recipes WHERE Recipe_ID = %s", (recipe_id,))
-			recipe = cur.fetchone()
-			if recipe:
+    try:
+        cur = cnx.cursor(dictionary=True)
+        if request.method == 'GET':
+            #retrieves the recipe details
+            cur.execute("SELECT * FROM Recipes WHERE Recipe_ID = %s", (recipe_id,))
+            recipe = cur.fetchone()
+            if recipe:
 
                 # Fetch ingredients for the recipe
-				cur.execute("SELECT ingredient, measurement FROM Ingredients WHERE Recipe_ID = %s", (recipe_id,))
-				ingredients = cur.fetchall()
+                cur.execute("SELECT ingredient, measurement FROM Ingredients WHERE Recipe_ID = %s", (recipe_id,))
+                ingredients = cur.fetchall()
 
-				instruction = recipe["Instructions"].split('\n')
+                instruction = recipe["Instructions"].split('\n')
 
-				#steps = [step.strip() for step in steps if step.strip()]
+                #steps = [step.strip() for step in steps if step.strip()]
 
                 # Create a numbered list of steps
-				num_inst = [f"{instruction}" for i, instruction in enumerate(instruction)]
+                num_inst = [f"{instruction}" for i, instruction in enumerate(instruction)]
 
-				recipe["Instructions"] = num_inst
+                recipe["Instructions"] = num_inst
 
 
 
-			return render_template('recipe_info.html',ingredients=ingredients , recipes=recipe)
-	except:
-		cnx.rollback()
-		return render_template('recipes.html')
+            return render_template('recipe_info.html',ingredients=ingredients , recipes=recipe)
+    except:
+        cnx.rollback()
+        return render_template('recipes.html')
 

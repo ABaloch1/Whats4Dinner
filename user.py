@@ -16,6 +16,8 @@ cur = cnx.cursor()
 
 user = Blueprint('user', __name__, template_folder='templates')
 
+# ---
+
 def update_config():
     global config
     config = {
@@ -28,6 +30,8 @@ def update_config():
     global cnx
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
+
+# ---
 
 @user.route('/user_profile', methods=['GET', 'POST'])
 def user_profile():
@@ -90,6 +94,8 @@ def user_profile():
         return "Error: {}".format(err)
     return redirect(url_for('user.user_profile'))
 
+# ---
+
 @user.route('/admin_panel/update_user')
 def update_user_page():
 
@@ -102,6 +108,8 @@ def update_user_page():
 
     message = ''
     return render_template('register.html', message='')
+
+# ---
 
 @user.route('/admin_panel/update_user_function', methods=['GET', 'POST'])
 def update_user_function():
@@ -185,6 +193,27 @@ def update_user_function():
 
 # ---
 
+@user.route('/admin_panel/list_user',methods = ['POST', 'GET'])
+def list_user_page():
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        try:
+
+            # added after safe rbac branch
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("SELECT * FROM Users;")
+            rows = cur.fetchall()
+
+            return render_template("admin_panel/list_users.html",rows = rows)
+        except:
+            return render_template("admin_panel/list_users.html",rows = [])
+    return render_template("register.html", message='Not authorized')
+
 @user.route('/admin_panel/delete_user')
 def delete_user_page():
 
@@ -198,6 +227,7 @@ def delete_user_page():
     message = ''
     return render_template('register.html', message='')
 
+# ---
 
 @user.route('/admin_panel/delete_user_function', methods=['GET', 'POST'])
 def delete_user_function():

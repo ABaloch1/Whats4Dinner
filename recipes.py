@@ -239,7 +239,7 @@ def update_recipe_page():
     return render_template('register.html', message='')
 
 
-@auth.route('/admin_panel/delete_recipe')
+@recipes.route('/admin_panel/delete_recipe')
 def delete_recipe_page():
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')

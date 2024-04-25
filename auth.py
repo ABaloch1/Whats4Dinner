@@ -231,7 +231,10 @@ def admin_panel_page():
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     if 'loggedin' in session:
-        return render_template('admin_panel/adminpanel.html')
+        owner = False
+        if session['username'] == 'mrkrabs':
+            owner = True
+        return render_template('admin_panel/adminpanel.html', owner=owner)
 
     message = ''
     return render_template('register.html', message='')

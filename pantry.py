@@ -119,7 +119,7 @@ def update_pantry():
                     "DELETE FROM User_Pantry WHERE Username = %s AND Ingredient = %s", (session['username'], ingredient))
                 cnx.commit()
                 
-        redirect('/pantry')
+        return redirect('/pantry')
 
     # Render the template with categorized ingredients and user's ingredients
 

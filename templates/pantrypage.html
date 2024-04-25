@@ -68,7 +68,7 @@
                     <ul class="ingredient-list">
                         {% for ingredient in ingredients %}
                             <li class="ingredient-item">
-                                <label><input type="checkbox" name="selected_ingredients" value="{{ ingredient }}" {% if ingredient in  user_ingredients %} checked {% endif %}> {{ ingredient }}</label>
+                                <label><input type="checkbox" name="selected_ingredients" value="{{ ingredient }}" {% if ingredient in user_ingredients %} checked {% endif %}> {{ ingredient }}</label>
                             </li>
                         {% endfor %}
                     </ul>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>Create Allergen</title>
+    <title>Update Admins</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,15 +55,22 @@
         Recipe Management Admin Panel
     </h2>
     <h3>
-        Create Allergen
+        Change Admin Status
     </h3>
-    <form action="{{ url_for('allergens.create_allergen_function') }}" method="post" autocomplete="off">
-        <label for="allergenName">Create Allergen:</label>
-        <input type="text" id="allergenName" name="allergenName" required>
+    <form action="{{ url_for('ownerpanel.revoke_admin') }}" method="post" autocomplete="off">
+        <label for="username">Remove Admin Role From User:</label>
+        <input type="text" id="username" name="username" required>
 
-        <div class="message">{{ message }}</div>
-        <button type="submit" value="Register">Submit</button>
+        <button type="submit" value="Register">Revoke</button>
     </form>
+    <form action="{{ url_for('ownerpanel.grant_admin') }}" method="post" autocomplete="off">
+        <label for="username">Give Admin Role To User:</label>
+        <input type="text" id="username" name="username" required>
+
+        <button type="submit" value="Register">Grant</button>
+    </form>
+    <p></p>
+    <div class="message">{{ message }}</div>
     <footer>
       <a href="/admin_panel">Back to Admin Panel</a>
       <p>&copy; Group 20 Recipe Management System</p>

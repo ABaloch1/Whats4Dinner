@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session, B
 import mysql.connector
 import hashlib
 
-secret_key = 'this is our top secret super key that definitely isn\'t going to be uploaded to our GitHub page'
+secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page'
 
 config = {
     'user': 'group20',
@@ -12,7 +12,7 @@ config = {
 }
 
 cnx = mysql.connector.connect(**config)
-cur = cnx.cursor()
+cur = cnx.cursor(dictionary=True)
 
 allergens = Blueprint('allergens', __name__, template_folder='templates')
 
@@ -25,7 +25,7 @@ def update_config():
         'database': 'mydatabase',
     }
     cnx = mysql.connector.connect(**config)
-    cur = cnx.cursor()
+    cur = cnx.cursor(dictionary=True)
 
 # ---
 

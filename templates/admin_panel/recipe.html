@@ -85,7 +85,7 @@
 <body>
     <div class="container">
         <h1>Add New Recipe</h1>
-        <form action="{{ url_for('auth.create_recipe_function') }}" method="post">
+        <form action="{{ url_for('recipes.create_recipe_function') }}" method="post">
             <label for="recipeTitle">Recipe Title:</label>
             <input type="text" id="recipeTitle" name="recipeTitle" required>
 

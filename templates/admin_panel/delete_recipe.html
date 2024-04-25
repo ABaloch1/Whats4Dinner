@@ -97,7 +97,7 @@
             </tr>
          {% endfor %}
       </table>
-    <form action="{{ url_for('auth.delete_recipe_function') }}" method="post" autocomplete="off">
+    <form action="{{ url_for('recipes.delete_recipe_function') }}" method="post" autocomplete="off">
         <label for="recipeID">Delete Recipe with ID:</label>
         <input type="text" id="recipeID" name="recipeID" required>
 

@@ -61,3 +61,6 @@
 ## Extra Features Implemented:
     Session Management: User sessions are managed to authenticate users and restrict access to certain pages,
     such as the admin page or the profiles page.
+    
+## Setup.py and Reset_db.py
+    We have some hardcoded users and values written into the tables in the setup.py in order to make testing our website easier. We have an owner-'mrkrabs', and a guest-'group20'. Reset_db.py is created for the       convenience of clearing out the users, tables, and roles that were created in the setup.py or in the website.

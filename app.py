@@ -7,17 +7,21 @@ import hashlib
 # import MySQLdb.cursors, re, hashlib
 
 from auth import auth
-from recipes import recipes
-from ingredients import ingredients
-from pantry import pantry
 from user import user
+from pantry import pantry
+from recipes import recipes
+from allergens import allergens
+from ownerpanel import ownerpanel
+from ingredients import ingredients
 
 app = Flask(__name__)
 app.register_blueprint(auth)
-app.register_blueprint(recipes)
-app.register_blueprint(ingredients)
-app.register_blueprint(pantry)
 app.register_blueprint(user)
+app.register_blueprint(pantry)
+app.register_blueprint(recipes)
+app.register_blueprint(allergens)
+app.register_blueprint(ownerpanel)
+app.register_blueprint(ingredients)
 
 # ---
 

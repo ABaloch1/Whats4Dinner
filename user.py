@@ -29,7 +29,7 @@ def update_config():
     global cur
     global cnx
     cnx = mysql.connector.connect(**config)
-    cur = cnx.cursor()
+    cur = cnx.cursor(dictionary=True)
 
 # ---
 

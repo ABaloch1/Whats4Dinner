@@ -63,4 +63,11 @@
     such as the admin page or the profiles page.
     
 ## Setup.py and Reset_db.py
-    We have some hardcoded users and values written into the tables in the setup.py in order to make testing our website easier. We have an owner-'mrkrabs', and a guest-'group20'. Reset_db.py is created for the       convenience of clearing out the users, tables, and roles that were created in the setup.py or in the website.
+    We have some hardcoded users and values written into the tables in the setup.py in order to make testing our 
+    website easier. We have an owner-'mrkrabs', and a guest-'group20'. Reset_db.py is created for the convenience 
+    of clearing out the users, tables, and roles that were created in the setup.py or in the website.
+    
+## Notes 
+    If you navigate to the "Show Recipes" page at the top of the navigation ribbon as a logged in user, the 
+    "Go back to home page" takes you back to the home page for a guest. If you click "login", it'll take you 
+    back to your logged in home page.

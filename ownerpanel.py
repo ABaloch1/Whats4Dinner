@@ -31,7 +31,7 @@ def update_config():
 @ownerpanel.route('/owner/update_admin_page')
 def update_admin_page():
     update_config()
-    if session['role'] != 'owners':
+    if session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. Not Owner. You must be a Eugene imposter')
 
     # If the user is already logged in, redirect
@@ -58,7 +58,7 @@ def grant_admin():
         cur.execute("FLUSH PRIVILEGES;")
         cnx.commit()
 
-        return render_template('owner_update_admin.html')
+        return render_template('owner_update_admin.html', message="Granted Admin to {}".format(username))
 
     return render_template('/')
 
@@ -81,6 +81,6 @@ def revoke_admin():
         cur.execute("FLUSH PRIVILEGES;")
         cnx.commit()
 
-        return render_template('owner_update_admin.html')
+        return render_template('owner_update_admin.html', message="Revoked Admin from {}".format(username))
 
     return render_template('/')

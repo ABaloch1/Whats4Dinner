@@ -14,24 +14,25 @@ config = {
 }
 
 cnx = mysql.connector.connect(**config)
-cur = cnx.cursor(dictionary=True)
+cur = cnx.cursor()
 
 recipes = Blueprint('recipes', __name__, template_folder='templates')
 
 def update_config():
-	global config
-	config = {
-		'user': session['username'],
-		'password': session['password'],
-		'host': 'localhost',
-		'database': 'mydatabase',
-	}
-	cnx = mysql.connector.connect(**config)
-	cur = cnx.cursor(dictionary=True)
+    global config
+    config = {
+        'user': session['username'],
+        'password': session['password'],
+        'host': 'localhost',
+        'database': 'mydatabase',
+    }
+    cnx = mysql.connector.connect(**config)
+    cur = cnx.cursor(dictionary=True)
 
 @recipes.route('/admin_panel/list_recipes',methods = ['POST', 'GET'])
 def list_recipes_page():
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -62,7 +63,8 @@ def list_recipes_page():
 
 @recipes.route('/admin_panel/create_recipe')
 def create_recipe_page():
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -82,7 +84,8 @@ def create_recipe_page():
 
 @recipes.route('/admin_panel/create_recipe_function', methods=['GET', 'POST'])
 def create_recipe_function():
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     if request.method == 'POST' and 'recipeTitle' in request.form:
@@ -137,7 +140,8 @@ def create_recipe_function():
 
 @recipes.route('/admin_panel/update_recipe_auto_page', methods=['GET', 'POST'])
 def update_recipe_auto_page():
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     if request.method == 'POST' and 'recipeTitle' in request.form:
@@ -168,7 +172,8 @@ def update_recipe_auto_page():
 
 @recipes.route('/admin_panel/update_recipe_auto_function', methods=['GET', 'POST'])
 def update_recipe_auto_function():
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     if request.method == 'POST' and 'recipeTitle' in request.form:
@@ -228,7 +233,8 @@ def update_recipe_auto_function():
 
 @recipes.route('/admin_panel/update_recipe')
 def update_recipe_page():
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -241,7 +247,8 @@ def update_recipe_page():
 
 @recipes.route('/admin_panel/delete_recipe')
 def delete_recipe_page():
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -269,7 +276,8 @@ def delete_recipe_page():
 
 @recipes.route('/admin_panel/delete_recipe_function', methods=['GET', 'POST'])
 def delete_recipe_function():
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
@@ -296,31 +304,32 @@ def delete_recipe_function():
 
 @recipes.route('/recipesinfo/<int:recipe_id>', methods=['GET', 'POST'])
 def recipesinfo_page(recipe_id):
-	try:
-		cur = cnx.cursor(dictionary=True)
-		if request.method == 'GET':
-			#retrieves the recipe details
-			cur.execute("SELECT * FROM Recipes WHERE Recipe_ID = %s", (recipe_id,))
-			recipe = cur.fetchone()
-			if recipe:
+    update_config()
+    try:
+        cur = cnx.cursor(dictionary=True)
+        if request.method == 'GET':
+            #retrieves the recipe details
+            cur.execute("SELECT * FROM Recipes WHERE Recipe_ID = %s", (recipe_id,))
+            recipe = cur.fetchone()
+            if recipe:
 
                 # Fetch ingredients for the recipe
-				cur.execute("SELECT ingredient, measurement FROM Ingredients WHERE Recipe_ID = %s", (recipe_id,))
-				ingredients = cur.fetchall()
+                cur.execute("SELECT ingredient, measurement FROM Ingredients WHERE Recipe_ID = %s", (recipe_id,))
+                ingredients = cur.fetchall()
 
-				instruction = recipe["Instructions"].split('\n')
+                instruction = recipe["Instructions"].split('\n')
 
-				#steps = [step.strip() for step in steps if step.strip()]
+                #steps = [step.strip() for step in steps if step.strip()]
 
                 # Create a numbered list of steps
-				num_inst = [f"{instruction}" for i, instruction in enumerate(instruction)]
+                num_inst = [f"{instruction}" for i, instruction in enumerate(instruction)]
 
-				recipe["Instructions"] = num_inst
+                recipe["Instructions"] = num_inst
 
 
 
-			return render_template('recipe_info.html',ingredients=ingredients , recipes=recipe)
-	except:
-		cnx.rollback()
-		return render_template('recipes.html')
+            return render_template('recipe_info.html',ingredients=ingredients , recipes=recipe)
+    except:
+        cnx.rollback()
+        return render_template('recipes.html')
 

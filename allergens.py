@@ -12,7 +12,7 @@ config = {
 }
 
 cnx = mysql.connector.connect(**config)
-cur = cnx.cursor(dictionary=True)
+cur = cnx.cursor()
 
 allergens = Blueprint('allergens', __name__, template_folder='templates')
 
@@ -31,8 +31,8 @@ def update_config():
 
 @allergens.route('/admin_panel/create_allergen')
 def create_allergens_page():
-
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -46,8 +46,8 @@ def create_allergens_page():
 
 @allergens.route('/admin_panel/create_allergen_function', methods=['GET', 'POST'])
 def create_allergen_function():
-
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
@@ -74,8 +74,8 @@ def create_allergen_function():
 
 @allergens.route('/admin_panel/delete_allergen')
 def delete_allergens_page():
-
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect
@@ -89,8 +89,8 @@ def delete_allergens_page():
 
 @allergens.route('/admin_panel/delete_allergen_function', methods=['GET', 'POST'])
 def delete_allergens_function():
-
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     msg = ''
@@ -116,7 +116,8 @@ def delete_allergens_function():
 
 @allergens.route('/admin_panel/list_allergens',methods = ['POST', 'GET'])
 def list_allergens_page():
-    if session['role'] != 'admin':
+    update_config()
+    if session['role'] != 'admin' and session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
     # If the user is already logged in, redirect

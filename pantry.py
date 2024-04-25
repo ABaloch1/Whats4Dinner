@@ -12,7 +12,7 @@ config = {
 }
 
 cnx = mysql.connector.connect(**config)
-cur = cnx.cursor()
+cur = cnx.cursor(dictionary=True)
 
 pantry = Blueprint('pantry', __name__, template_folder='templates')
 

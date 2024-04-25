@@ -94,7 +94,10 @@ def update_pantry():
                     "SELECT * FROM Ingredients WHERE Category = %s", (category,))
                 ingredients = [ingredient['Name'] for ingredient in cur.fetchall()]
                 categorized_ingredients[category] = ingredients
-                print(ingredients)
+                
+            return render_template('pantrypage.html', name=session['username'], categorized_ingredients=categorized_ingredients, recipes=recipes, user_ingredients=user_ingredients, possible_recipes=possible_recipes, missing_ingredients_per_recipe=missing_ingredients_per_recipe)
+
+            
 
         if request.method == 'POST':
             selected_ingredients = request.form.getlist('selected_ingredients')
@@ -115,9 +118,10 @@ def update_pantry():
                     cur.execute(
                         "DELETE FROM User_Pantry WHERE Username = %s AND Ingredient = %s", (session['username'], ingredient))
                     cnx.commit()
+                    
+            redirect(url_for('pantry'))
 
         # Render the template with categorized ingredients and user's ingredients
-        return render_template('pantrypage.html', name=session['username'], categorized_ingredients=categorized_ingredients, recipes=recipes, user_ingredients=user_ingredients, possible_recipes=possible_recipes, missing_ingredients_per_recipe=missing_ingredients_per_recipe)
 
  
     except Exception as e:

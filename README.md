@@ -72,3 +72,4 @@
     If you navigate to the "Show Recipes" page at the top of the navigation ribbon as a logged in user, the 
     "Go back to home page" takes you back to the home page for a guest. If you click "login", it'll take you 
     back to your logged in home page.
+    

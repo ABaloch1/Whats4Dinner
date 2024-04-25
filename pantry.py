@@ -63,7 +63,7 @@ def update_pantry():
         params = "RI.Ingredient = '" #string
         for i, ingredient in enumerate(user_ingredients):
             params += ingredient + "'"
-            if i < len(user_ingredients) - 1: #add except for when it's the last ingredient
+            if i < len(user_ingredients) - 1: 
                 params += "OR RI.Ingredient = "
         
         cur.execute("SELECT R.Recipe_ID FROM Recipes R INNER JOIN Recipe_Ingredients RI ON R.Recipe_ID=RI.Recipe_ID WHERE %s", (params,))

@@ -31,7 +31,7 @@ def update_config():
 
 @ingredients.route('/admin_panel/create_ingredient')
 def create_ingredient_page():
-	update_config()
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 

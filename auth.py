@@ -79,7 +79,7 @@ def login():
                 'database': 'mydatabase',
             }
             cnx = mysql.connector.connect(**config)
-            cur = cnx.cursor(dictionary=True)
+            cur = cnx.cursor(dictionary=True, buffered=True)
 
             cur.execute("SELECT FROM_USER FROM mysql.role_edges WHERE TO_USER = %s", (session['username'],))
             role = cur.fetchone()
@@ -90,7 +90,7 @@ def login():
 
             config = {
                 'user': session['username'],
-                'password': password,
+                'password': session['password'],
                 'host': 'localhost',
                 'database': 'mydatabase',
             }

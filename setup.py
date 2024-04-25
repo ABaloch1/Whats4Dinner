@@ -154,7 +154,8 @@ cur.execute("CREATE USER 'mrkrabs'@'localhost' IDENTIFIED BY '35df8167b065b3a7e9
 cur.execute("INSERT INTO Users (Username, Password, First_Name, Last_Name) VALUES ('mrkrabs', '35df8167b065b3a7e929a9712fe5164b42282f5edc215fce95baea8ae80fc9df', 'Eugene', 'Krabs')")
 cnx.commit()
 cur.execute("CREATE ROLE 'owner'")
-cur.execute("GRANT ALL ON mydatabase.* TO 'owner'")
+cur.execute("GRANT ALL ON *.* TO 'owner'")
+cur.execute("GRANT ALL ON *.* TO 'mrkrabs'@'localhost'")
 cur.execute("GRANT 'owner' TO 'mrkrabs'@'localhost'")
 cur.execute("GRANT 'admin' TO 'mrkrabs'@'localhost' WITH ADMIN OPTION")
 

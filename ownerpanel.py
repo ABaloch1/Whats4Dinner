@@ -26,11 +26,11 @@ def update_config():
     global cur
     global cnx
     cnx = mysql.connector.connect(**config)
-    cur = cnx.cursor()
+    cur = cnx.cursor(dictionary=True)
 
 @ownerpanel.route('/owner/update_admin_page')
 def update_admin_page():
-	update_config()
+    update_config()
     if session['role'] != 'owners':
         return render_template('home.html', username=session['username']+'. Not Owner. You must be a Eugene imposter')
 
@@ -41,8 +41,8 @@ def update_admin_page():
 
 @ownerpanel.route('/owner/grant_admin', methods=['GET', 'POST'])
 def grant_admin():
-	update_config()
-	if session['role'] != 'owner':
+    update_config()
+    if session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. Not Owner. You must be a Eugene imposter')
 
     if request.method == 'POST' and 'username' in request.form:
@@ -63,22 +63,15 @@ def grant_admin():
     return render_template('/')
 
 
-
-
-
-
-
-
 @ownerpanel.route('/owner/revoke_admin', methods=['GET', 'POST'])
 def revoke_admin():
-	update_config()
-	if session['role'] != 'owner':
+    update_config()
+    if session['role'] != 'owner':
         return render_template('home.html', username=session['username']+'. Not Owner. You must be a Eugene imposter')
     
     if request.method == 'POST' and 'username' in request.form:
-    	username = request.form['username']
+        username = request.form['username']
 
-        global config
         cnx = mysql.connector.connect(**config)
         cur = cnx.cursor(dictionary=True)
 

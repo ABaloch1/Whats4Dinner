@@ -293,8 +293,6 @@ def delete_recipe_function():
 
         return render_template('admin_panel/delete_ingredient.html', message = "Deleted {}".format(ingredient_name))
 
-    return render_template('login.html', message=msg)
-	return render_template('recipes.html', recipes=recipes)
 
 @recipes.route('/recipesinfo/<int:recipe_id>', methods=['GET', 'POST'])
 def recipesinfo_page(recipe_id):

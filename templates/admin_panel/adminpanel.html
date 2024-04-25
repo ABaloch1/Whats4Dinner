@@ -84,6 +84,11 @@
         <a href="/admin_panel/delete_user">
             <button class="guest-button">Delete User</button>
         </a>
+        {% if owner %}
+        <a href="/owner/update_admin_page">
+            <button class="guest-button">Update Admins</button>
+        </a>
+        {% endif %}
     </div>
     <p></p>
     <hr style="width:50%">

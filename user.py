@@ -98,7 +98,7 @@ def user_profile():
 
 @user.route('/admin_panel/update_user')
 def update_user_page():
-
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
@@ -113,7 +113,7 @@ def update_user_page():
 
 @user.route('/admin_panel/update_user_function', methods=['GET', 'POST'])
 def update_user_function():
-
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
@@ -195,6 +195,7 @@ def update_user_function():
 
 @user.route('/admin_panel/list_user',methods = ['POST', 'GET'])
 def list_user_page():
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
@@ -216,7 +217,7 @@ def list_user_page():
 
 @user.route('/admin_panel/delete_user')
 def delete_user_page():
-
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
@@ -231,7 +232,7 @@ def delete_user_page():
 
 @user.route('/admin_panel/delete_user_function', methods=['GET', 'POST'])
 def delete_user_function():
-
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 

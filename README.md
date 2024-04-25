@@ -1,4 +1,5 @@
-# Recipe Management System with User Pantry
+# WHATS4DINNER 
+## Recipe Management System with User Pantry
 
 ## Description:
     This project is a web application for managing recipes and utilizing a user pantry to filter possible 
@@ -14,9 +15,9 @@
 
 ## Division of Labor:
     Ryan Fontaine - User authentication and admin control flask implemtations testing/debugging 
-    Aamir Baloch - All html, recipe info pantry integration flask implementation and program testing/debugging
+    Aamir Baloch - All html, recipe info and pantry flask integration and program testing/debugging
     Kathryn Trescott - Database setup, role-based access setup and program testing/debugging
-    Joshua Krug - Pantry flask implementation, ingredient and user flask functions, testing/debugging
+    Joshua Krug - Pantry implementation, recipes, ingredients and users flask functions, testing/debugging
     
 ## Libraries Used:
     Flask: A micro web framework for Python used for developing web applications.

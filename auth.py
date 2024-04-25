@@ -232,7 +232,7 @@ def admin_panel_page():
 
     if 'loggedin' in session:
         owner = False
-        if session['username'] == 'mrkrabs':
+        if session['role'] == 'owner':
             owner = True
         return render_template('admin_panel/adminpanel.html', owner=owner)
 

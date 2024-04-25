@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session, B
 import mysql.connector
 import hashlib
 
-secret_key = 'this is our top secret super key that definitely isn\'t going to be uploaded to our GitHub page'
+secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page'
 
 config = {
     'user': 'group20',

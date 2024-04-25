@@ -13,8 +13,8 @@
     ingredients, allergies, and dietary preferences.
 
 ## Division of Labor:
-    Ryan Fontaine - User authentication and admin control flask implementations and html testing/debugging 
-    Aamir Baloch - All other html, recipe info flask implementation and program testing/debugging
+    Ryan Fontaine - User authentication and admin control flask implementations testing/debugging 
+    Aamir Baloch - All html integration, recipe info pantry setup flask implementation and program testing/debugging
     Kathryn Trescott - Database setup, role-based access setup and program testing/debugging
     Joshua Krug - Pantry flask implementation, ingredient and user flask functions, testing/debugging
     

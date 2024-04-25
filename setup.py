@@ -164,8 +164,10 @@ cnx.commit()
 cur.execute("INSERT INTO Ingredients(Name,Allergy_Category,Category) VALUES('egg','eggs','Dairy & Eggs'), ('milk', 'dairy', 'Dairy & Eggs'), ('rice', NULL, 'Grains'), \
 																			('bread', 'gluten', 'Carbs'),  ('potato', NULL, 'Vegetables'), ('tomato', NULL, 'Vegetables'), \
 																			('lettuce', NULL, 'Vegetables'), ('banana', NULL, 'Fruits'), ('apple', NULL, 'Fruits'), \
-																			('chicken', NULL, 'Meat'), ('beef', NULL, 'Meat'), ('salmon', 'fish', 'Seafood'), \
-																			('shrimp', 'shellfish', 'Seafood'), \
+																			('chicken', NULL, 'Meat'), ('beef', NULL, 'Meat'), ('salmon', 'fish', 'Seafood'), ('Krabby Patty', 'shellfish', 'Meat'),  \
+																			('Secret Patty Formula', 'shellfish', 'Misc'), ('Burger Sauce', NULL, 'Complementary'), ('Pickles', NULL, 'Vegetables'), \
+																			('Ketchup', NULL, 'Complementary'), ('Mustard', NULL, 'Complementary'), ('Burger Sauce', NULL, 'Complementary'),\
+																			('shrimp', 'shellfish', 'Seafood'),('mayonnaise', NULL, 'instrument'), ('buns', 'gluten', 'Carbs'),\
 																			('cheese', 'dairy', 'Dairy & Eggs'), ('almonds', 'treenuts', 'Complementary'), ('soy sauce', 'soy', 'Complementary'), \
 																			('peanut butter', 'peanuts', 'Complementary'), ('sesame oil', 'sesame', 'Complementary'), ('olive oil', NULL, 'Complementary'), \
 																			('sugar', NULL, 'Misc'), ('salt', NULL, 'Misc'), ('spaghetti', 'gluten', 'Carbs'), \
@@ -203,10 +205,22 @@ cnx.commit()
 cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (3, 'chicken', '1'), (3, 'lettuce', '1'), (3, 'tomato', '1'), (3, 'cucumber', '2'), (3, 'olive oil', '1'), (3, 'lemon', '1');")
 cnx.commit()
 
-cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Chicken Salad test', 'Lunch', 'A simple healthy salad with blood of your enemies.', 5, 1, 'Cook chicken until cooked. \n Cool and shred chicken. \nIn a large bowl, mix shredded chicken with lettuce, tomato, and cucumber. \nDrizzle with olive oil and lemon juice. \nSeason with salt to taste.');")
+cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Chicken Salad special', 'Lunch', 'A simple healthy salad with blood of your enemies.', 5, 1, 'Cook chicken until cooked. \n Cool and shred your soul. \nIn a large bowl, {REDACTED}. \nDrizzle with olive oil and lemon juice. \nSeason with tears to taste. \nServe and Enjoy.');")
 cnx.commit()
 
 cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (4, 'chicken', '1'), (4, 'cucumber', '1'), (4, 'tomato', '1'), (4, 'cucumber', '2'), (4, 'olive oil', '1'), (4, 'cumin', '1');")
+cnx.commit()
+
+cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Krabby Patty', 'Lunch', 'The famous Krabby Patty from Bikini Bottom.', 20, 15, '1. Prepare the Krabby Patty Patty by mixing the secret ingredients. \n2. Form the mixture into patties and cook on a grill or skillet until cooked through. \n3. Toast the Krabby Patty Bun. \n4. Assemble the Krabby Patty by placing the cooked patty on the bun. \n5. Add lettuce, tomato, onion, pickles, and cheese on top of the patty. \n6. Spread ketchup, mustard, mayonnaise, and burger sauce on the top bun. \n7. Cover the patty with the top bun and serve hot.');")
+cnx.commit()
+
+cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (5, 'Krabby Patty', '1'), (5, 'buns', '1'), (5, 'lettuce', '1'), (5, 'tomato', '1'), (5, 'onion', '1'), (5, 'pickles', '2'), (5, 'ketchup', '1'), (5, 'mustard', '1'), (5, 'mayonnaise', '1'), (5, 'cheese', '1'), (5, 'Burger Sauce', '1');")
+cnx.commit()
+
+cur.execute("INSERT INTO Recipes (Name, Category, Description, Prep_Time, Cook_Time, Instructions) VALUES ('Cucumber Salad', 'Breakfast', 'Yummy cucubmer. Yep, this is a real recipe.', 67, 32, 'Put cucumber into bowl \n Consume ');")
+cnx.commit()
+
+cur.execute("INSERT INTO Recipe_Ingredients (Recipe_ID, Ingredient, Amount) VALUES (6, 'cucumber', '10001'), (6, 'cucumber', '11'), (6, 'cucumber', '115'), (6, 'cucumber', '15'), (6, 'cucumber', '156'), (6, 'cucumber', '22'),  (6, 'cucumber', '321'), (6, 'cucumber', '346'), (6, 'cucumber', '529'), (6, 'cucumber', '541'), (6, 'cucumber', '61'), (6, 'cucumber', '741'), (6, 'cucumber', '773'), (6, 'cucumber', '94');")
 cnx.commit()
 
 

@@ -90,7 +90,7 @@ def user_profile():
         return "Error: {}".format(err)
     return redirect(url_for('user.user_profile'))
 
-@auth.route('/admin_panel/update_user')
+@user.route('/admin_panel/update_user')
 def update_user_page():
 
     if session['role'] != 'admin':
@@ -103,7 +103,7 @@ def update_user_page():
     message = ''
     return render_template('register.html', message='')
 
-@auth.route('/admin_panel/update_user_function', methods=['GET', 'POST'])
+@user.route('/admin_panel/update_user_function', methods=['GET', 'POST'])
 def update_user_function():
 
     if session['role'] != 'admin':
@@ -185,7 +185,7 @@ def update_user_function():
 
 # ---
 
-@auth.route('/admin_panel/delete_user')
+@user.route('/admin_panel/delete_user')
 def delete_user_page():
 
     if session['role'] != 'admin':
@@ -199,7 +199,7 @@ def delete_user_page():
     return render_template('register.html', message='')
 
 
-@auth.route('/admin_panel/delete_user_function', methods=['GET', 'POST'])
+@user.route('/admin_panel/delete_user_function', methods=['GET', 'POST'])
 def delete_user_function():
 
     if session['role'] != 'admin':

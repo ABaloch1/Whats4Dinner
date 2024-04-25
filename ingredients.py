@@ -31,7 +31,7 @@ def update_config():
 
 @ingredients.route('/admin_panel/create_ingredient')
 def create_ingredient_page():
-
+	update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
@@ -46,7 +46,7 @@ def create_ingredient_page():
 
 @ingredients.route('/admin_panel/create_ingredient_function', methods=['GET', 'POST'])
 def create_ingredient_function():
-
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
@@ -75,7 +75,7 @@ def create_ingredient_function():
 
 @ingredients.route('/admin_panel/update_ingredient')
 def update_ingredient_page():
-
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
@@ -90,7 +90,7 @@ def update_ingredient_page():
 
 @ingredients.route('/admin_panel/update_ingredient_function', methods=['GET', 'POST'])
 def update_ingredient_function():
-
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
@@ -134,6 +134,7 @@ def update_ingredient_function():
 
 @ingredients.route('/admin_panel/list_ingredients',methods = ['POST', 'GET'])
 def list_ingredients_page():
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
@@ -157,7 +158,7 @@ def list_ingredients_page():
 
 @ingredients.route('/admin_panel/delete_ingredients')
 def delete_ingredients_page():
-
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 
@@ -172,7 +173,7 @@ def delete_ingredients_page():
 
 @ingredients.route('/admin_panel/delete_ingredient_function', methods=['GET', 'POST'])
 def delete_ingredient_function():
-
+    update_config()
     if session['role'] != 'admin':
         return render_template('home.html', username=session['username']+'. You are not admin')
 

@@ -89,3 +89,163 @@ def user_profile():
         cnx.rollback()
         return "Error: {}".format(err)
     return redirect(url_for('user.user_profile'))
+
+@auth.route('/admin_panel/update_user')
+def update_user_page():
+
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/update_user.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+@auth.route('/admin_panel/update_user_function', methods=['GET', 'POST'])
+def update_user_function():
+
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    msg = ''
+    if request.method == 'POST' and 'username' in request.form:
+        username = request.form['username']
+        first_name = request.form['firstName']
+        last_name = request.form['lastName']
+        password = request.form['password']
+
+        # added after safe rbac branch
+        global config
+        cnx = mysql.connector.connect(**config)
+        cur = cnx.cursor(dictionary=True)
+
+        if password:
+            hashed_password = password + secret_key
+            hashed_password = hashlib.sha256(hashed_password.encode())
+
+            password = hashed_password.hexdigest()
+            
+            config = {
+                'user': 'root',
+                'password': 'root1',
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("ALTER USER %s@'localhost' IDENTIFIED WITH mysql_native_password BY %s", (username, password))
+            cnx.commit() #might not be necessary
+            cur.close()
+            cnx.close()
+
+            config = {
+                'user': session['username'],
+                'password': session['password'],
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }      
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)      
+            cur.execute("UPDATE Users SET Password = %s WHERE Username = %s;", (password, username,))
+            cnx.commit() 
+            # except:
+            #     cnx.rollback()
+            #     return render_template('admin_panel/update_user.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+        if first_name:
+            try:
+                cur.execute("UPDATE Users SET First_Name = %s WHERE Username = %s;", (first_name, username,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_user.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+        if last_name:
+            try:
+                cur.execute("UPDATE Users SET Last_Name = %s WHERE Username = %s;", (last_name, username,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_user.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+
+
+        return render_template('admin_panel/update_user.html', message = "Updated {}".format(username))
+
+    return render_template('login.html', message=msg)
+
+# ---
+
+@auth.route('/admin_panel/delete_user')
+def delete_user_page():
+
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/delete_user.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+
+@auth.route('/admin_panel/delete_user_function', methods=['GET', 'POST'])
+def delete_user_function():
+
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    msg = ''
+    if request.method == 'POST' and 'username' in request.form:
+        username = request.form['username']
+
+        # added after safe rbac branch
+        global config
+        cnx = mysql.connector.connect(**config)
+        cur = cnx.cursor(dictionary=True)
+
+        try:
+            config = {
+                'user': 'root',
+                'password': 'root1',
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)
+
+            cur.execute("DROP USER %s@'localhost'", (username,))
+            cnx.commit() #might not be necessary
+            cur.close()
+            cnx.close()
+
+            config = {
+                'user': session['username'],
+                'password': session['password'],
+                'host': 'localhost',
+                'database': 'mydatabase',
+            }      
+            cnx = mysql.connector.connect(**config)
+            cur = cnx.cursor(dictionary=True)  
+            cur.execute("DELETE FROM Users WHERE Username = %s;", (username,))
+            cnx.commit() 
+        except:
+            cnx.rollback()
+            return render_template('admin_panel/delete_user.html', message = "Error. Had to roll back.")
+
+        return render_template('admin_panel/delete_user.html', message = "Deleted {}".format(username))
+
+    return render_template('login.html', message=msg)
+
+
+# ---

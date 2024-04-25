@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session, B
 import mysql.connector
 import hashlib
 
-secret_key = 'this is our top secret super key that definitely isn\'t going to be uploaded to our GitHub page'
+secret_key = 'this is our top secret super key that definently isnt going to also be uploaded on our github page'
 
 config = {
     'user': 'group20',
@@ -24,6 +24,8 @@ def update_config():
         'host': 'localhost',
         'database': 'mydatabase',
     }
+    global cur
+    global cnx
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
 
@@ -36,6 +38,8 @@ def user_profile():
 
         if request.method == 'GET':
             username = session['username']
+            global cur
+            global cnx
             cur.execute("SELECT * FROM Users WHERE Username = %s", (username,))
             user_data = cur.fetchone()
             if user_data:
@@ -48,8 +52,35 @@ def user_profile():
             last_name = request.form['last_name']
             password = request.form['password']
             if password:  # Only hash password if provided
-                hashed_password = hashlib.sha256((password + secret_key).encode()).hexdigest()
-                cur.execute("UPDATE Users SET First_Name = %s, Last_Name = %s, Password = %s WHERE Username = %s", (first_name, last_name, hashed_password, session['username']))
+
+                hashed_password = password + secret_key
+                hashed_password = hashlib.sha256(hashed_password.encode())
+
+                password = hashed_password.hexdigest()
+                
+                config = {
+                    'user': 'root',
+                    'password': 'root1',
+                    'host': 'localhost',
+                    'database': 'mydatabase',
+                }
+                cnx = mysql.connector.connect(**config)
+                cur = cnx.cursor(dictionary=True)
+
+                cur.execute("ALTER USER %s@'localhost' IDENTIFIED WITH mysql_native_password BY %s", (session['username'], password))
+                cnx.commit() #might not be necessary
+                cur.close()
+                cnx.close()
+                session['password'] = password
+                config = {
+                    'user': session['username'],
+                    'password': session['password'],
+                    'host': 'localhost',
+                    'database': 'mydatabase',
+                }      
+                cnx = mysql.connector.connect(**config)
+                cur = cnx.cursor(dictionary=True)
+                cur.execute("UPDATE Users SET First_Name = %s, Last_Name = %s, Password = %s WHERE Username = %s", (first_name, last_name, password, session['username']))
             else:
                 cur.execute("UPDATE Users SET First_Name = %s, Last_Name = %s WHERE Username = %s", (first_name, last_name, session['username']))
             cnx.commit()

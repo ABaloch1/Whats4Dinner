@@ -464,27 +464,6 @@ def delete_allergens_function():
 
 # ---
 
-@auth.route('/admin_panel/list_user',methods = ['POST', 'GET'])
-def list_user_page():
-    if session['role'] != 'admin':
-        return render_template('home.html', username=session['username']+'. You are not admin')
-
-    # If the user is already logged in, redirect
-    if 'loggedin' in session:
-        try:
-
-            # added after safe rbac branch
-            cnx = mysql.connector.connect(**config)
-            cur = cnx.cursor(dictionary=True)
-
-            cur.execute("SELECT * FROM Users;")
-            rows = cur.fetchall()
-
-            return render_template("admin_panel/list_users.html",rows = rows)
-        except:
-            return render_template("admin_panel/list_users.html",rows = [])
-    return render_template("register.html", message='Not authorized')
-
 
 
 @auth.route('/admin_panel/list_allergens',methods = ['POST', 'GET'])

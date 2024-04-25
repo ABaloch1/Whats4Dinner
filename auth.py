@@ -466,7 +466,7 @@ def update_ingredient_function():
     if request.method == 'POST' and 'ingredientName' in request.form:
         ingredient_name = request.form['ingredientName']
         allergy_category = request.form['allergyCategory']
-        restriction_category = request.form['category']
+        category = request.form['category']
 
         # added after safe rbac branch
         cnx = mysql.connector.connect(**config)
@@ -482,9 +482,9 @@ def update_ingredient_function():
         else:
             pass
 
-        if restriction_category:
+        if category:
             try:
-                cur.execute("UPDATE Ingredients SET Category = %s WHERE Name = %s;", (restriction_category, ingredient_name,))
+                cur.execute("UPDATE Ingredients SET Category = %s WHERE Name = %s;", (category, ingredient_name,))
                 cnx.commit() 
             except:
                 cnx.rollback()

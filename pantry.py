@@ -52,6 +52,9 @@ def update_pantry():
         cur = cnx.cursor(dictionary=True)
 
         if request.method == 'GET':
+            cur.execute("SELECT R.Name FROM Recipes R;")
+            recipes = cur.fetchall()
+            
             user_ingredients = []
             cur.execute("SELECT Ingredient FROM User_Pantry WHERE Username = %s", (session['username'],))
             user_ingredients = cur.fetchall()
@@ -110,7 +113,7 @@ def update_pantry():
                     cnx.commit()
 
         # Render the template with categorized ingredients and user's ingredients
-        return render_template('pantrypage.html', name=session['firstName'], categorized_ingredients=categorized_ingredients, user_ingredients=user_ingredients, possible_recipes=possible_recipes, missing_ingredients_per_recipe=missing_ingredients_per_recipe)
+        return render_template('pantrypage.html', name=session['firstName'], categorized_ingredients=categorized_ingredients, recipes=recipes, user_ingredients=user_ingredients, possible_recipes=possible_recipes, missing_ingredients_per_recipe=missing_ingredients_per_recipe)
 
     except Exception as e:
         cnx.rollback()

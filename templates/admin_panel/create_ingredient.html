@@ -57,14 +57,14 @@
     <h3>
         Create Ingredient
     </h3>
-    <form action="{{ url_for('auth.create_ingredient_function') }}" method="post" autocomplete="off">
+    <form action="{{ url_for('ingredients.create_ingredient_function') }}" method="post" autocomplete="off">
         <label for="ingredientName">Ingredient Name:</label>
         <input type="text" id="ingredientName" name="ingredientName" required>
 
         <label for="allergyCategory">Allergy Category:</label>
         <input type="text" id="allergyCategory" name="allergyCategory" required>
 
-        <label for="category">Restriction Category:</label>
+        <label for="category">Category:</label>
         <input type="text" id="category" name="category" required>
 
         <div class="message">{{ message }}</div>

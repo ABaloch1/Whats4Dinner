@@ -27,60 +27,173 @@ def update_config():
     cnx = mysql.connector.connect(**config)
     cur = cnx.cursor()
 
-@ingredients.route('/ingredient_creation', methods=['POST', 'GET'])
-def create_ingredient():
+# ---
+
+@ingredients.route('/admin_panel/create_ingredient')
+def create_ingredient_page():
+	update_config()
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/create_ingredient.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+# ---
+
+@ingredients.route('/admin_panel/create_ingredient_function', methods=['GET', 'POST'])
+def create_ingredient_function():
     update_config()
-    if request.method == 'POST':
-        try:  # get the ingr data from the form
-            name = request.form['name']
-            allergy = request.form['allergy']
-            category = request.form['category']
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
 
-            # Check if the ingr already exists
-            cur.execute(
-                "SELECT COUNT(*) FROM Ingredients WHERE Name = ?", (name,))
-            exists = cur.fetchone()[0]
-            if not exists:
-                # insert the data in the correct table
-                cur.execute(
-                    "INSERT INTO Ingredients (Name, Allergy_Category, Category) VALUES (?,?,?)", (name, allergy, category))
+    msg = ''
+    if request.method == 'POST' and 'ingredientName' in request.form:
+        ingredient_name = request.form['ingredientName']
+        allergy_category = request.form['allergyCategory']
+        category = request.form['category']
 
-                cnx.commit()  # commit changes
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
+        cur = cnx.cursor(dictionary=True)
+
+        # try:
+        cur.execute("INSERT INTO Ingredients (Name, Allergy_Category, Category) VALUES (%s, %s, %s);", (ingredient_name, allergy_category, category))
+        cnx.commit()        
+        # except:
+        #     cnx.rollback()
+        #     return render_template('admin_panel/create_ingredient.html', message = "Duplicate entry.")
+
+        return render_template('/admin_panel/create_ingredient.html', message = "Added {}".format(ingredient_name))
+
+    return render_template('login.html', message=msg)
+
+# ---
+
+@ingredients.route('/admin_panel/update_ingredient')
+def update_ingredient_page():
+    update_config()
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/update_ingredient.html')
+
+    message = ''
+    return render_template('register.html', message='')
+    
+# ---
+
+@ingredients.route('/admin_panel/update_ingredient_function', methods=['GET', 'POST'])
+def update_ingredient_function():
+    update_config()
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    msg = ''
+    if request.method == 'POST' and 'ingredientName' in request.form:
+        ingredient_name = request.form['ingredientName']
+        allergy_category = request.form['allergyCategory']
+        category = request.form['category']
+
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
+        cur = cnx.cursor(dictionary=True)
+
+        if allergy_category:
+            try:
+                cur.execute("UPDATE Ingredients SET Allergy_Category = %s WHERE Name = %s;", (allergy_category, ingredient_name,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_ingredient.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+        if category:
+            try:
+                cur.execute("UPDATE Ingredients SET Category = %s WHERE Name = %s;", (category, ingredient_name,))
+                cnx.commit() 
+            except:
+                cnx.rollback()
+                return render_template('admin_panel/update_ingredient.html', message = "Error. Had to roll back.")
+        else:
+            pass
+
+
+
+        return render_template('admin_panel/update_ingredient.html', message = "Updated {}".format(ingredient_name))
+
+    return render_template('login.html', message=msg)
+
+# ---
+
+@ingredients.route('/admin_panel/list_ingredients',methods = ['POST', 'GET'])
+def list_ingredients_page():
+    update_config()
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        # try:
+
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
+        cur = cnx.cursor(dictionary=True)
+
+        cur.execute("SELECT * FROM Ingredients;")
+        rows = cur.fetchall()
+
+        return render_template("admin_panel/list_ingredients.html",rows = rows)
+        # except:
+        #     return render_template("admin_panel/list_ingredients.html",rows = [])
+    return render_template("register.html", message='Not authorized')
+
+# ---
+
+@ingredients.route('/admin_panel/delete_ingredients')
+def delete_ingredients_page():
+    update_config()
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    # If the user is already logged in, redirect
+    if 'loggedin' in session:
+        return render_template('admin_panel/delete_ingredient.html')
+
+    message = ''
+    return render_template('register.html', message='')
+
+# ---
+
+@ingredients.route('/admin_panel/delete_ingredient_function', methods=['GET', 'POST'])
+def delete_ingredient_function():
+    update_config()
+    if session['role'] != 'admin':
+        return render_template('home.html', username=session['username']+'. You are not admin')
+
+    msg = ''
+    if request.method == 'POST' and 'ingredientName' in request.form:
+        ingredient_name = request.form['ingredientName']
+
+        # added after safe rbac branch
+        cnx = mysql.connector.connect(**config)
+        cur = cnx.cursor(dictionary=True)
+
+        try:
+            cur.execute("DELETE FROM Ingredients WHERE Name = %s;", (ingredient_name,))
+            cnx.commit() 
         except:
             cnx.rollback()
-            return render_template('pantry.html')
-    return render_template("pantry.html")
+            return render_template('admin_panel/delete_ingredient.html', message = "Error. Had to roll back.")
 
+        return render_template('admin_panel/delete_ingredient.html', message = "Deleted {}".format(ingredient_name))
 
-@ingredients.route('/delete_ingr/<string:name>', methods=['POST', 'GET'])
-def delete_ingredient(name):
-    update_config()
-    if request.method == 'POST':
-        # deletes the ingr
-        cursor.execute("DELETE FROM Ingredients WHERE Name = %s", (name,))
-        cnx.commit()
-    return render_template('admin.html')
+    return render_template('login.html', message=msg)
 
-@ingredients.route('/edit_ingr/<string:name>', methods=['GET', 'POST'])
-def edit_recipe(name):
-    update_config()
-    try:
-        if request.method == 'GET':
-            # retrieves the ingr details
-            cur.execute("SELECT * FROM Ingredients WHERE Name = %s", (name,))
-            ingr = cur.fetchone()[0]
-            if recipe:
-                return render_template('edit_recipe.html', ingr=ingr)
-        elif request.method == 'POST':
-            name = request.form['name']
-            allergy = request.form['allergy']
-            category = request.form['category']
-
-            # updates the ingr in the database
-            cur.execute(
-                "UPDATE Ingredients SET Name = %s, Allergy_Category = %s, Category = %s,", (name, allergy, category))
-            cnx.commit()
-    except:
-        cnx.rollback()
-        return render_template('edit_ingr.html')
-    return render_template('admin.html', name=name)
+# ---
